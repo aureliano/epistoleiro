@@ -67,10 +67,10 @@ describe User do
   end
 
   it 'validates maximum size of text fields' do
-    expect { User.create! :first_name => '*' * 51, :last_name => '*' * 50, :password => '*' * 100 }.to raise_error
-    expect { User.create! :first_name => '*' * 50, :last_name => '*' * 51, :password => '*' * 100 }.to raise_error
-    expect { User.create! :first_name => '*' * 50, :last_name => '*' * 50, :password => '*' * 101 }.to raise_error
-    expect { User.create! :first_name => '*' * 50, :last_name => '*' * 50, :password => '*' * 100 }.not_to raise_error
+    expect { User.create! :first_name => '*' * 51, :last_name => '*' * 50, :password => '*' * 30 }.to raise_error
+    expect { User.create! :first_name => '*' * 50, :last_name => '*' * 51, :password => '*' * 30 }.to raise_error
+    expect { User.create! :first_name => '*' * 50, :last_name => '*' * 50, :password => '*' * 31 }.to raise_error
+    expect { User.create! :first_name => '*' * 50, :last_name => '*' * 50, :password => '*' * 30 }.not_to raise_error
   end
 
 end
