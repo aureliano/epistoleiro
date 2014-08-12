@@ -56,21 +56,21 @@ describe User do
     expect { User.create! }.to raise_error
     expect { User.create! :first_name => 'Monkey' }.to raise_error
     expect { User.create! :first_name => 'Monkey', :last_name => 'User' }.to raise_error
-    expect { User.create! :first_name => 'Monkey', :last_name => 'User', :password => 'password' }.not_to raise_error
+    expect { User.create! :first_name => 'Monkey', :last_name => 'User', :password => 'password', :created_at => Time.now, :updated_at => Time.now }.not_to raise_error
   end
 
   it 'validates minimum size of text fields' do
     expect { User.create! :first_name => '12', :last_name => '123', :password => '12345' }.to raise_error
     expect { User.create! :first_name => '123', :last_name => '12', :password => '12345' }.to raise_error
     expect { User.create! :first_name => '123', :last_name => '123', :password => '1234' }.to raise_error
-    expect { User.create! :first_name => '123', :last_name => '123', :password => '12345' }.not_to raise_error
+    expect { User.create! :first_name => '123', :last_name => '123', :password => '12345', :created_at => Time.now, :updated_at => Time.now }.not_to raise_error
   end
 
   it 'validates maximum size of text fields' do
     expect { User.create! :first_name => '*' * 51, :last_name => '*' * 50, :password => '*' * 30 }.to raise_error
     expect { User.create! :first_name => '*' * 50, :last_name => '*' * 51, :password => '*' * 30 }.to raise_error
     expect { User.create! :first_name => '*' * 50, :last_name => '*' * 50, :password => '*' * 31 }.to raise_error
-    expect { User.create! :first_name => '*' * 50, :last_name => '*' * 50, :password => '*' * 30 }.not_to raise_error
+    expect { User.create! :first_name => '*' * 50, :last_name => '*' * 50, :password => '*' * 30, :created_at => Time.now, :updated_at => Time.now }.not_to raise_error
   end
 
 end
