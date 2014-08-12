@@ -1,0 +1,17 @@
+language: ruby
+rvm:
+  - 1.9.3
+
+services:
+  - mongodb
+
+script:
+  - rake spec
+  - bundle exec cucumber
+
+before_script:
+  - export RACK_ENV=test
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - sleep 3 # give xvfb some time to start
+  - rackup &  # start a Web server
