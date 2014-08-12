@@ -6,7 +6,7 @@ services:
   - mongodb
 
 script:
-  - rake spec
+  - bundle exec rake spec
   - bundle exec cucumber
 
 before_script:
