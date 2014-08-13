@@ -1,0 +1,8 @@
+---
+en:
+  go_back: Go back
+  http:
+    error:
+      '404':
+        title: 404 - Page not found
+        message: Chuck Norris said that page you're looking for does not exist. If he says so you must believe!
