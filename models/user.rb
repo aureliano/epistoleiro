@@ -10,6 +10,7 @@ class User
   field :password, :type => String
   field :activation_key, :type => String
   field :active, :type => Boolean
+  field :feature_permissions, :type => Array
 
   validates_presence_of :first_name
   validates_presence_of :last_name

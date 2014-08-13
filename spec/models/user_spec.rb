@@ -12,6 +12,7 @@ describe User do
     expect(user).to respond_to :password
     expect(user).to respond_to :activation_key
     expect(user).to respond_to :active
+    expect(user).to respond_to :feature_permissions
   end
 
   it 'validates write access for all instance variables' do
@@ -24,6 +25,7 @@ describe User do
     expect(user).to respond_to 'password='
     expect(user).to respond_to 'activation_key='
     expect(user).to respond_to 'active='
+    expect(user).to respond_to 'feature_permissions='
   end
 
   it 'validates default password hash iteration size' do
