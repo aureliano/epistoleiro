@@ -8,8 +8,11 @@
 
   <%= stylesheet_link_tag 'bootstrap.min' %>
   <%= stylesheet_link_tag 'bootstrap-theme.min' %>
+  <%= stylesheet_link_tag 'application' %>
 </head>
 <body>
-
+  <div name="body-container" class="container">
+    <%= yield %>
+  </div>
 </body>
 </html>

@@ -6,3 +6,8 @@ en:
       '404':
         title: 404 - Page not found
         message: Chuck Norris said that page you're looking for does not exist. If he says so you must believe!
+  view:
+    index:
+      presentation: Create and track events of your groups.
+      sign_up: Create an account
+      sign_in: Sign in
