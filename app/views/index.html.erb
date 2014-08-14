@@ -1,16 +1,16 @@
 <div class="outer">
   <div class="middle">
-    <div class="inner">
+    <div class="inner well span8">
 
       <h1><%= ENV['APP_NAME'] %></h1>
       <h2><%= I18n.translate 'view.index.presentation' %></h2>
 
       <div class="row">
         <div class="span4">
-          <a href="" class="btn btn-large btn-block"><b><%= I18n.translate 'view.index.sign_in' %></b></a>
+          <a href="" class="btn btn-large btn-block"><b><%= I18n.translate 'sign_in' %></b></a>
         </div>
         <div class="span4">
-          <a href="" class="btn btn-success btn-large btn-block"><b><%= I18n.translate 'view.index.sign_up' %></b></a>
+          <a href="<%= url :sign_up %>" class="btn btn-success btn-large btn-block"><b><%= I18n.translate 'sign_up' %></b></a>
         </div>
       </div>
 

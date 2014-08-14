@@ -9,6 +9,10 @@ module Epistoleiro
       render :index, :layout => 'public.html'
     end
 
+    get :sign_up do
+      render :signup, :layout => 'public.html'
+    end
+
     error 404 do
       render 'errors/404'
     end
