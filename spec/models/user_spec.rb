@@ -12,6 +12,7 @@ describe User do
     expect(user).to respond_to :password
     expect(user).to respond_to :activation_key
     expect(user).to respond_to :active
+    expect(user).to respond_to :salt
     expect(user).to respond_to :feature_permissions
   end
 
@@ -25,6 +26,7 @@ describe User do
     expect(user).to respond_to 'password='
     expect(user).to respond_to 'activation_key='
     expect(user).to respond_to 'active='
+    expect(user).to respond_to 'salt='
     expect(user).to respond_to 'feature_permissions='
   end
 
@@ -54,25 +56,33 @@ describe User do
     end
   end
 
+  it 'generates a validation key' do
+    salt = 'wim'
+    password = User.generate_password_hash '12345', salt
+    expected = 'b285c0ce472cb76a90cb0bc4fa7c426dd4fa7d7c1db466602351002cbfcd3263'
+
+    expect(User.generate_activation_key password, salt).to eq expected
+  end
+
   it 'validates required fields' do
     expect { User.create! }.to raise_error
     expect { User.create! :first_name => 'Monkey' }.to raise_error
     expect { User.create! :first_name => 'Monkey', :last_name => 'User' }.to raise_error
-    expect { User.create! :first_name => 'Monkey', :last_name => 'User', :password => 'password', :created_at => Time.now, :updated_at => Time.now }.not_to raise_error
+    expect { User.create! :first_name => 'Monkey', :last_name => 'User', :password => 'password', :salt => '123' }.to raise_error
+    expect { User.create! :first_name => 'Monkey', :last_name => 'User', :password => 'password', :salt => '123', :activation_key => '123456' }.to raise_error
+    expect { User.create! :first_name => 'Monkey', :last_name => 'User', :password => 'password', :salt => '123', :activation_key => '123456', :active => false }.not_to raise_error
   end
 
   it 'validates minimum size of text fields' do
-    expect { User.create! :first_name => '12', :last_name => '123', :password => '12345' }.to raise_error
-    expect { User.create! :first_name => '123', :last_name => '12', :password => '12345' }.to raise_error
-    expect { User.create! :first_name => '123', :last_name => '123', :password => '1234' }.to raise_error
-    expect { User.create! :first_name => '123', :last_name => '123', :password => '12345', :created_at => Time.now, :updated_at => Time.now }.not_to raise_error
+    expect { User.create! :first_name => '12', :last_name => '123', :password => '12345', :salt => '123', :activation_key => '123456', :active => false }.to raise_error
+    expect { User.create! :first_name => '123', :last_name => '12', :password => '12345', :salt => '123', :activation_key => '123456', :active => false }.to raise_error
+    expect { User.create! :first_name => '123', :last_name => '123', :password => '12345', :salt => '123', :activation_key => '123456', :active => false }.not_to raise_error
   end
 
   it 'validates maximum size of text fields' do
-    expect { User.create! :first_name => '*' * 51, :last_name => '*' * 50, :password => '*' * 30 }.to raise_error
-    expect { User.create! :first_name => '*' * 50, :last_name => '*' * 51, :password => '*' * 30 }.to raise_error
-    expect { User.create! :first_name => '*' * 50, :last_name => '*' * 50, :password => '*' * 31 }.to raise_error
-    expect { User.create! :first_name => '*' * 50, :last_name => '*' * 50, :password => '*' * 30, :created_at => Time.now, :updated_at => Time.now }.not_to raise_error
+    expect { User.create! :first_name => '*' * 51, :last_name => '*' * 50, :password => '*' * 30, :salt => '123', :activation_key => '123456', :active => false }.to raise_error
+    expect { User.create! :first_name => '*' * 50, :last_name => '*' * 51, :password => '*' * 30, :salt => '123', :activation_key => '123456', :active => false }.to raise_error
+    expect { User.create! :first_name => '*' * 50, :last_name => '*' * 50, :password => '*' * 30, :salt => '123', :activation_key => '123456', :active => false }.not_to raise_error
   end
 
 end

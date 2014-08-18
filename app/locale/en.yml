@@ -9,13 +9,45 @@ en:
         title: 404 - Page not found
         message: Chuck Norris said that page you're looking for does not exist. If he says so you must believe!
   view:
+    message_type:
+      info: Information
+      warn: Warn
+      success: Success
+      error: Error
     index:
       presentation: Create and track events of your groups.
     sign_up:
       confirm_password: Confirm password
+      message:
+        success: Your account was created successfully. Check your mail box and follow instructions to activate your account.
   model:
     user:
+      fields:
+        _id: e-mail
+        first_name: First name
+        last_name: Last name
+        home_page: Home page
+        phones: Phone number
+        password: Password
       validation:
         password_not_equals: Provided password and password confirmation are not equal.
         password_length: Password must have at least 5 and at most 30 characters.
         phone_number_length: Phone number must have at least 8 and at most 11 numbers.
+        home_page_length: Home page must have at least 5 and at most 100 characters.
+        first_name_required: First name is required.
+        last_name_required: Last name is required.
+        password_required: Password is required.
+        salt_required: Salt number is required.
+        active_required: Active status is required.
+        activation_key_required: Activation key is required.
+        first_name_length: First name must have at least 3 and at most 50 characters.
+        last_name_length: Last name must have at least 3 and at most 50 characters.
+        home_page_length: Home page must have at least 5 and at most 100 characters.
+  mongoid:
+    errors:
+      format: "%{attribute} %{message}"
+      messages:
+        validations:
+          message: There was validation errors on %{document}
+          summary: "Errors:\n    %{errors}"
+          resolution: Check the instances for this model looking for missing fields or wrong values.

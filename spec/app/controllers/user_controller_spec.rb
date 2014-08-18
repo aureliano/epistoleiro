@@ -1,11 +1,10 @@
 require 'spec_helper'
 
 describe "UserController" do
-  before do
-    get "/"
+  
+  it "creates an account" do
+    post :create_account
+    expect(last_response.body).to eq "Forbidden"
   end
 
-  it "returns hello world" do
-    last_response.body.should == "Hello World"
-  end
 end

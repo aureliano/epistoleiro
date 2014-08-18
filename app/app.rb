@@ -10,6 +10,7 @@ module Epistoleiro
     end
 
     get :sign_up do
+      params['user'] = {}
       render :signup, :layout => 'public.html'
     end
 

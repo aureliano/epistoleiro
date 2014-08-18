@@ -11,7 +11,14 @@
 </head>
 <body>
   <div name="body-container" class="container">
+  	<br/>
+  	<% if has_system_message? %>
+      <%= show_messages.html_safe %>
+    <% end %>
+
     <%= yield %>
   </div>
+  <%= javascript_include_tag 'jquery.min' %>
+  <%= javascript_include_tag 'bootstrap.min' %>
 </body>
 </html>

@@ -6,35 +6,34 @@
 <hr/>
 
 <div>
-  <% form_for :user, url(:user, :create_account), :method => :post, :id => 'form_create_account' do |field| %>
+  <% form_tag url(:user, :create_account), :method => :post, :id => 'form_create_account' do %>
     <div class="row">
-      <div class="span2"><%= field.label :email, :required => true %></div>
-      <div class="span6"><%= field.text_field :email, :required => true, :type => 'email', :maxlength => 100 %></div>
+      <div class="span2"><%= I18n.translate 'model.user.fields._id' %>: *</div>
+      <div class="span6"><input type="email" required maxlength="100" id="user_email" name="user[email]" value="<%= params['user']['email'] %>"/></div>
     </div>
     <div class="row">
-      <div class="span2"><%= field.label :first_name, :required => true %></div>
-      <div class="span6"><%= field.text_field :first_name, :required => true, :maxlength => 50 %></div>
+      <div class="span2"><%= I18n.translate 'model.user.fields.first_name' %>: *</div>
+      <div class="span6"><input type="text" required maxlength="50" id="user_first_name" name="user[first_name]" value="<%= params['user']['first_name'] %>"/></div>
     </div>
     <div class="row">
-      <div class="span2"><%= field.label :last_name, :required => true %></div>
-      <div class="span6"><%= field.text_field :last_name, :required => true, :maxlength => 50 %></div>
+      <div class="span2"><%= I18n.translate 'model.user.fields.last_name' %>: *</div>
+      <div class="span6"><input type="text" required maxlength="50" id="user_last_name" name="user[last_name]" value="<%= params['user']['last_name'] %>"/></div>
     </div>
     <div class="row">
-      <div class="span2"><%= field.label :password, :required => true %></div>
-      <div class="span6"><%= field.password_field :password, :required => true, :maxlength => 30 %></div>
-      <span class="span4" id="password_message"></span>
+      <div class="span2"><%= I18n.translate 'model.user.fields.password' %>: *</div>
+      <div class="span6"><input type="password" required maxlength="30" id="user_password" name="user[password]" value=""/></div>
     </div>
     <div class="row">
       <div class="span2"><%= I18n.translate 'view.sign_up.confirm_password' %>: *</div>
-      <div class="span6"><input type="password" name="user[confirm_password]" id="user_confirm_password" value="<%= params['confirm_password'] %>" required maxlength="30"/></div>
+      <div class="span6"><input type="password" name="user[confirm_password]" id="user_confirm_password" value="" required maxlength="30"/></div>
     </div>
     <div class="row">
-      <div class="span2"><%= field.label :home_page %></div>
-      <div class="span6"><%= field.text_field :home_page, :type => :url %></div>
+      <div class="span2"><%= I18n.translate 'model.user.fields.home_page' %>:</div>
+      <div class="span6"><input type="url" maxlength="100" id="user_home_page" name="user[home_page]" value="<%= params['user']['home_page'] %>"/></div>
     </div>
     <div class="row">
-      <div class="span2"><%= field.label :phone_number %></div>
-      <div class="span6"><%= field.text_field :phone_number, :type => :number, :min => 1, :max => 99999999999 %></div>
+      <div class="span2"><%= I18n.translate 'model.user.fields.phones' %>:</div>
+      <div class="span6"><input type="number" min="1" max="99999999999" id="user_phone_number" name="user[phone_number]" value="<%= params['user']['phone_number'] %>"/></div>
     </div>
     <div class="row">
       <div class="span2"></div>
@@ -42,8 +41,6 @@
     </div>
   <% end %>
 </div>
-
-<%= javascript_include_tag 'jquery.min' %>
 
 <script>
   function validateForm() {
@@ -68,7 +65,7 @@
   function validatePhoneNumber() {
     var phone_number = document.getElementById('user_phone_number').value;
 
-    if (phone_number != null && phone_number.length < 8) {
+    if (phone_number != null && phone_number != "" && phone_number.length < 8) {
       alert('<%= I18n.translate 'model.user.validation.phone_number_length' %>');
       return false;
     }
