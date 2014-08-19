@@ -20,6 +20,12 @@ en:
       confirm_password: Confirm password
       message:
         success: Your account was created successfully. An e-mail was sent to %{email}. Check your mail box and follow instructions to activate your account.
+    activation:
+      message:
+        success: Your account has just been activated. Log in to get access.
+        user_does_not_exist: There is not a user registered with e-mail %{email}.
+        wrong_activation_key: The provided activation key is not correct.
+        user_already_active: User is already active. Nothing was done.
   model:
     user:
       fields:

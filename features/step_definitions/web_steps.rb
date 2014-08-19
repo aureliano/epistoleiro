@@ -24,5 +24,6 @@ Then /^I have to see the (\w+) message '([^']+)'$/ do |type, message|
     when 'error' then 'danger'
   end
 
+  message = I18n.translate(message) if (message.match(/[.\w]+/).to_s == message)
   expect(page.find(:xpath, "//div[@class='alert alert-#{message_type} alert-dismissable']/div").text).to eq message
 end

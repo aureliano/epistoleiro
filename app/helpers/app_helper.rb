@@ -2,6 +2,14 @@ module Epistoleiro
   class App
     module AppHelper
 
+      def put_message(options)
+        message = I18n.translate options[:message]
+        options[:params].each {|k, v| message.sub! k, v } if options[:params]
+
+        params[:msg] = message
+        params[:msg_type] = options[:type]
+      end
+
       def format_validation_messages(entity)
         messages = entity.errors.messages
         return [] if messages.empty?

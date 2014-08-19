@@ -1,7 +1,7 @@
 Feature: Create an account
   In order to allow users join the community
   As a non registered user
-  I want sign up
+  I want to sign up
 
   Scenario Outline: unregistred user try to sign up
     Given I am in sign up page

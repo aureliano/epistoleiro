@@ -9,6 +9,10 @@ module Epistoleiro
       render :index, :layout => 'public.html'
     end
 
+    get :sign_in do
+      render :login, :layout => 'public.html'
+    end
+
     get :sign_up do
       params['user'] = {}
       render :signup, :layout => 'public.html'

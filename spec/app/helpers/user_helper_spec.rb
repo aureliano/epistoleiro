@@ -21,6 +21,20 @@ describe "Epistoleiro::App::UserHelper" do
     expect(user.password).to_not be_nil
     expect(user.activation_key).to_not be_nil
     expect(user.active).to be false
+
+    user = subject.build_user_account_creation_model(
+      :email => 'app@test.com', :first_name => 'Monkey', :last_name => 'User',
+      :home_page => 'https://www.test.com', :phone_number => '87995784'
+    )
+
+    expect(user.home_page).to eq 'https://www.test.com'
+
+    user = subject.build_user_account_creation_model(
+      :email => 'app@test.com', :first_name => 'Monkey', :last_name => 'User',
+      :home_page => 'www.test.com', :phone_number => '87995784'
+    )
+
+    expect(user.home_page).to eq 'http://www.test.com'
   end
 
   context 'validates user account creation' do
