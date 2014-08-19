@@ -12,7 +12,7 @@ Feature: Create an account
     And I type '<confirm_passward>' in 'user_confirm_password'
     And I type '<home_page>' in 'user_home_page'
     And I type '<phone_number>' in 'user_phone_number'
-    And I click on button 'Create an account'
+    And I click on button 'sign_up'
     Then I have to see an alert with '<message_key>'
 
     Examples:
@@ -30,5 +30,5 @@ Feature: Create an account
     And I type 'Change123' in 'user_confirm_password'
     And I type 'http://www.test.com' in 'user_home_page'
     And I type '99587456' in 'user_phone_number'
-    And I click on button 'Create an account'
+    And I click on button 'sign_up'
     Then I have to see the account creation success message 'view.sign_up.message.success' to 'test@email.com'

@@ -3,11 +3,11 @@ When /^I type '([^']*)' in '([^']+)'$/ do |text, id|
 end
 
 When /^I click on button '([^']+)'$/ do |button|
-  click_button button
+  click_button I18n.translate(button)
 end
 
 When /^I click on link '([^']+)'$/ do |link|
-  click_link link
+  click_link I18n.translate(link)
 end
 
 Then /^I have to see an alert with '([^']*)'$/ do |message|
@@ -26,4 +26,8 @@ Then /^I have to see the (\w+) message '([^']+)'$/ do |type, message|
 
   message = I18n.translate(message) if (message.match(/[.\w]+/).to_s == message)
   expect(page.find(:xpath, "//div[@class='alert alert-#{message_type} alert-dismissable']/div").text).to eq message
+end
+
+Then /^text field '([\w\d]+)' should have value '([^']*)'$/ do |field, value|
+  expect(page.find(:xpath, "//input[@id='#{field}']").value).to eq value
 end

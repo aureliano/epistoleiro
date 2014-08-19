@@ -24,6 +24,7 @@ Epistoleiro::App.controllers :user do
       put_message :message => 'view.activation.message.user_does_not_exist', :params => { '%{email}' => params[:email] }, :type => 'e'
     elsif @user.activation_key != params[:activation_key]
       put_message :message => 'view.activation.message.wrong_activation_key', :type => 'e'
+      @user = nil
     elsif @user.active == true
       put_message :message => 'view.activation.message.user_already_active', :type => 'w'
     else
@@ -36,7 +37,19 @@ Epistoleiro::App.controllers :user do
   end
 
   post :authentication do
-    raise 'Not implemented yet'
+    user = User.where(:id => params[:user][:email]).first
+    if user.nil?
+      put_message :message => 'view.login.message.authentication_error', :type => 'e'
+      render :login, :layout => 'public.html'
+    else
+      password_hash = User.generate_password_hash params[:user][:password], user.salt
+      if user.password != password_hash
+        put_message :message => 'view.login.message.authentication_error', :type => 'e'
+        render :login, :layout => 'public.html'
+      else
+        render :index
+      end
+    end
   end
 
 end

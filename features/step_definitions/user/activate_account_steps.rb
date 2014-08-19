@@ -1,10 +1,5 @@
 Given /^there is an inactive user with e-mail '([^']+)' and activation key '([^']+)'$/ do |email, activation_key|
-  user = User.new(
-    :first_name => 'Monkey', :last_name => 'User', :password => 'password',
-    :salt => '123', :activation_key => activation_key, :active => false
-  )
-  user.id = email
-  user.save!
+  save_user_dummy :id => email, :activation_key => activation_key, :active => false
 end
 
 Given /^the user '([^']+)' is active$/ do |email|

@@ -26,6 +26,9 @@ en:
         user_does_not_exist: There is not a user registered with e-mail %{email}.
         wrong_activation_key: The provided activation key is not correct.
         user_already_active: User is already active. Nothing was done.
+    login:
+      message:
+        authentication_error: There is no such account with this e-mail or password.
   model:
     user:
       fields:

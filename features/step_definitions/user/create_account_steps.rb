@@ -1,6 +1,6 @@
 Given /^I am in sign up page$/ do
   visit('/')
-  step "I click on link '#{I18n.translate 'sign_up'}'"
+  step "I click on link 'sign_up'"
 end
 
 Then /^I have to see the account creation success message '([^']+)' to '([^']+)'$/ do |message_key, email|
