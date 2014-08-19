@@ -19,7 +19,7 @@ en:
     sign_up:
       confirm_password: Confirm password
       message:
-        success: Your account was created successfully. Check your mail box and follow instructions to activate your account.
+        success: Your account was created successfully. An e-mail was sent to %{email}. Check your mail box and follow instructions to activate your account.
   model:
     user:
       fields:
@@ -33,7 +33,7 @@ en:
         password_not_equals: Provided password and password confirmation are not equal.
         password_length: Password must have at least 5 and at most 30 characters.
         phone_number_length: Phone number must have at least 8 and at most 11 numbers.
-        home_page_length: Home page must have at least 5 and at most 100 characters.
+        home_page_length: Home page must have at least 15 and at most 100 characters.
         first_name_required: First name is required.
         last_name_required: Last name is required.
         password_required: Password is required.

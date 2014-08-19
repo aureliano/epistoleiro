@@ -8,7 +8,7 @@ Epistoleiro::App.controllers :user do
       messages = format_validation_messages user
 
       if messages.empty?
-        redirect url(:index, :msg => I18n.translate('view.sign_up.message.success'), :msg_type => 's')
+        redirect url(:index, :msg => I18n.translate('view.sign_up.message.success').sub('%{email}', user.id), :msg_type => 's')
       else
         params[:msg] = messages.join('<br/>')
         params[:msg_type] = 'w'

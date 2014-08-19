@@ -9,4 +9,11 @@ require File.expand_path(File.dirname(__FILE__) + "/../../config/boot")
 require 'capybara/cucumber'
 require 'rspec/expectations'
 
+Capybara.default_driver = :selenium
+Capybara.app_host = 'http://0.0.0.0:9292'
+
 Capybara.app = Epistoleiro::App.tap { |app|  }
+
+Before do
+  User.delete_all
+end
