@@ -12,6 +12,10 @@ script:
 before_script:
   - "export RACK_ENV=test"
   - "export DISPLAY=:99.0"
+  - "export APP_LOCATION=en"
+  - "export PASSWORD_HASH_ITERATION_SIZE=10"
+  - "export SALT_NUMBER_SIZE=3"
+  - "export APP_NAME=Epistoleiro"
   - sh -e /etc/init.d/xvfb start
   - sleep 3 # give xvfb some time to start
   - bundle exec rackup -E test  # start a Web server
