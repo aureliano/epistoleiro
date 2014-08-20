@@ -1,5 +1,9 @@
 Epistoleiro::App.controllers :user do
   
+  before do
+    validate_user_access
+  end
+
   post :create_account do
     @messages = validate_user_account_creation params[:user]
     if @messages.empty?
@@ -37,18 +41,11 @@ Epistoleiro::App.controllers :user do
   end
 
   post :authentication do
-    user = User.where(:id => params[:user][:email]).first
-    if user.nil?
+    if user_authenticated? params[:user][:email], params[:user][:password]
+      render :index
+    else
       put_message :message => 'view.login.message.authentication_error', :type => 'e'
       render :login, :layout => 'public.html'
-    else
-      password_hash = User.generate_password_hash params[:user][:password], user.salt
-      if user.password != password_hash
-        put_message :message => 'view.login.message.authentication_error', :type => 'e'
-        render :login, :layout => 'public.html'
-      else
-        render :index
-      end
     end
   end
 

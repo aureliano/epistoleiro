@@ -2,6 +2,26 @@ module Epistoleiro
   class App
     module UserHelper
 
+      def user_authenticated?(email, password)
+        user = User.where(:id => email).first
+        return false if user.nil?
+
+        password_hash = User.generate_password_hash password, user.salt
+        return user.password == password_hash
+      end
+
+      def user_logged_in?
+        session[:user_id].present?
+      end
+
+      def validate_user_access
+        unless user_logged_in?
+          relative_url = request.url.sub /https?:\/\/[^\/]+:?\d*/, ''
+          return if relative_url.start_with? '/user/activation/'
+          redirect url(:sign_in) unless white_list.include? relative_url
+        end
+      end
+
       def build_user_account_creation_model(hash)
         user = User.new
 
@@ -31,6 +51,15 @@ module Epistoleiro
         messages << I18n.translate('model.user.validation.home_page_length') if !hash[:home_page].to_s.empty? && (hash[:home_page].size < 15 || hash[:home_page].size > 100)
 
         messages
+      end
+
+      def white_list
+        [
+          url(:index),
+          url(:sign_in),
+          url(:user, :create_account),
+          url(:user, :authentication)
+        ]
       end
 
     end
