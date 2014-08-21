@@ -43,7 +43,12 @@ Epistoleiro::App.controllers :user do
 
   post :authentication do
     if user_authenticated? params[:user][:email], params[:user][:password]
-      render :index
+      if User.find(params[:user][:email]).active == true
+        render :index
+      else
+        put_message :message => 'view.login.message.inactive_user', :type => 'e'
+        render :login, :layout => 'public.html'
+      end
     else
       put_message :message => 'view.login.message.authentication_error', :type => 'e'
       render :login, :layout => 'public.html'

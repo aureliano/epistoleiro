@@ -130,6 +130,14 @@ describe "UserController" do
       expect(last_response.body).to include I18n.translate('view.login.message.authentication_error')
     end
 
+    it 'validates user authentication for an inative user' do
+      user = create_user false
+      post '/user/authentication', params = { :user => { :email => user.id, :password => 'password' } }
+      
+      expect(last_response.body).to include '<div class="alert alert-danger alert-dismissable">'
+      expect(last_response.body).to include I18n.translate('view.login.message.inactive_user')
+    end
+
     it 'authenticates a user' do
       user = create_user
       post '/user/authentication', params = { :user => { :email => user.id, :password => 'password' } }

@@ -15,14 +15,16 @@ def app(app = nil, &blk)
   @app ||= Padrino.application
 end
 
-def create_user
+def create_user(active=true)
   user = User.find 'test@mail.com'
   if user.nil?
-    user = User.new :first_name => 'Monkey', :last_name => 'User', :salt => '123', :activation_key => '123456', :active => false
+    user = User.new :first_name => 'Monkey', :last_name => 'User', :salt => '123', :activation_key => '123456', :active => active
     user.id = 'test@mail.com'
   end
 
   user.password = User.generate_password_hash('password', user.salt)
+  user.active = active
+  
   user.save!
   user
 end

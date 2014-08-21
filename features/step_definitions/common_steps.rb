@@ -2,6 +2,10 @@ Given /^there is an active user with e-mail '([^']+)' and password '([^']+)'$/ d
   save_user_dummy :id => email, :password => password
 end
 
+Given /^there is an inactive user with e-mail '([^']+)' and password '([^']+)'$/ do |email, password|
+  save_user_dummy :id => email, :password => password, :active => false
+end
+
 Given /^I am in login page$/ do
   visit url :sign_in
 end

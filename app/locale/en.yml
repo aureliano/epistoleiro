@@ -29,6 +29,7 @@ en:
     login:
       message:
         authentication_error: There is no such account with this e-mail or password.
+        inactive_user: You have not activated your account yet. It is necessary to active your account before you sign in.
   model:
     user:
       fields:
