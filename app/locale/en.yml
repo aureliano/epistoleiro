@@ -20,6 +20,7 @@ en:
       confirm_password: Confirm password
       message:
         success: Your account was created successfully. An e-mail was sent to %{email}. Check your mail box and follow instructions to activate your account.
+        user_already_registered: There is already a user registered with this e-mail.
     activation:
       message:
         success: Your account has just been activated. Log in to get access.

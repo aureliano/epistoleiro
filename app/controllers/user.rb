@@ -5,6 +5,11 @@ Epistoleiro::App.controllers :user do
   end
 
   post :create_account do
+    if User.where(:id => params[:user][:email]).exists?
+      put_message :message => 'view.sign_up.message.user_already_registered', :type => 'e'
+      return render :signup, :layout => 'public.html'
+    end
+
     @messages = validate_user_account_creation params[:user]
     if @messages.empty?
       user = build_user_account_creation_model(params[:user])

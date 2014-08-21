@@ -16,7 +16,7 @@ def app(app = nil, &blk)
 end
 
 def create_user(active=true)
-  user = User.find 'test@mail.com'
+  user = User.where(:id => 'test@mail.com').first
   if user.nil?
     user = User.new :first_name => 'Monkey', :last_name => 'User', :salt => '123', :activation_key => '123456', :active => active
     user.id = 'test@mail.com'
@@ -24,7 +24,7 @@ def create_user(active=true)
 
   user.password = User.generate_password_hash('password', user.salt)
   user.active = active
-  
+
   user.save!
   user
 end

@@ -4,6 +4,10 @@ describe "UserController" do
   
   describe 'Sign up - create_account' do
     
+    before :all do
+      User.delete_all
+    end
+
     it 'validates account creation when no parameters are provided' do
       post '/user/create_account', params = { :user => { :password => '', :confirm_password => '' } }
 
@@ -99,11 +103,24 @@ describe "UserController" do
       expect(last_response.body).to include I18n.translate('model.user.validation.home_page_length')
     end
 
+    it 'validates account creation to a user that already exists' do
+      user = create_user
+
+      post '/user/create_account', params = {
+        :user => {
+          :email => user.id, :password => '12345', :confirm_password => '12345', :first_name => 'Monkey', :last_name => 'User',
+        }
+      }
+
+      expect(last_response.body).to include '<div class="alert alert-danger alert-dismissable">'
+      expect(last_response.body).to include I18n.translate('view.sign_up.message.user_already_registered')
+    end
+
     it 'creates an account' do
       post '/user/create_account', params = {
         :user => {
           :password => '12345', :confirm_password => '12345', :first_name => 'Monkey', :last_name => 'User',
-          :email => 'test@mail.com'
+          :email => 'monkey_user@mail.com'
         }
       }
 
