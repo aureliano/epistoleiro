@@ -2,20 +2,20 @@ require 'spec_helper'
 
 describe "UserController" do
   
-  describe 'Sign up' do
+  describe 'Sign up - create_account' do
     
     it 'validates account creation when no parameters are provided' do
       post '/user/create_account', params = { :user => { :password => '', :confirm_password => '' } }
 
       expect(last_response.body).to include '<div class="alert alert-warning alert-dismissable">'
-      expect(last_response.body).to include 'Password must have at least 5 and at most 30 characters.'
+      expect(last_response.body).to include I18n.translate('model.user.validation.password_length')
     end
 
     it 'validates account creation when a password unequal to password confirmation is provided' do
       post '/user/create_account', params = { :user => { :password => '12345', :confirm_password => '54321' } }
 
       expect(last_response.body).to include '<div class="alert alert-warning alert-dismissable">'
-      expect(last_response.body).to include 'Provided password and password confirmation are not equal.'
+      expect(last_response.body).to include I18n.translate('model.user.validation.password_not_equals')
     end
 
     it 'validates account creation when no e-mail is provided' do
@@ -26,7 +26,7 @@ describe "UserController" do
       }
 
       expect(last_response.body).to include '<div class="alert alert-warning alert-dismissable">'
-      expect(last_response.body).to include 'e-mail is required.'
+      expect(last_response.body).to include I18n.translate('model.user.validation.id_required')
     end
 
     it 'validates account creation when an invalid short e-mail is provided' do
@@ -37,7 +37,7 @@ describe "UserController" do
       }
 
       expect(last_response.body).to include '<div class="alert alert-warning alert-dismissable">'
-      expect(last_response.body).to include 'e-mail must have at least 5 and at most 50 characters.'
+      expect(last_response.body).to include I18n.translate('model.user.validation.id_length')
     end
 
     it 'validates account creation when an invalid long e-mail is provided' do
@@ -48,7 +48,7 @@ describe "UserController" do
       }
 
       expect(last_response.body).to include '<div class="alert alert-warning alert-dismissable">'
-      expect(last_response.body).to include 'e-mail must have at least 5 and at most 50 characters.'
+      expect(last_response.body).to include I18n.translate('model.user.validation.id_length')
     end
 
     it 'validates account creation when first and last names are not provided' do
@@ -59,8 +59,8 @@ describe "UserController" do
       }
 
       expect(last_response.body).to include '<div class="alert alert-warning alert-dismissable">'
-      expect(last_response.body).to include 'First name is required.'
-      expect(last_response.body).to include 'Last name is required.'
+      expect(last_response.body).to include I18n.translate('model.user.validation.first_name_required')
+      expect(last_response.body).to include I18n.translate('model.user.validation.last_name_required')
     end
 
     it 'validates account creation when invalid short first and last names are provided' do
@@ -71,8 +71,8 @@ describe "UserController" do
       }
 
       expect(last_response.body).to include '<div class="alert alert-warning alert-dismissable">'
-      expect(last_response.body).to include 'First name must have at least 3 and at most 50 characters.'
-      expect(last_response.body).to include 'Last name must have at least 3 and at most 50 characters.'
+      expect(last_response.body).to include I18n.translate('model.user.validation.first_name_length')
+      expect(last_response.body).to include I18n.translate('model.user.validation.last_name_length')
     end
 
     it 'validates account creation when invalid long first and last names are provided' do
@@ -83,8 +83,8 @@ describe "UserController" do
       }
 
       expect(last_response.body).to include '<div class="alert alert-warning alert-dismissable">'
-      expect(last_response.body).to include 'First name must have at least 3 and at most 50 characters.'
-      expect(last_response.body).to include 'Last name must have at least 3 and at most 50 characters.'
+      expect(last_response.body).to include I18n.translate('model.user.validation.first_name_length')
+      expect(last_response.body).to include I18n.translate('model.user.validation.last_name_length')
     end
 
     it 'validates account creation when invalid short home page is provided' do
@@ -96,7 +96,7 @@ describe "UserController" do
       }
 
       expect(last_response.body).to include '<div class="alert alert-warning alert-dismissable">'
-      expect(last_response.body).to include 'Home page must have at least 15 and at most 100 characters.'
+      expect(last_response.body).to include I18n.translate('model.user.validation.home_page_length')
     end
 
     it 'creates an account' do
@@ -108,6 +108,33 @@ describe "UserController" do
       }
 
       expect(last_response.body).to eq ''
+    end
+
+  end
+
+  describe 'Sign in - authentication' do
+
+    it 'validates user authentication when a non existent e-mail is provided' do
+      create_user
+      post '/user/authentication', params = { :user => { :email => 'non_existent@mail.com', :password => 'whatever' } }
+      
+      expect(last_response.body).to include '<div class="alert alert-danger alert-dismissable">'
+      expect(last_response.body).to include I18n.translate('view.login.message.authentication_error')
+    end
+
+    it 'validates user authentication with wrong password' do
+      user = create_user
+      post '/user/authentication', params = { :user => { :email => user.id, :password => 'wrong password' } }
+      
+      expect(last_response.body).to include '<div class="alert alert-danger alert-dismissable">'
+      expect(last_response.body).to include I18n.translate('view.login.message.authentication_error')
+    end
+
+    it 'authenticates a user' do
+      user = create_user
+      post '/user/authentication', params = { :user => { :email => user.id, :password => 'password' } }
+      
+      expect(last_response.body).to include "<h3>#{I18n.translate 'view.index.presentation'}</h3>"
     end
 
   end

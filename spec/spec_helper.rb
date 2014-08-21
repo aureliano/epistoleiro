@@ -14,3 +14,15 @@ def app(app = nil, &blk)
   @app ||= block_given? ? app.instance_eval(&blk) : app
   @app ||= Padrino.application
 end
+
+def create_user
+  user = User.find 'test@mail.com'
+  if user.nil?
+    user = User.new :first_name => 'Monkey', :last_name => 'User', :salt => '123', :activation_key => '123456', :active => false
+    user.id = 'test@mail.com'
+  end
+
+  user.password = User.generate_password_hash('password', user.salt)
+  user.save!
+  user
+end

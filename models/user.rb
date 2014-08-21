@@ -28,7 +28,7 @@ class User
   
   def self.generate_password_hash(pass, salt)
     hash = ''
-    for i in 1..User.password_hash_iteration_size.to_i do
+    for i in 1..User.password_hash_iteration_size do
       hash = Digest::MD5.hexdigest(Digest::MD5.hexdigest("#{hash}#{pass}#{salt}"))
     end
     
