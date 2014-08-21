@@ -66,7 +66,7 @@ describe "UserController" do
     it 'validates account creation when invalid short first and last names are provided' do
       post '/user/create_account', params = {
         :user => {
-          :password => '12345', :confirm_password => '12345', :first_name => 'ab', :last_name => 'cd', :email => 'test@mail.cmo'
+          :password => '12345', :confirm_password => '12345', :first_name => 'ab', :last_name => 'cd', :email => 'test@mail.com'
         }
       }
 
@@ -78,7 +78,7 @@ describe "UserController" do
     it 'validates account creation when invalid long first and last names are provided' do
       post '/user/create_account', params = {
         :user => {
-          :password => '12345', :confirm_password => '12345', :first_name => 'a' * 101, :last_name => 'b' * 101, :email => 'test@mail.cmo'
+          :password => '12345', :confirm_password => '12345', :first_name => 'a' * 101, :last_name => 'b' * 101, :email => 'test@mail.com'
         }
       }
 
@@ -91,12 +91,23 @@ describe "UserController" do
       post '/user/create_account', params = {
         :user => {
           :password => '12345', :confirm_password => '12345', :first_name => 'ab', :last_name => 'cd',
-          :email => 'test@mail.cmo', :home_page => 'http://'
+          :email => 'test@mail.com', :home_page => 'http://'
         }
       }
 
       expect(last_response.body).to include '<div class="alert alert-warning alert-dismissable">'
       expect(last_response.body).to include 'Home page must have at least 15 and at most 100 characters.'
+    end
+
+    it 'creates an account' do
+      post '/user/create_account', params = {
+        :user => {
+          :password => '12345', :confirm_password => '12345', :first_name => 'Monkey', :last_name => 'User',
+          :email => 'test@mail.com'
+        }
+      }
+
+      expect(last_response.body).to eq ''
     end
 
   end
