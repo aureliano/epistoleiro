@@ -39,6 +39,8 @@ en:
         phones: Phone number
         password: Password
       validation:
+        id_required: e-mail is required.
+        id_length: e-mail must have at least 5 and at most 50 characters.
         password_not_equals: Provided password and password confirmation are not equal.
         password_length: Password must have at least 5 and at most 30 characters.
         phone_number_length: Phone number must have at least 8 and at most 11 numbers.
@@ -51,7 +53,7 @@ en:
         activation_key_required: Activation key is required.
         first_name_length: First name must have at least 3 and at most 50 characters.
         last_name_length: Last name must have at least 3 and at most 50 characters.
-        home_page_length: Home page must have at least 5 and at most 100 characters.
+        home_page_length: Home page must have at least 15 and at most 100 characters.
   mongoid:
     errors:
       format: "%{attribute} %{message}"

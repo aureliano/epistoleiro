@@ -3,7 +3,7 @@ module Epistoleiro
     module AppHelper
 
       def put_message(options)
-        message = I18n.translate options[:message]
+        message = ((options[:translate] == false) ? options[:message] : I18n.translate(options[:message]))
         options[:params].each {|k, v| message.sub! k, v } if options[:params]
 
         params[:msg] = message
@@ -17,6 +17,12 @@ module Epistoleiro
         msg = []
         messages.each_key {|k| messages[k].each {|e| msg << e }}
         msg
+      end
+
+      def array_to_html_list(array, type='ul')
+        html = "<#{type}>"
+        array.each {|e| html << "<li>#{e}</li>" }
+        html << "</#{type}>"
       end
 
       def has_system_message?

@@ -9,15 +9,16 @@ Epistoleiro::App.controllers :user do
     if @messages.empty?
       user = build_user_account_creation_model(params[:user])
       user.save
-      messages = format_validation_messages user
+      @messages = format_validation_messages user
 
-      if messages.empty?
+      if @messages.empty?
         redirect url(:index, :msg => I18n.translate('view.sign_up.message.success').sub('%{email}', user.id), :msg_type => 's')
       else
-        put_message :message => messages.join('<br/>'), :type => 'w'
+        put_message :message => @messages.join('<br/>'), :type => 'w', :translate => false
         render :signup, :layout => 'public.html'
       end
     else
+      put_message :message => @messages.join('<br/>'), :type => 'w'
       render :signup, :layout => 'public.html'
     end
   end

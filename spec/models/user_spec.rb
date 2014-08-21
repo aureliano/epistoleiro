@@ -70,19 +70,31 @@ describe User do
     expect { User.create! :first_name => 'Monkey', :last_name => 'User' }.to raise_error
     expect { User.create! :first_name => 'Monkey', :last_name => 'User', :password => 'password', :salt => '123' }.to raise_error
     expect { User.create! :first_name => 'Monkey', :last_name => 'User', :password => 'password', :salt => '123', :activation_key => '123456' }.to raise_error
-    expect { User.create! :first_name => 'Monkey', :last_name => 'User', :password => 'password', :salt => '123', :activation_key => '123456', :active => false }.not_to raise_error
+    expect { User.create! :first_name => 'Monkey', :last_name => 'User', :password => 'password', :salt => '123', :activation_key => '123456', :active => false }.to raise_error
+    
+    user = User.new :first_name => 'Monkey', :last_name => 'User', :password => 'password', :salt => '123', :activation_key => '123456', :active => false
+    user.id = 'test@mail.com'
+    expect { user.save! }.not_to raise_error
   end
 
   it 'validates minimum size of text fields' do
     expect { User.create! :first_name => '12', :last_name => '123', :password => '12345', :salt => '123', :activation_key => '123456', :active => false }.to raise_error
     expect { User.create! :first_name => '123', :last_name => '12', :password => '12345', :salt => '123', :activation_key => '123456', :active => false }.to raise_error
-    expect { User.create! :first_name => '123', :last_name => '123', :password => '12345', :salt => '123', :activation_key => '123456', :active => false }.not_to raise_error
+    expect { User.create! :first_name => '123', :last_name => '123', :password => '12345', :salt => '123', :activation_key => '123456', :active => false }.to raise_error
+
+    user = User.new :first_name => '123', :last_name => '123', :password => '12345', :salt => '123', :activation_key => '123456', :active => false
+    user.id = 'test@mail.com'
+    expect { user.save! }.not_to raise_error
   end
 
   it 'validates maximum size of text fields' do
     expect { User.create! :first_name => '*' * 51, :last_name => '*' * 50, :password => '*' * 30, :salt => '123', :activation_key => '123456', :active => false }.to raise_error
     expect { User.create! :first_name => '*' * 50, :last_name => '*' * 51, :password => '*' * 30, :salt => '123', :activation_key => '123456', :active => false }.to raise_error
-    expect { User.create! :first_name => '*' * 50, :last_name => '*' * 50, :password => '*' * 30, :salt => '123', :activation_key => '123456', :active => false }.not_to raise_error
+    expect { User.create! :first_name => '*' * 50, :last_name => '*' * 50, :password => '*' * 30, :salt => '123', :activation_key => '123456', :active => false }.to raise_error
+
+    user = User.new :first_name => '*' * 50, :last_name => '*' * 50, :password => '*' * 30, :salt => '123', :activation_key => '123456', :active => false
+    user.id = 'test@mail.com'
+    expect { user.save! }.not_to raise_error
   end
 
 end

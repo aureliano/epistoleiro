@@ -44,11 +44,11 @@ module Epistoleiro
       
       def validate_user_account_creation(hash)
         messages = []
-        messages << I18n.translate('model.user.validation.password_not_equals') if hash[:password] != hash[:confirm_password]
-        messages << I18n.translate('model.user.validation.password_length') if hash[:password].size < 5 || hash[:password].size > 30
+        messages << 'model.user.validation.password_not_equals' if hash[:password] != hash[:confirm_password]
+        messages << 'model.user.validation.password_length' if hash[:password].size < 5 || hash[:password].size > 30
 
-        messages << I18n.translate('model.user.validation.phone_number_length') if !hash[:phone_number].to_s.empty? && (hash[:phone_number].size < 8 || hash[:phone_number].size > 11)
-        messages << I18n.translate('model.user.validation.home_page_length') if !hash[:home_page].to_s.empty? && (hash[:home_page].size < 15 || hash[:home_page].size > 100)
+        messages << 'model.user.validation.phone_number_length' if !hash[:phone_number].to_s.empty? && (hash[:phone_number].size < 8 || hash[:phone_number].size > 11)
+        messages << 'model.user.validation.home_page_length' if !hash[:home_page].to_s.empty? && (hash[:home_page].size < 15 || hash[:home_page].size > 100)
 
         messages
       end
