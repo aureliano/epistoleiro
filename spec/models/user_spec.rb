@@ -5,6 +5,7 @@ describe User do
   it 'validates read access for all instance variables' do
     user = User.new
     expect(user).to respond_to :_id
+    expect(user).to respond_to :nickname
     expect(user).to respond_to :first_name
     expect(user).to respond_to :last_name
     expect(user).to respond_to :home_page
@@ -19,6 +20,7 @@ describe User do
   it 'validates write access for all instance variables' do
     user = User.new
     expect(user).to respond_to '_id='
+    expect(user).to respond_to 'nickname='
     expect(user).to respond_to 'first_name='
     expect(user).to respond_to 'last_name='
     expect(user).to respond_to 'home_page='
@@ -74,6 +76,9 @@ describe User do
     
     user = User.new :first_name => 'Monkey', :last_name => 'User', :password => 'password', :salt => '123', :activation_key => '123456', :active => false
     user.id = 'test@mail.com'
+    expect { user.save! }.to raise_error
+
+    user.nickname = 'nickname'
     expect { user.save! }.not_to raise_error
   end
 
@@ -82,8 +87,15 @@ describe User do
     expect { User.create! :first_name => '123', :last_name => '12', :password => '12345', :salt => '123', :activation_key => '123456', :active => false }.to raise_error
     expect { User.create! :first_name => '123', :last_name => '123', :password => '12345', :salt => '123', :activation_key => '123456', :active => false }.to raise_error
 
-    user = User.new :first_name => '123', :last_name => '123', :password => '12345', :salt => '123', :activation_key => '123456', :active => false
+    user = User.new :nickname => 'nickname', :first_name => '123', :last_name => '123', :password => '12345', :salt => '123', :activation_key => '123456', :active => false
+    user.id = 'a@e'
+    expect { user.save! }.to raise_error
+
     user.id = 'test@mail.com'
+    user.nickname = 'ab'
+    expect { user.save! }.to raise_error
+
+    user.nickname = 'nickname'
     expect { user.save! }.not_to raise_error
   end
 
@@ -92,8 +104,12 @@ describe User do
     expect { User.create! :first_name => '*' * 50, :last_name => '*' * 51, :password => '*' * 30, :salt => '123', :activation_key => '123456', :active => false }.to raise_error
     expect { User.create! :first_name => '*' * 50, :last_name => '*' * 50, :password => '*' * 30, :salt => '123', :activation_key => '123456', :active => false }.to raise_error
 
-    user = User.new :first_name => '*' * 50, :last_name => '*' * 50, :password => '*' * 30, :salt => '123', :activation_key => '123456', :active => false
+    user = User.new :nickname => 'nickname', :first_name => '*' * 50, :last_name => '*' * 50, :password => '*' * 30, :salt => '123', :activation_key => '123456', :active => false
+    user.id = 'a' * 51
+    expect { user.save! }.to raise_error
+
     user.id = 'test@mail.com'
+    user.nickname = 'nickname'
     expect { user.save! }.not_to raise_error
   end
 

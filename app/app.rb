@@ -6,11 +6,20 @@ module Epistoleiro
     enable :sessions
 
     get :index do
-      render :index, :layout => 'public.html'
+      if user_logged_in?
+        render 'user/dashboard'
+      else
+        render :index, :layout => 'public.html'
+      end
     end
 
     get :sign_in do
       render :login, :layout => 'public.html'
+    end
+
+    get :sign_out do
+      session.clear
+      render :index, :layout => 'public.html'
     end
 
     get :sign_up do

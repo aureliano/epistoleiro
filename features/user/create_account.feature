@@ -6,6 +6,7 @@ Feature: Create an account
   Scenario Outline: Unregistred user try to sign up
     Given I am in sign up page
     When I type '<email>' in 'user_email'
+    When I type '<nickname>' in 'user_nickname'
     And I type '<first_name>' in 'user_first_name'
     And I type '<last_name>' in 'user_last_name'
     And I type '<password>' in 'user_password'
@@ -16,16 +17,17 @@ Feature: Create an account
     Then I have to see an alert with '<message_key>'
 
     Examples:
-      |email          |first_name|last_name|password |confirm_passward|home_page          |phone_number|message_key|
-      |test@email.com|Monkey    |User     |Change123|Change12        |http://www.test.com|99587456    |model.user.validation.password_not_equals|
-      |test@email.com|Monkey    |User     |123      |123             |http://www.test.com|99587456    |model.user.validation.password_length|
-      |test@email.com|Monkey    |User     |Change123|Change123       |http://www.test.com|9958745    |model.user.validation.phone_number_length|
+      |email         |nickname|first_name|last_name|password |confirm_passward|home_page          |phone_number|message_key|
+      |test@email.com|dummy   |Monkey    |User     |Change123|Change12        |http://www.test.com|99587456    |model.user.validation.password_not_equals|
+      |test@email.com|dummy   |Monkey    |User     |123      |123             |http://www.test.com|99587456    |model.user.validation.password_length|
+      |test@email.com|dummy   |Monkey    |User     |Change123|Change123       |http://www.test.com|9958745    |model.user.validation.phone_number_length|
 
   Scenario: An user that is already registered try to create an account with same e-mail
     Given there is an active user with e-mail 'monkey_user@mail.com' and password '12345'
     And I am in sign up page
 
     When I type 'monkey_user@mail.com' in 'user_email'
+    And I type 'dummy' in 'user_nickname'
     And I type 'Monkey' in 'user_first_name'
     And I type 'User' in 'user_last_name'
     And I type '12345' in 'user_password'
@@ -38,6 +40,7 @@ Feature: Create an account
   Scenario: Unregistred user creates an account
     Given I am in sign up page
     When I type 'test@email.com' in 'user_email'
+    When I type 'dummy' in 'user_nickname'
     And I type 'Monkey' in 'user_first_name'
     And I type 'User' in 'user_last_name'
     And I type 'Change123' in 'user_password'

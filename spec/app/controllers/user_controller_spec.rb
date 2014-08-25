@@ -108,7 +108,8 @@ describe "UserController" do
 
       post '/user/create_account', params = {
         :user => {
-          :email => user.id, :password => '12345', :confirm_password => '12345', :first_name => 'Monkey', :last_name => 'User',
+          :email => user.id, :nickname => user.nickname, :password => '12345', :confirm_password => '12345',
+          :first_name => 'Monkey', :last_name => 'User',
         }
       }
 
@@ -120,7 +121,7 @@ describe "UserController" do
       post '/user/create_account', params = {
         :user => {
           :password => '12345', :confirm_password => '12345', :first_name => 'Monkey', :last_name => 'User',
-          :email => 'monkey_user@mail.com'
+          :email => 'monkey_user@mail.com', :nickname => 'dummy'
         }
       }
 
@@ -159,6 +160,18 @@ describe "UserController" do
       user = create_user
       post '/user/authentication', params = { :user => { :email => user.id, :password => 'password' } }
       
+      expect(last_response.body).to include "<b>#{user.nickname}</b>"
+      expect(last_response.body).to include "<a href=\"/sign_out\" class=\"btn\">#{I18n.translate 'sign_out'}</a>"
+    end
+
+  end
+
+  describe 'Sign out - clear session' do
+
+    it 'user leaves application' do
+      get '/sign_out'
+
+      expect(last_response.body).to include "<h2>#{ENV['APP_NAME']}</h2>"
       expect(last_response.body).to include "<h3>#{I18n.translate 'view.index.presentation'}</h3>"
     end
 

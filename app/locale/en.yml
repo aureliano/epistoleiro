@@ -2,6 +2,7 @@
 en:
   sign_up: Create an account
   sign_in: Sign in
+  sign_out: Sign out
   go_back: Go back
   http:
     error:
@@ -35,6 +36,7 @@ en:
     user:
       fields:
         _id: e-mail
+        nickname: Nickname
         first_name: First name
         last_name: Last name
         home_page: Home page
@@ -43,6 +45,8 @@ en:
       validation:
         id_required: e-mail is required.
         id_length: e-mail must have at least 5 and at most 50 characters.
+        nickname_required: Nickname is required.
+        nickname_length: Nickname must have at least 3 and at most 50 characters.
         password_not_equals: Provided password and password confirmation are not equal.
         password_length: Password must have at least 5 and at most 30 characters.
         phone_number_length: Phone number must have at least 8 and at most 11 numbers.

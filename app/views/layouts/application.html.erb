@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= I18n.locale %>">
+<head>
+  <title><%= ENV['APP_NAME'] %></title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+  <%= stylesheet_link_tag 'bootstrap.min' %>
+  <%= stylesheet_link_tag 'application' %>
+</head>
+<body>
+  <div name="body-container" class="container">
+    <div class="row">
+      <div class="span8"><h2><%= ENV['APP_NAME'] %></h2></div>
+      <div class="span4">
+        <br/>
+        <a href="">
+          <%= gravatar_image_tag session[:user_id] %>
+          <b><%= session[:user_nickname] %></b>
+        </a>
+        <a href="<%= url :sign_out %>" class="btn"><%= I18n.translate 'sign_out' %></a>
+      </div>
+    </div>
+
+    <hr/>
+
+  	<% if has_system_message? %>
+      <%= show_messages.html_safe %>
+    <% end %>
+
+    <%= yield %>
+  </div>
+  <%= javascript_include_tag 'jquery.min' %>
+  <%= javascript_include_tag 'bootstrap.min' %>
+</body>
+</html>

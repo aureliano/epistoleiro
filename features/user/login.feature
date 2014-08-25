@@ -27,11 +27,11 @@ Feature: Authenticate user access
     And I click on button 'sign_in'
     Then I have to see the error message 'view.login.message.inactive_user'
 
-  Scenario: User log in
+  Scenario: User logs in
     Given there is an active user with e-mail 'user@test.com' and password '12345'
     Given I am in login page
 
     When I type 'user@test.com' in 'user_email'
     And I type '12345' in 'user_password'
     And I click on button 'sign_in'
-    Then I have to see the home page of the user 'Monkey'
+    Then I have to see the dashboard page of the user 'dummy'

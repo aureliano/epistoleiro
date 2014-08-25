@@ -6,10 +6,14 @@
 <hr/>
 
 <div>
-  <% form_tag url(:user, :create_account), :method => :post, :id => 'form_create_account' do %>
+  <% form_tag url(:user, :create_account), :method => :post, :id => 'form_create_account', :onsubmit => "return validateForm();" do %>
     <div class="row">
       <div class="span2"><%= I18n.translate 'model.user.fields._id' %>: *</div>
       <div class="span6"><input type="email" required maxlength="100" id="user_email" name="user[email]" value="<%= params['user']['email'] %>"/></div>
+    </div>
+    <div class="row">
+      <div class="span2"><%= I18n.translate 'model.user.fields.nickname' %>: *</div>
+      <div class="span6"><input type="text" required maxlength="50" id="user_nickname" name="user[nickname]" value="<%= params['user']['nickname'] %>"/></div>
     </div>
     <div class="row">
       <div class="span2"><%= I18n.translate 'model.user.fields.first_name' %>: *</div>
@@ -37,7 +41,7 @@
     </div>
     <div class="row">
       <div class="span2"></div>
-      <div class="span6"><button type="submit" class="btn btn btn-success" onclick="return validateForm();"><%= I18n.translate 'sign_up' %></button></div>
+      <div class="span6"><button type="submit" class="btn btn btn-success"><%= I18n.translate 'sign_up' %></button></div>
     </div>
   <% end %>
 </div>

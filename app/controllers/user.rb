@@ -48,8 +48,11 @@ Epistoleiro::App.controllers :user do
 
   post :authentication do
     if user_authenticated? params[:user][:email], params[:user][:password]
-      if User.find(params[:user][:email]).active == true
-        render :index
+      user = User.find(params[:user][:email])
+      if user.active == true
+        session[:user_id] = user.id
+        session[:user_nickname] = user.nickname
+        render :dashboard
       else
         put_message :message => 'view.login.message.inactive_user', :type => 'e'
         render :login, :layout => 'public.html'
