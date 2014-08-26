@@ -12,11 +12,11 @@
 <body>
   <div name="body-container" class="container">
     <div class="row">
-      <div class="span8"><h2><%= ENV['APP_NAME'] %></h2></div>
-      <div class="span4">
+      <div class="span9"><h2><%= ENV['APP_NAME'] %></h2></div>
+      <div class="span3" align="right">
         <br/>
         <a href="<%= url :user, :profile, :nickname => session[:user_nickname] %>">
-          <%= gravatar_image_tag session[:user_id] %>
+          <%= gravatar_image_tag :email => session[:user_id], :size => 20 %>
           <b><%= session[:user_nickname] %></b>
         </a>
         <a href="<%= url :sign_out %>" class="btn"><%= I18n.translate 'sign_out' %></a>

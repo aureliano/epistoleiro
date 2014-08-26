@@ -22,12 +22,17 @@ module Epistoleiro
         end
       end
 
-      def gravatar_image_tag(email, name=nil)
-        hash = Digest::MD5.hexdigest(email)
-        url = "http://www.gravatar.com/avatar/#{hash}"
-        name ||= ((session[:user_name].nil?) ? email : session[:user_name])
+      def gravatar_image_tag(options)
+        hash = Digest::MD5.hexdigest(options[:email])
+        url = "http://www.gravatar.com/avatar/#{hash}?d=mm"
+        url << "&s=#{options[:size]}" if options[:size]
 
-        "<img alt=\"#{name}\" src=\"#{url}\" heigh=\"20\" width=\"20\"/>".html_safe
+        options[:name] ||= ((session[:user_name].nil?) ? options[:email] : session[:user_name])
+
+        tag = "<img alt=\"#{options[:name]}\" src=\"#{url}\"/>"
+        tag = "<a href=\"#{url.sub /&s=\d+/, '&s=500'}\">#{tag}</a>" if options[:linkable]
+
+        tag.html_safe
       end
 
       def build_user_account_creation_model(hash)
@@ -47,6 +52,7 @@ module Epistoleiro
         user.password = User.generate_password_hash(hash[:password], user.salt)
         user.activation_key = User.generate_activation_key user.password, user.salt
         user.active = false
+        user.feature_permissions = []
 
         user
       end

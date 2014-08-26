@@ -36,6 +36,8 @@ en:
     user_dashboard:
       created_groups: Created groups
       signed_groups: Signed groups
+    user_profile:
+      functionalities: Functionalities permissions
   model:
     user:
       fields:

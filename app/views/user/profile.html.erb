@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="span10">
+    <div class="row">
+      <div class="span2"><%= I18n.translate 'model.user.fields._id' %>:</div>
+      <div class="span8"><%= @user.id %></div>
+    </div>
+
+    <div class="row">
+      <div class="span2"><%= I18n.translate 'model.user.fields.nickname' %>:</div>
+      <div class="span8"><%= @user.nickname %></div>
+    </div>
+    
+    <div class="row">
+      <div class="span2"><%= I18n.translate 'model.user.fields.first_name' %>:</div>
+      <div class="span8"><%= @user.first_name %></div>
+    </div>
+    
+    <div class="row">
+      <div class="span2"><%= I18n.translate 'model.user.fields.last_name' %>:</div>
+      <div class="span8"><%= @user.last_name %></div>
+    </div>
+    
+    <div class="row">
+      <div class="span2"><%= I18n.translate 'model.user.fields.home_page' %>:</div>
+      <div class="span8"><a href="<%= @user.home_page %>"><%= @user.home_page %></a></div>
+    </div>
+    
+    <div class="row">
+      <div class="span2"><%= I18n.translate 'model.user.fields.phones' %>:</div>
+      <div class="span8"><%= @user.phones.first %></div>
+    </div>
+  </div>
+
+  <div class="span2">
+    <%= gravatar_image_tag :email => session[:user_id], :size => 140, :linkable => true %>
+  </div>
+</div>
+
+<hr/>
+
+<h4><%= I18n.translate 'view.user_profile.functionalities' %></h4>
+
+<table id="table_functionalities">
+  <% @user.feature_permissions.each do |f| %>
+    <tr><td><%= f %></td></tr>
+  <% end %>
+</table>

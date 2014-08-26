@@ -68,6 +68,12 @@ Epistoleiro::App.controllers :user do
   end
 
   get :profile, :map => '/user/:nickname' do
+    @user = User.where(:nickname => params[:nickname]).first
+    if @user.nil?
+      render 'errors/404'
+      return
+    end
+    
     render 'user/profile'
   end
 
