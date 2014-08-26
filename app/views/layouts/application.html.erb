@@ -12,14 +12,21 @@
 <body>
   <div name="body-container" class="container">
     <div class="row">
-      <div class="span9"><h2><%= ENV['APP_NAME'] %></h2></div>
-      <div class="span3" align="right">
+      <div class="span10"><h2><%= ENV['APP_NAME'] %></h2></div>
+      <div class="span2">
         <br/>
-        <a href="<%= url :user, :profile, :nickname => session[:user_nickname] %>">
-          <%= gravatar_image_tag :email => session[:user_id], :size => 20 %>
-          <b><%= session[:user_nickname] %></b>
-        </a>
-        <a href="<%= url :sign_out %>" class="btn"><%= I18n.translate 'sign_out' %></a>
+        <div class="btn-group">
+          <button class="btn btn-large dropdown-toggle" data-toggle="dropdown" href="#">
+            <%= session[:user_nickname] %>
+            <%= gravatar_image_tag :email => session[:user_id], :size => 20 %>
+        
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="<%= url :user, :profile, :nickname => session[:user_nickname] %>"><i class="icon-user"></i> <%= I18n.translate 'profile' %></a></li>
+            <li><a href="<%= url :sign_out %>"><i class="icon-off"></i> <%= I18n.translate 'sign_out' %></a></li>
+          </ul>
+        </div>
       </div>
     </div>
 

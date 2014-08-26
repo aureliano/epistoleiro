@@ -4,6 +4,7 @@ en:
   sign_in: Sign in
   sign_out: Sign out
   go_back: Go back
+  profile: Profile
   http:
     error:
       '404':
