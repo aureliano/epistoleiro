@@ -66,6 +66,22 @@ en:
         first_name_length: First name must have at least 3 and at most 50 characters.
         last_name_length: Last name must have at least 3 and at most 50 characters.
         home_page_length: Home page must have at least 15 and at most 100 characters.
+  features:
+    watcher:
+      label: Watcher
+      description: Can only ask for admission to groups and follow group events.
+    user_manage_status:
+      label: Manage user status
+      description: Enable or disable a user account.
+    user_create_account:
+      label: Create user account
+      description: Create user account.
+    user_delete_account:
+      label: Delete user account
+      description: Delete accounts of other users.
+    user_manage_permissions:
+      label: Manage user permissions
+      description: Grant or revoke user permissions.
   mongoid:
     errors:
       format: "%{attribute} %{message}"

@@ -1,4 +1,8 @@
-user = User.new :nickname => 'chuck-norris', :first_name => 'Chuck', :last_name => 'Norris', :active => true
+user = User.where(:nickname => 'chuck-norris').first
+if user.nil?
+  user = User.new :nickname => 'chuck-norris', :first_name => 'Chuck',
+    :last_name => 'Norris', :active => true, :home_page => 'http://en.wikipedia.org/wiki/Chuck_norris'
+end
 
 user.id = 'fake.email@test.com'
 user.salt = User.generate_salt
