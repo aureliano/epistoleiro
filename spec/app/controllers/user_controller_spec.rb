@@ -108,8 +108,8 @@ describe "UserController" do
 
       post '/user/create_account', params = {
         :user => {
-          :email => user.id, :nickname => user.nickname, :password => '12345', :confirm_password => '12345',
-          :first_name => 'Monkey', :last_name => 'User',
+          :email => user.id, :nickname => 'anything', :password => '12345', :confirm_password => '12345',
+          :first_name => 'Monkey', :last_name => 'User'
         }
       }
 
@@ -117,11 +117,25 @@ describe "UserController" do
       expect(last_response.body).to include I18n.translate('view.sign_up.message.user_already_registered')
     end
 
+    it 'validates account creation to a user that does not exist although provided a nickname already in use' do
+      user = create_user
+
+      post '/user/create_account', params = {
+        :user => {
+          :email => 'mail@test.com', :nickname => user.nickname, :password => '12345', :confirm_password => '12345',
+          :first_name => 'Monkey', :last_name => 'User'
+        }
+      }
+
+      expect(last_response.body).to include '<div class="alert alert-danger alert-dismissable">'
+      expect(last_response.body).to include I18n.translate('view.sign_up.message.nickname_already_in_use').rstrip
+    end
+
     it 'creates an account' do
       post '/user/create_account', params = {
         :user => {
           :password => '12345', :confirm_password => '12345', :first_name => 'Monkey', :last_name => 'User',
-          :email => 'monkey_user@mail.com', :nickname => 'dummy'
+          :email => 'monkey_user@mail.com', :nickname => 'gross'
         }
       }
 

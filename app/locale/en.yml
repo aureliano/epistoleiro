@@ -22,6 +22,7 @@ en:
       message:
         success: Your account was created successfully. An e-mail was sent to %{email}. Check your mail box and follow instructions to activate your account.
         user_already_registered: There is already a user registered with this e-mail.
+        nickname_already_in_use: There is already a user registered with this nickname.
     activation:
       message:
         success: Your account has just been activated. Log in to get access.
@@ -32,6 +33,9 @@ en:
       message:
         authentication_error: There is no such account with this e-mail or password.
         inactive_user: You have not activated your account yet. It is necessary to active your account before you sign in.
+    user_dashboard:
+      created_groups: Created groups
+      signed_groups: Signed groups
   model:
     user:
       fields:
