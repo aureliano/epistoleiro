@@ -10,6 +10,11 @@ Given /^I am in login page$/ do
   visit url :sign_in
 end
 
+When /^I sign_out$/ do
+  page.find(:xpath, '//div[@id="user_menu"]/button').click
+  click_on 'sign_out'
+end
+
 Then /^I have to see the home page$/ do
   page.should have_text ENV['APP_NAME']
   page.should have_text I18n.translate('view.index.presentation')
@@ -24,5 +29,6 @@ end
 
 Then /^I have to see the dashboard page of the user '([^']+)'$/ do |nickname|
   page.should have_text nickname
-  page.should have_link I18n.translate('sign_out')
+  page.should have_text I18n.translate 'view.user_dashboard.created_groups'
+  page.should have_text I18n.translate 'view.user_dashboard.signed_groups'
 end
