@@ -8,6 +8,6 @@ user.id = 'fake.email@test.com'
 user.salt = User.generate_salt
 user.password = User.generate_password_hash('chuck-norris', user.salt)
 user.activation_key = User.generate_activation_key user.password, user.salt
-user.feature_permissions = Features.constants
+user.feature_permissions = Features.constants.map {|permission| permission.to_s }
 
 user.save!
