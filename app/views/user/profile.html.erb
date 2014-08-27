@@ -38,7 +38,7 @@
 
 <hr/>
 
-<% if @user.has_permission? Features::USER_MANAGE_PERMISSIONS %>
+<% if @signed_user.has_permission? Features::USER_MANAGE_PERMISSIONS %>
 <h4><%= I18n.translate 'view.user_profile.functionalities' %></h4>
 
 <% unless @user.feature_permissions.nil? %>

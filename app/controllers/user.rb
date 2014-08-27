@@ -68,7 +68,9 @@ Epistoleiro::App.controllers :user do
   end
 
   get :profile, :map => '/user/:nickname' do
+    @signed_user = User.where(:id => session[:user_id]).only(:feature_permissions).first
     @user = User.where(:nickname => params[:nickname]).first
+    
     if @user.nil?
       render 'errors/404'
       return
