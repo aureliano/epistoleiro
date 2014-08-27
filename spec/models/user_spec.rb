@@ -15,6 +15,7 @@ describe User do
     expect(user).to respond_to :active
     expect(user).to respond_to :salt
     expect(user).to respond_to :feature_permissions
+    expect(user).to respond_to 'has_permission?'
   end
 
   it 'validates write access for all instance variables' do
@@ -111,6 +112,25 @@ describe User do
     user.id = 'test@mail.com'
     user.nickname = 'nickname'
     expect { user.save! }.not_to raise_error
+  end
+
+  it 'check user permissions' do
+    user = create_user
+    expect(user.has_permission? Features::WATCHER).to be true
+
+    user.feature_permissions.clear
+    expect(user.has_permission? Features::WATCHER).to be false
+
+    user.feature_permissions << Features::WATCHER
+    expect(user.has_permission? Features::WATCHER).to be true
+
+    user.feature_permissions << Features::USER_MANAGE_STATUS
+    expect(user.has_permission? Features::WATCHER).to be true
+    expect(user.has_permission? Features::USER_MANAGE_STATUS).to be true
+    expect(user.has_permission? Features::USER_MANAGE_PERMISSIONS).to be false
+
+    user.feature_permissions << Features::USER_MANAGE_PERMISSIONS
+    expect(user.has_permission? Features::USER_MANAGE_PERMISSIONS).to be true
   end
 
 end

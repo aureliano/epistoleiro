@@ -29,6 +29,10 @@ class User
   validates_length_of :last_name, :minimum => 3, :maximum => 50, :message => I18n.translate('model.user.validation.last_name_length')
   validates_length_of :home_page, :allow_blank => true, :minimum => 15, :maximum => 100, :message => I18n.translate('model.user.validation.home_page_length')
   
+  def has_permission?(permission)
+    ((!self.feature_permissions.nil?) && (self.feature_permissions.include? permission))
+  end
+
   def self.generate_password_hash(pass, salt)
     hash = ''
     for i in 1..User.password_hash_iteration_size do

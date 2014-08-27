@@ -38,8 +38,10 @@
 
 <hr/>
 
+<% if @user.has_permission? Features::USER_MANAGE_PERMISSIONS %>
 <h4><%= I18n.translate 'view.user_profile.functionalities' %></h4>
 
+<% unless @user.feature_permissions.nil? %>
 <ul>
   <% @user.feature_permissions.each do |f| %>
     <li>
@@ -47,3 +49,5 @@
     </li>
   <% end %>
 </ul>
+<% end %>
+<% end %>

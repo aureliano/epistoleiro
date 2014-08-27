@@ -52,7 +52,7 @@ module Epistoleiro
         user.password = User.generate_password_hash(hash[:password], user.salt)
         user.activation_key = User.generate_activation_key user.password, user.salt
         user.active = false
-        user.feature_permissions = []
+        user.feature_permissions = [Features::WATCHER]
 
         user
       end
