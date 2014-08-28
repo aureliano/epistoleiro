@@ -8,35 +8,35 @@
 <div>
   <% form_tag url(:user, :create_account), :method => :post, :id => 'form_create_account', :onsubmit => "return validateForm();" do %>
     <div class="row">
-      <div class="span2"><%= I18n.translate 'model.user.fields._id' %>: *</div>
+      <div class="span2"><label for="user_email"><%= I18n.translate 'model.user.fields._id' %>: *</label></div>
       <div class="span6"><input type="email" required maxlength="100" id="user_email" name="user[email]" value="<%= params['user']['email'] %>"/></div>
     </div>
     <div class="row">
-      <div class="span2"><%= I18n.translate 'model.user.fields.nickname' %>: *</div>
+      <div class="span2"><label for="user_nickname"><%= I18n.translate 'model.user.fields.nickname' %>: *</label></div>
       <div class="span6"><input type="text" required maxlength="50" id="user_nickname" name="user[nickname]" value="<%= params['user']['nickname'] %>"/></div>
     </div>
     <div class="row">
-      <div class="span2"><%= I18n.translate 'model.user.fields.first_name' %>: *</div>
+      <div class="span2"><label for="user_first_name"><%= I18n.translate 'model.user.fields.first_name' %>: *</label></div>
       <div class="span6"><input type="text" required maxlength="50" id="user_first_name" name="user[first_name]" value="<%= params['user']['first_name'] %>"/></div>
     </div>
     <div class="row">
-      <div class="span2"><%= I18n.translate 'model.user.fields.last_name' %>: *</div>
+      <div class="span2"><label for="user_last_name"><%= I18n.translate 'model.user.fields.last_name' %>: *</label></div>
       <div class="span6"><input type="text" required maxlength="50" id="user_last_name" name="user[last_name]" value="<%= params['user']['last_name'] %>"/></div>
     </div>
     <div class="row">
-      <div class="span2"><%= I18n.translate 'model.user.fields.password' %>: *</div>
+      <div class="span2"><label for="user_password"><%= I18n.translate 'model.user.fields.password' %>: *</label></div>
       <div class="span6"><input type="password" required maxlength="30" id="user_password" name="user[password]" value=""/></div>
     </div>
     <div class="row">
-      <div class="span2"><%= I18n.translate 'view.sign_up.confirm_password' %>: *</div>
+      <div class="span2"><label for="user_confirm_password"><%= I18n.translate 'view.sign_up.confirm_password' %>: *</label></div>
       <div class="span6"><input type="password" name="user[confirm_password]" id="user_confirm_password" value="" required maxlength="30"/></div>
     </div>
     <div class="row">
-      <div class="span2"><%= I18n.translate 'model.user.fields.home_page' %>:</div>
+      <div class="span2"><label for="user_home_page"><%= I18n.translate 'model.user.fields.home_page' %>:</label></div>
       <div class="span6"><input type="url" maxlength="100" id="user_home_page" name="user[home_page]" value="<%= params['user']['home_page'] %>"/></div>
     </div>
     <div class="row">
-      <div class="span2"><%= I18n.translate 'model.user.fields.phones' %>:</div>
+      <div class="span2"><label for="user_phone_number"><%= I18n.translate 'model.user.fields.phones' %>:</label></div>
       <div class="span6"><input type="number" min="1" max="99999999999" id="user_phone_number" name="user[phone_number]" value="<%= params['user']['phone_number'] %>"/></div>
     </div>
     <div class="row">
