@@ -102,6 +102,7 @@ Epistoleiro::App.controllers :user do
     else
       raw_password = @user.reset_password
       @user.save!
+      raise 'Sending e-mail is not implemented yet' if RACK_ENV == 'production'
       put_message :message => 'view.forgot_password.message.password_reseted', :type => 'i'
     end
 
