@@ -33,10 +33,10 @@ Epistoleiro::App.controllers :user do
     end
   end
 
-  get :activation, :map => '/user/activation/:email/:activation_key' do
-    @user = User.where(:id => params[:email]).first
+  get :activation, :map => '/user/activation/:nickname/:activation_key' do
+    @user = User.where(:nickname => params[:nickname]).first
     if @user.nil?
-      put_message :message => 'view.activation.message.user_does_not_exist', :params => { '%{email}' => params[:email] }, :type => 'e'
+      put_message :message => 'view.activation.message.user_does_not_exist', :params => { '%{nickname}' => params[:nickname] }, :type => 'e'
     elsif @user.activation_key != params[:activation_key]
       put_message :message => 'view.activation.message.wrong_activation_key', :type => 'e'
       @user = nil

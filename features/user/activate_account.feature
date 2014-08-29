@@ -4,8 +4,8 @@ Feature: Activate an account
   I want to active my account
 
   Scenario: An unregistred user tries to activate an account
-  	When I go to activation page for e-mail 'user@test.com' and activation key '5daf87sdf45sd1xcv'
-  	Then I have to see a message telling that there is no user with e-mail 'user@test.com'
+  	When I go to activation page for nickname 'bastard' and activation key '5daf87sdf45sd1xcv'
+  	Then I have to see a message telling that there is no user with nickname 'bastard'
   	And I have to see the login page
     And text field 'user_email' should have value ''
 
