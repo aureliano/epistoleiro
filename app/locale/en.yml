@@ -5,6 +5,8 @@ en:
   sign_out: Sign out
   go_back: Go back
   profile: Profile
+  forgot_password: Have you forgotten your password?
+  send: Send
   http:
     error:
       '404':
@@ -39,6 +41,10 @@ en:
       signed_groups: Signed groups
     user_profile:
       functionalities: Functionalities permissions
+    forgot_password:
+      message:
+        user_does_not_exist: No such user registered with e-mail %{email}.
+        notify_password_change: An e-mail was sent to %{email} and you have to confirm password modification. Please check your mailbox and follow instructions.
   model:
     user:
       fields:

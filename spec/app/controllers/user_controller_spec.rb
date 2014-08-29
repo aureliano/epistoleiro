@@ -193,4 +193,24 @@ describe "UserController" do
 
   end
 
+  describe 'Password recovery requirement' do
+
+    it 'user asks password recovery providing an inexisting e-mail address' do
+      fake_email = 'fake-email@mail.com'
+      post '/user/notify_password_change', params = { :user => { :email => fake_email } }
+
+      expect(last_response.body).to include '<div class="alert alert-danger alert-dismissable">'
+      expect(last_response.body).to include I18n.translate('view.forgot_password.message.user_does_not_exist').sub('%{email}', fake_email)
+    end
+
+    it 'user asks password recovery' do
+      user = create_user
+      post '/user/notify_password_change', params = { :user => { :email => user.id } }
+
+      expect(last_response.body).to include '<div class="alert alert-info alert-dismissable">'
+      expect(last_response.body).to include I18n.translate('view.forgot_password.message.notify_password_change').sub('%{email}', user.id)
+    end
+
+  end
+
 end

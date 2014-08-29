@@ -79,4 +79,15 @@ Epistoleiro::App.controllers :user do
     render 'user/profile'
   end
 
+  post :notify_password_change do
+    @user = User.where(:id => params[:user][:email]).first
+    if @user.nil?
+      put_message :message => 'view.forgot_password.message.user_does_not_exist', :params => { '%{email}' => params[:user][:email] }, :type => 'e'
+    else
+      put_message :message => 'view.forgot_password.message.notify_password_change', :params => { '%{email}' => params[:user][:email] }, :type => 'i'
+    end
+
+    render :login, :layout => 'public.html'
+  end
+
 end

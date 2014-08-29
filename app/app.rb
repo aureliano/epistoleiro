@@ -27,8 +27,12 @@ module Epistoleiro
       render :signup, :layout => 'public.html'
     end
 
+    get :forgot_password do
+      render 'user/forgot_password', :layout => 'public.html'
+    end
+
     error 404 do
-      render 'errors/404'
+      render 'errors/404', :layout => false
     end
   end
 end

@@ -4,6 +4,6 @@ Given /^I am in sign up page$/ do
 end
 
 Then /^I have to see the account creation success message '([^']+)' to '([^']+)'$/ do |message_key, email|
-  message = I18n.translate('view.sign_up.message.success').sub '%{email}', email
+  message = I18n.translate(message_key).sub '%{email}', email
   step "I have to see the success message '#{message}'"
 end
