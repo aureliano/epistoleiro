@@ -28,6 +28,7 @@ Epistoleiro::App.controllers :user do
       end
     else
       put_message :message => @messages.join('<br/>'), :type => 'w'
+      raise 'Sending e-mail is not implemented yet' if RACK_ENV == 'production'
       render :signup, :layout => 'public.html'
     end
   end
