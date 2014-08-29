@@ -63,7 +63,7 @@ en:
         id_required: e-mail is required.
         id_length: e-mail must have at least 5 and at most 50 characters.
         nickname_required: Nickname is required.
-        nickname_length: Nickname must have at least 3 and at most 50 characters.
+        nickname_length: Nickname must have at least 3 and at most 15 characters.
         password_not_equals: Provided password and password confirmation are not equal.
         password_length: Password must have at least 5 and at most 30 characters.
         phone_number_length: Phone number must have at least 8 and at most 11 numbers.

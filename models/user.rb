@@ -24,7 +24,7 @@ class User
   validates_presence_of :active, :message => I18n.translate('model.user.validation.active_required')
 
   validates_length_of :id, :minimum => 5, :maximum => 50, :message => I18n.translate('model.user.validation.id_length')
-  validates_length_of :nickname, :minimum => 3, :maximum => 50, :message => I18n.translate('model.user.validation.nickname_length')
+  validates_length_of :nickname, :minimum => 3, :maximum => 15, :message => I18n.translate('model.user.validation.nickname_length')
   validates_length_of :first_name, :minimum => 3, :maximum => 50, :message => I18n.translate('model.user.validation.first_name_length')
   validates_length_of :last_name, :minimum => 3, :maximum => 50, :message => I18n.translate('model.user.validation.last_name_length')
   validates_length_of :home_page, :allow_blank => true, :minimum => 15, :maximum => 100, :message => I18n.translate('model.user.validation.home_page_length')
