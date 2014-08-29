@@ -193,9 +193,9 @@ describe "UserController" do
 
   end
 
-  describe 'Password recovery requirement' do
+  describe 'Password reset requirement' do
 
-    it 'user asks password recovery providing an inexisting e-mail address' do
+    it 'user asks password reset providing an inexisting e-mail address' do
       fake_email = 'fake-email@mail.com'
       post '/user/notify_password_change', params = { :user => { :email => fake_email } }
 
@@ -203,12 +203,49 @@ describe "UserController" do
       expect(last_response.body).to include I18n.translate('view.forgot_password.message.user_does_not_exist').sub('%{email}', fake_email)
     end
 
-    it 'user asks password recovery' do
+    it 'user asks password reset' do
       user = create_user
       post '/user/notify_password_change', params = { :user => { :email => user.id } }
 
       expect(last_response.body).to include '<div class="alert alert-info alert-dismissable">'
       expect(last_response.body).to include I18n.translate('view.forgot_password.message.notify_password_change').sub('%{email}', user.id)
+    end
+
+  end
+
+  describe 'Password reset' do
+
+    it 'validates password reset when a wrong nickname is provided' do
+      user = create_user
+      fake_nickname = 'wrong-nick-name'
+      get "/user/#{fake_nickname}/reset-password/#{user.activation_key}"
+
+      expect(last_response.body).to include '<div class="alert alert-danger alert-dismissable">'
+      expect(last_response.body).to include I18n.translate('view.forgot_password.message.invalid_nick_name').sub('%{nickname}', fake_nickname)
+    end
+
+    it 'validates password reset when a wrong activation key is provided' do
+      user = create_user
+      get "/user/#{user.nickname}/reset-password/4578dfasdfasd12123xcv54xcv"
+
+      expect(last_response.body).to include '<div class="alert alert-danger alert-dismissable">'
+      expect(last_response.body).to include I18n.translate('view.forgot_password.message.wrong_activation_key')
+    end
+
+    it 'validates password reset when user has not actived its account yet' do
+      user = create_user false
+      get "/user/#{user.nickname}/reset-password/#{user.activation_key}"
+
+      expect(last_response.body).to include '<div class="alert alert-danger alert-dismissable">'
+      expect(last_response.body).to include I18n.translate('view.forgot_password.message.inactive_user')
+    end
+
+    it 'user resets its password' do
+      user = create_user
+      get "/user/#{user.nickname}/reset-password/#{user.activation_key}"
+
+      expect(last_response.body).to include '<div class="alert alert-info alert-dismissable">'
+      expect(last_response.body).to include I18n.translate('view.forgot_password.message.password_reseted')
     end
 
   end

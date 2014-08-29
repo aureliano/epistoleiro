@@ -90,4 +90,21 @@ Epistoleiro::App.controllers :user do
     render :login, :layout => 'public.html'
   end
 
+  get :reset_password, :map => '/user/:nickname/reset-password/:activation_key' do
+    @user = User.where(:nickname => params[:nickname]).first
+    if @user.nil?
+      put_message :message => 'view.forgot_password.message.invalid_nick_name', :params => { '%{nickname}' => params[:nickname] }, :type => 'e'
+    elsif @user.activation_key != params[:activation_key]
+      put_message :message => 'view.forgot_password.message.wrong_activation_key', :type => 'e'
+    elsif @user.active == false
+      put_message :message => 'view.forgot_password.message.inactive_user', :type => 'e'
+    else
+      raw_password = @user.reset_password
+      @user.save!
+      put_message :message => 'view.forgot_password.message.password_reseted', :type => 'i'
+    end
+
+    render :login, :layout => 'public.html'
+  end
+
 end

@@ -33,6 +33,20 @@ class User
     ((!self.feature_permissions.nil?) && (self.feature_permissions.include? permission))
   end
 
+  def reset_password
+    new_pass = ''
+    while new_pass.size < 5 do
+      new_pass += User.generate_salt
+    end
+    salt = User.generate_salt
+
+    self.salt = salt
+    self.password = User.generate_password_hash new_pass, salt
+    self.activation_key = User.generate_activation_key self.password, self.salt
+
+    new_pass
+  end
+
   def self.generate_password_hash(pass, salt)
     hash = ''
     for i in 1..User.password_hash_iteration_size do

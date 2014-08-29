@@ -114,7 +114,7 @@ describe User do
     expect { user.save! }.not_to raise_error
   end
 
-  it 'check user permissions' do
+  it 'checks user permissions' do
     user = create_user
     expect(user.has_permission? Features::WATCHER).to be true
 
@@ -131,6 +131,22 @@ describe User do
 
     user.feature_permissions << Features::USER_MANAGE_PERMISSIONS
     expect(user.has_permission? Features::USER_MANAGE_PERMISSIONS).to be true
+  end
+
+  it 'resets password' do
+    user = create_user
+    pass = user.password.dup
+    salt = user.salt.dup
+    activation_key = user.activation_key.dup
+
+    expect(user.password).to eq pass
+    expect(user.salt).to eq salt
+    expect(user.activation_key).to eq activation_key
+
+    user.reset_password
+    expect(user.password).not_to eq pass
+    expect(user.salt).not_to eq salt
+    expect(user.activation_key).not_to eq activation_key
   end
 
 end

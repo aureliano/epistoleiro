@@ -18,6 +18,7 @@ module Epistoleiro
         unless user_logged_in?
           relative_url = request.url.sub /https?:\/\/[^\/]+:?\d*/, ''
           return if relative_url.start_with? '/user/activation/'
+          return if relative_url.start_with?('/user/') && relative_url.include?('reset-password')
           redirect url(:sign_in) unless white_list.include? relative_url
         end
       end
