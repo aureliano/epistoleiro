@@ -15,12 +15,7 @@ module Epistoleiro
       end
 
       def validate_user_access
-        unless user_logged_in?
-          relative_url = request.url.sub /https?:\/\/[^\/]+:?\d*/, ''
-          return if relative_url.start_with? '/user/activation/'
-          return if relative_url.start_with?('/user/') && relative_url.include?('reset-password')
-          redirect url(:sign_in)
-        end
+        redirect url(:sign_in) unless user_logged_in?
       end
 
       def gravatar_image_tag(options)
