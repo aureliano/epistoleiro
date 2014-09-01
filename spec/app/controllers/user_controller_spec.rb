@@ -174,7 +174,7 @@ describe "UserController" do
       get "/user/activation/#{user.nickname}/#{user.activation_key}"
 
       expect(last_response.body).to include '<div class="alert alert-success alert-dismissable">'
-      expect(last_response.body).to include I18n.translate('view.activation.message.')
+      expect(last_response.body).to include I18n.translate('view.activation.message.success')
     end
 
   end
