@@ -94,7 +94,7 @@ Epistoleiro::App.controllers :user do
   get :reset_password, :map => '/user/:nickname/reset-password/:activation_key' do
     @user = User.where(:nickname => params[:nickname]).first
     if @user.nil?
-      put_message :message => 'view.forgot_password.message.invalid_nick_name', :params => { '%{nickname}' => params[:nickname] }, :type => 'e'
+      put_message :message => 'view.forgot_password.message.invalid_nickname', :params => { '%{nickname}' => params[:nickname] }, :type => 'e'
     elsif @user.activation_key != params[:activation_key]
       put_message :message => 'view.forgot_password.message.wrong_activation_key', :type => 'e'
     elsif @user.active == false

@@ -45,7 +45,7 @@ en:
       message:
         user_does_not_exist: No such user registered with e-mail %{email}.
         notify_password_change: An e-mail was sent to %{email} and you have to confirm password modification. Please check your mailbox and follow instructions.
-        invalid_nick_name: There is no such user %{nickname} registered.
+        invalid_nickname: There is no such user %{nickname} registered.
         wrong_activation_key: You have provided an invalid key.
         inactive_user: You have not activated your account yet. It is necessary to active your account before you change your password.
         password_reseted: Your password has just been reseted. Check your mailbox in order to get your new password.

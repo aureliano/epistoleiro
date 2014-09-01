@@ -256,7 +256,7 @@ describe "UserController" do
       get "/user/#{fake_nickname}/reset-password/#{user.activation_key}"
 
       expect(last_response.body).to include '<div class="alert alert-danger alert-dismissable">'
-      expect(last_response.body).to include I18n.translate('view.forgot_password.message.invalid_nick_name').sub('%{nickname}', fake_nickname)
+      expect(last_response.body).to include I18n.translate('view.forgot_password.message.invalid_nickname').sub('%{nickname}', fake_nickname)
     end
 
     it 'validates password reset when a wrong activation key is provided' do
