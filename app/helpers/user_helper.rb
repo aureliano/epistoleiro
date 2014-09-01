@@ -19,7 +19,7 @@ module Epistoleiro
           relative_url = request.url.sub /https?:\/\/[^\/]+:?\d*/, ''
           return if relative_url.start_with? '/user/activation/'
           return if relative_url.start_with?('/user/') && relative_url.include?('reset-password')
-          redirect url(:sign_in) unless white_list.include? relative_url
+          redirect url(:sign_in)
         end
       end
 
@@ -67,17 +67,6 @@ module Epistoleiro
         messages << 'model.user.validation.home_page_length' if !hash[:home_page].to_s.empty? && (hash[:home_page].size < 15 || hash[:home_page].size > 100)
 
         messages
-      end
-
-      def white_list
-        [
-          url(:index),
-          url(:sign_in),
-          url(:authentication, :create_account),
-          url(:authentication, :sign_in),
-          url(:forgot_password),
-          url(:authentication, :notify_password_change)
-        ]
       end
 
     end
