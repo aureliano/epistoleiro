@@ -11,7 +11,7 @@ en:
     error:
       '404':
         title: 404 - Page not found
-        message: Chuck Norris said that page you're looking for does not exist. If he says so you must believe!
+        message: Chuck Norris said that page you are looking for does not exist. If he says so you must believe!
   view:
     message_type:
       info: Information

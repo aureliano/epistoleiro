@@ -6,7 +6,7 @@
 <hr/>
 
 <div>
-  <% form_tag url(:user, :create_account), :method => :post, :id => 'form_create_account', :onsubmit => "return validateForm();" do %>
+  <% form_tag url(:authentication, :create_account), :method => :post, :id => 'form_create_account', :onsubmit => "return validateForm();" do %>
     <div class="row">
       <div class="span2"><label for="user_email"><%= I18n.translate 'model.user.fields._id' %>: *</label></div>
       <div class="span6"><input type="email" required maxlength="100" id="user_email" name="user[email]" value="<%= params['user']['email'] %>"/></div>

@@ -73,10 +73,10 @@ module Epistoleiro
         [
           url(:index),
           url(:sign_in),
-          url(:user, :create_account),
-          url(:user, :authentication),
+          url(:authentication, :create_account),
+          url(:authentication, :sign_in),
           url(:forgot_password),
-          url(:user, :notify_password_change)
+          url(:authentication, :notify_password_change)
         ]
       end
 
