@@ -128,7 +128,7 @@ describe "UserController" do
       }
 
       expect(last_response.body).to include '<div class="alert alert-danger alert-dismissable">'
-      expect(last_response.body).to include I18n.translate('view.sign_up.message.nickname_already_in_use').rstrip
+      expect(last_response.body).to include I18n.translate('view.sign_up.message.nickname_already_in_use')
     end
 
     it 'creates an account' do
@@ -140,6 +140,41 @@ describe "UserController" do
       }
 
       expect(last_response.body).to eq ''
+    end
+
+  end
+
+  describe 'User account activation' do
+
+    it 'validates account activation when an unregistred nickname is provided' do
+      get "/user/activation/bastard/4654798asdf2134"
+
+      expect(last_response.body).to include '<div class="alert alert-danger alert-dismissable">'
+      expect(last_response.body).to include I18n.translate('view.activation.message.user_does_not_exist').sub('%{nickname}', 'bastard')
+    end
+
+    it 'validates account activation when a wrong activation key is provided' do
+      user = create_user false
+      get "/user/activation/#{user.nickname}/46879sad7f9as8d7f"
+
+      expect(last_response.body).to include '<div class="alert alert-danger alert-dismissable">'
+      expect(last_response.body).to include I18n.translate('view.activation.message.wrong_activation_key')
+    end
+
+    it 'validates account activation when an already active user asks for activation' do
+      user = create_user true
+      get "/user/activation/#{user.nickname}/#{user.activation_key}"
+
+      expect(last_response.body).to include '<div class="alert alert-warning alert-dismissable">'
+      expect(last_response.body).to include I18n.translate('view.activation.message.user_already_active')
+    end
+
+    it 'activates a user account' do
+      user = create_user false
+      get "/user/activation/#{user.nickname}/#{user.activation_key}"
+
+      expect(last_response.body).to include '<div class="alert alert-success alert-dismissable">'
+      expect(last_response.body).to include I18n.translate('view.activation.message.')
     end
 
   end
