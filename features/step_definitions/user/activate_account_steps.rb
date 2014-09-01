@@ -1,5 +1,9 @@
 Given /^there is an inactive user with nickname '([^']+)' and activation key '([^']+)'$/ do |nickname, activation_key|
-  save_user_dummy :id => nickname, :activation_key => activation_key, :active => false
+  step "there is an inactive user with nickname '#{nickname}', e-mail 'user@test.com' and activation key '#{activation_key}'"
+end
+
+Given /^there is an inactive user with nickname '([^']+)', e-mail '([^']+)' and activation key '([^']+)'$/ do |nickname, email, activation_key|
+  save_user_dummy :id => email, :nickname => nickname, :activation_key => activation_key, :active => false
 end
 
 Given /^the user '([^']+)' is active$/ do |email|
