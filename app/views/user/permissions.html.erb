@@ -1,0 +1,27 @@
+<h4><%= I18n.translate 'view.permissions.permissions' %></h4>
+
+<% form_tag url(:user, :update_permissions, :nickname => @user.nickname), :method => 'post', :id => 'form_update_permissions' do %>
+  <input type="hidden" value="<%= @user.nickname %>" id="user_nickname" name="user[nickname]"/>
+  <% Features.constants.each do |feature| %>
+  <div class="row">
+    <div class="span1">
+      <input type="checkbox" value="<%= feature %>" <%= 'checked' if @user.has_permission?(feature) %> name="user[features[<%= feature %>]]"/>
+    </div>
+    <div class="span3">
+      <%= I18n.translate "features.#{feature.downcase}.label" %>
+    </div>
+    <div class="span8">
+      <%= I18n.translate "features.#{feature.downcase}.description" %>
+    </div>
+  </div>
+  <% end %>
+
+  <br/>
+
+  <div class="row">
+    <div class="span2">
+      <button type="submit" class="btn btn-success"><%= I18n.translate 'save' %></button>
+      <a href="<%= url :user, :profile, :nickname => @user.nickname %>" class="btn"><%= I18n.translate 'cancel' %></a>
+    </div>
+  </div>
+<% end %>
