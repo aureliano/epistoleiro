@@ -30,7 +30,7 @@ class User
   validates_length_of :home_page, :allow_blank => true, :minimum => 15, :maximum => 100, :message => I18n.translate('model.user.validation.home_page_length')
   
   def has_permission?(permission)
-    ((!self.feature_permissions.nil?) && (self.feature_permissions.include? permission))
+    ((!self.feature_permissions.nil?) && (self.feature_permissions.include? permission.to_s))
   end
 
   def reset_password

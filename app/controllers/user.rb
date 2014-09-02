@@ -11,5 +11,20 @@ Epistoleiro::App.controllers :user do
     return render('errors/404', :layout => false) if @user.nil?    
     render 'user/profile'
   end
+  
+  get :edit_permissions, :map => '/user/:nickname/permissions' do
+    @user = User.where(:nickname => params[:nickname]).only(:nickname, :feature_permissions).first
+    render 'user/permissions'
+  end
+  
+  post :update_permissions do
+    @user = User.where(:nickname => params[:user][:nickname]).first
+    redirect url :index if @user.nil?
+
+    @user.feature_permissions = params[:user][:features].values
+    @user.save!
+    
+    redirect url :user, :profile, :nickname => params[:user][:nickname]
+  end
 
 end
