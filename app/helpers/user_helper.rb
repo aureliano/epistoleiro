@@ -18,6 +18,11 @@ module Epistoleiro
         redirect url(:sign_in) unless user_logged_in?
       end
 
+      def signed_user_has_permission?(permission)
+        @signed_user = User.where(:id => session[:user_id]).only(:feature_permissions).first
+        @signed_user.has_permission? Features::USER_MANAGE_PERMISSIONS
+      end
+
       def gravatar_image_tag(options)
         hash = Digest::MD5.hexdigest(options[:email])
         url = "http://www.gravatar.com/avatar/#{hash}?d=mm"

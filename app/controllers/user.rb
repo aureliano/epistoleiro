@@ -14,12 +14,27 @@ Epistoleiro::App.controllers :user do
   
   get :edit_permissions, :map => '/user/:nickname/permissions' do
     @user = User.where(:nickname => params[:nickname]).only(:nickname, :feature_permissions).first
+    unless signed_user_has_permission? Features::USER_MANAGE_PERMISSIONS
+      put_message :message => 'view.permissions.message.access_denied', :type => 'w'
+      return render 'user/profile'
+    end
+
     render 'user/permissions'
   end
   
   post :update_permissions do
     @user = User.where(:nickname => params[:user][:nickname]).first
     redirect url :index if @user.nil?
+
+    unless signed_user_has_permission? Features::USER_MANAGE_PERMISSIONS
+      put_message :message => 'view.permissions.message.access_denied', :type => 'w'
+      return render 'user/profile'
+    end
+
+    if params[:user][:features].nil? || params[:user][:features].empty?
+      put_message :message => 'view.permissions.message.user_without_any_permission', :type => 'e'
+      return render 'user/profile'
+    end
 
     @user.feature_permissions = params[:user][:features].values
     @user.save!

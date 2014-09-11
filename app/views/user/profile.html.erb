@@ -50,5 +50,5 @@
   <% end %>
 </ul>
 <% end %>
-<a href="<%= url :user, :edit_permissions, :nickname => @user.nickname %>" class="btn btn-info"><%= I18n.translate 'edit' %></a>
+<a id="edit_permissions" href="<%= url :user, :edit_permissions, :nickname => @user.nickname %>" class="btn btn-info"><%= I18n.translate 'edit' %></a>
 <% end %>

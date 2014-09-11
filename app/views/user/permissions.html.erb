@@ -5,7 +5,7 @@
   <% Features.constants.each do |feature| %>
   <div class="row">
     <div class="span1">
-      <input type="checkbox" value="<%= feature %>" <%= 'checked' if @user.has_permission?(feature) %> name="user[features[<%= feature %>]]"/>
+      <input type="checkbox" value="<%= feature %>" <%= 'checked' if @user.has_permission?(feature) %> name="user[features[<%= feature %>]]" id="check_<%= feature.downcase %>"/>
     </div>
     <div class="span3">
       <%= I18n.translate "features.#{feature.downcase}.label" %>

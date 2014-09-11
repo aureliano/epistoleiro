@@ -54,6 +54,9 @@ en:
         password_reseted: Your password has just been reseted. Check your mailbox in order to get your new password.
     permissions:
       permissions: Permissions
+      message:
+        access_denied: You do not have permission to access user permissions detail feature.
+        user_without_any_permission: You cannot revoke all user permissions. You might want to disable or delete user account.
   model:
     user:
       fields:

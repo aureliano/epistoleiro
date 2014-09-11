@@ -10,6 +10,10 @@ When /^I click on link '([^']+)'$/ do |link|
   click_link I18n.translate(link)
 end
 
+When /^I click on '([^']+)'$/ do |element_id|
+  click_on element_id
+end
+
 Then /^I have to see an alert with '([^']*)'$/ do |message|
   alert = page.driver.browser.switch_to.alert
   expect(alert.text).to eq I18n.translate(message)
@@ -30,4 +34,28 @@ end
 
 Then /^text field '([\w\d]+)' should have value '([^']*)'$/ do |field, value|
   expect(page.find(:xpath, "//input[@id='#{field}']").value).to eq value
+end
+
+Then /^I have to see the button '([^']+)'$/ do |label|
+  page.should have_button I18n.translate(label)
+end
+
+Then /^I have not to see the button '([^']+)'$/ do |label|
+  page.should_not have_button I18n.translate(label)
+end
+
+Then /^I have to see the link '([^']+)'$/ do |label|
+  page.should have_link I18n.translate(label)
+end
+
+Then /^I have not to see the link '([^']+)'$/ do |label|
+  page.should_not have_link I18n.translate(label)
+end
+
+Then /^I have to see the element '([^']+)'$/ do |element_id|
+  page.should have_selector "##{element_id}"
+end
+
+Then /^I have not to see the element '([^']+)'$/ do |element_id|
+  page.should_not have_selector "##{element_id}"
 end

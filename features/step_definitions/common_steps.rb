@@ -2,6 +2,11 @@ Given /^there is an active user with e-mail '([^']+)' and password '([^']+)'$/ d
   save_user_dummy :id => email, :password => password
 end
 
+Given /^there is an active user with e-mail '([^']+)' and password '([^']+)' with permission to '([^']+)'$/ do |email, password, permissions|
+  permissions = permissions.split(',').map {|e| e.strip }
+  save_user_dummy :id => email, :password => password, :feature_permissions => permissions
+end
+
 Given /^there is an inactive user with e-mail '([^']+)' and password '([^']+)'$/ do |email, password|
   save_user_dummy :id => email, :password => password, :active => false
 end
@@ -13,6 +18,13 @@ end
 When /^I sign_out$/ do
   page.find(:xpath, '//div[@id="user_menu"]/button').click
   click_on 'sign_out'
+end
+
+When /^I access my home page with e-mail '([^']+)' and password '([^']+)'$/ do |email, password|
+  step "I am in login page"
+  step "I type '#{email}' in 'user_email'"
+  step "I type '#{password}' in 'user_password'"
+  step "I click on button 'sign_in'"
 end
 
 Then /^I have to see the home page$/ do
