@@ -38,6 +38,9 @@ Epistoleiro::App.controllers :user do
 
     @user.feature_permissions = params[:user][:features].values
     @user.save!
+
+    session[:msg] = I18n.translate('view.permissions.message.update_success')
+    session[:msg_type] = 's'
     
     redirect url :user, :profile, :nickname => params[:user][:nickname]
   end

@@ -71,6 +71,7 @@ en:
       message:
         access_denied: You do not have permission to access user permissions detail feature.
         user_without_any_permission: You cannot revoke all user permissions. You might want to disable or delete user account.
+        update_success: Permissions successfully updated.
   model:
     user:
       fields:

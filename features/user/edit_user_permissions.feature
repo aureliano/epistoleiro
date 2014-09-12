@@ -40,6 +40,7 @@ Feature: Edit user permissions
     When I set user permissions to 'WATCHER'
     And I click on button 'save'
     Then I have to see permission 'WATCHER'
+    And I have to see the success message 'view.permissions.message.update_success'
 
 
 
@@ -53,3 +54,4 @@ Feature: Edit user permissions
     When I set user permissions to 'WATCHER, USER_MANAGE_PERMISSIONS, USER_MANAGE_STATUS'
     And I click on button 'save'
     Then I have to see permissions 'WATCHER, USER_MANAGE_PERMISSIONS, USER_MANAGE_STATUS'
+    And I have to see the success message 'view.permissions.message.update_success'
