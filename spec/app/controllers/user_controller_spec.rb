@@ -48,7 +48,7 @@ describe "UserController" do
         user = create_user
         get "/user/#{user.nickname}/permissions", {}, 'rack.session' => { :user_id => user.id, :user_nickname => user.nickname }
                 
-        expect(last_response.body).to include '<div class="alert alert-warning alert-dismissable">'
+        expect(last_response.body).to include '<div class="alert alert-danger alert-dismissable">'
         expect(last_response.body).to include I18n.translate 'view.permissions.message.access_denied'
         expect(last_response.body).not_to include "<h4>#{I18n.translate 'view.permissions.permissions'}</h4>"
         expect(last_response.body).not_to include "<input type=\"hidden\" value=\"#{user.nickname}\" id=\"user_nickname\" name=\"user[nickname]\"/>"

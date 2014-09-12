@@ -2,6 +2,10 @@ Given /^there is an active user with e-mail '([^']+)' and password '([^']+)'$/ d
   save_user_dummy :id => email, :password => password
 end
 
+Given /^there is an active user with e-mail '([^']+)' and nickname '([^']+)'$/ do |email, nickname|
+  save_user_dummy :id => email, :password => '12345', :nickname => nickname
+end
+
 Given /^there is an active user with e-mail '([^']+)' and password '([^']+)' with permission to '([^']+)'$/ do |email, password, permissions|
   permissions = permissions.split(',').map {|e| e.strip }
   save_user_dummy :id => email, :password => password, :feature_permissions => permissions
@@ -43,4 +47,20 @@ Then /^I have to see the dashboard page of the user '([^']+)'$/ do |nickname|
   page.should have_text nickname
   page.should have_text I18n.translate 'view.user_dashboard.created_groups'
   page.should have_text I18n.translate 'view.user_dashboard.signed_groups'
+end
+
+Then /^I have to see the profile page of the user '([^']+)'$/ do |nickname|
+  user = User.where(:nickname => nickname).first
+
+  page.should have_text I18n.translate('model.user.fields._id')
+  page.find(:xpath, "//div[@id='div_email']/div[@class='span8']").text.should eq user.id
+
+  page.should have_text I18n.translate('model.user.fields.nickname')
+  page.find(:xpath, "//div[@id='div_nickname']/div[@class='span8']").text.should eq user.nickname
+
+  page.should have_text I18n.translate('model.user.fields.first_name')
+  page.find(:xpath, "//div[@id='div_first_name']/div[@class='span8']").text.should eq user.first_name
+
+  page.should have_text I18n.translate('model.user.fields.last_name')
+  page.find(:xpath, "//div[@id='div_last_name']/div[@class='span8']").text.should eq user.last_name
 end

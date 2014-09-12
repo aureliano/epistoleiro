@@ -1,31 +1,31 @@
 <div class="row">
   <div class="span10">
-    <div class="row">
+    <div class="row" id="div_email">
       <div class="span2"><%= I18n.translate 'model.user.fields._id' %>:</div>
       <div class="span8"><%= @user.id %></div>
     </div>
 
-    <div class="row">
+    <div class="row" id="div_nickname">
       <div class="span2"><%= I18n.translate 'model.user.fields.nickname' %>:</div>
       <div class="span8"><%= @user.nickname %></div>
     </div>
     
-    <div class="row">
+    <div class="row" id="div_first_name">
       <div class="span2"><%= I18n.translate 'model.user.fields.first_name' %>:</div>
       <div class="span8"><%= @user.first_name %></div>
     </div>
     
-    <div class="row">
+    <div class="row" id="div_last_name">
       <div class="span2"><%= I18n.translate 'model.user.fields.last_name' %>:</div>
       <div class="span8"><%= @user.last_name %></div>
     </div>
     
-    <div class="row">
+    <div class="row" id="div_home_page">
       <div class="span2"><%= I18n.translate 'model.user.fields.home_page' %>:</div>
       <div class="span8"><a href="<%= @user.home_page %>"><%= @user.home_page %></a></div>
     </div>
     
-    <div class="row">
+    <div class="row" id="div_phones">
       <div class="span2"><%= I18n.translate 'model.user.fields.phones' %>:</div>
       <div class="span8"><%= ((@user.phones) ? @user.phones.first : '') %></div>
     </div>
@@ -48,19 +48,27 @@
   <% if @signed_user.has_permission? Features::USER_MANAGE_STATUS %>
     <% if @user.active == true %>
       <div class="span1">
-        <% form_tag url(:user, :inactivate_user_account), :method => :post, :id => 'form_user_account_actions' do %>
+        <% form_tag url(:user, :inactivate_user_account), :method => :post, :id => 'form_user_account_activation' do %>
           <input type="hidden" value="<%= @user.nickname %>" id="user_nickname_manage_status" name="user[nickname]"/>
-          <button type="submit" class="btn btn btn-success"><%= I18n.translate 'inactivate' %></button>
+          <button type="submit" class="btn btn-warn"><%= I18n.translate 'inactivate' %></button>
         <% end %>
       </div>
     <% else %>
       <div class="span1">
-        <% form_tag url(:user, :activate_user_account), :method => :post, :id => 'form_user_account_actions' do %>
+        <% form_tag url(:user, :activate_user_account), :method => :post, :id => 'form_user_account_inactivation' do %>
           <input type="hidden" value="<%= @user.nickname %>" id="user_nickname_manage_status" name="user[nickname]"/>
-          <button type="submit" class="btn btn btn-success"><%= I18n.translate 'activate' %></button>
+          <button type="submit" class="btn btn-warn"><%= I18n.translate 'activate' %></button>
         <% end %>
       </div>
     <% end %>
+  <% end %>
+  <% if @signed_user.has_permission? Features::USER_DELETE_ACCOUNT %>
+    <div class="span1">
+      <% form_tag url(:user, :delete_user_account), :method => :delete, :id => 'form_user_account_delete' do %>
+        <input type="hidden" value="<%= @user.nickname %>" id="user_nickname_manage_status" name="user[nickname]"/>
+        <button type="submit" class="btn btn-danger" onclick="return confirm('<%= I18n.translate("view.user_profile.message.user_delete_account.delete_confirmation") %>');"><%= I18n.translate 'delete' %></button>
+      <% end %>
+    </div>
   <% end %>
 </div>
 

@@ -20,6 +20,18 @@ Then /^I have to see an alert with '([^']*)'$/ do |message|
   alert.accept
 end
 
+When /^I accept the confirmation message '([^']+)'$/ do |message|
+  alert = page.driver.browser.switch_to.alert
+  expect(alert.text).to eq I18n.translate(message)
+  alert.accept
+end
+
+When /^I decline the confirmation message '([^']+)'$/ do |message|
+  alert = page.driver.browser.switch_to.alert
+  expect(alert.text).to eq I18n.translate(message)
+  alert.dismiss
+end
+
 Then /^I have to see the (\w+) message '([^']+)'$/ do |type, message|
   message_type = case type
     when 'success' then 'success'

@@ -41,7 +41,12 @@ module Epistoleiro
         redirect url :index if @user.nil?
 
         unless signed_user_has_permission? Features::USER_MANAGE_STATUS
-          put_message :message => 'view.user_profile.message.cannot_manage_status', :type => 'w'
+          put_message :message => 'view.user_profile.message.user_manage_status.access_denied', :type => 'e'
+          return render 'user/profile'
+        end
+
+        if session[:user_id] == @user.id
+          put_message :message => 'view.user_profile.message.user_manage_status.delete_own_account', :type => 'e'
           return render 'user/profile'
         end
 
