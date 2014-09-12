@@ -52,3 +52,4 @@ Feature: Delete user account
     And I click on button 'delete'
     And I accept the confirmation message 'view.user_profile.message.user_delete_account.delete_confirmation'
     Then I have to see the dashboard page of the user 'dummy'
+    And I have to see the account deletion success message to user 'ximbinha'

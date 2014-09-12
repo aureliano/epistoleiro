@@ -32,6 +32,18 @@ When /^I decline the confirmation message '([^']+)'$/ do |message|
   alert.dismiss
 end
 
+Then /^I have to see the (\w+) message "([^"]+)"$/ do |type, message|
+  message_type = case type
+    when 'success' then 'success'
+    when 'information' then 'info'
+    when 'warning' then 'warning'
+    when 'error' then 'danger'
+  end
+
+  message = I18n.translate(message) if (message.match(/[.\w]+/).to_s == message)
+  expect(page.find(:xpath, "//div[@class='alert alert-#{message_type} alert-dismissable']/div").text).to eq message
+end
+
 Then /^I have to see the (\w+) message '([^']+)'$/ do |type, message|
   message_type = case type
     when 'success' then 'success'
