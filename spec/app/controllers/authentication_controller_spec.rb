@@ -209,6 +209,9 @@ describe "AuthenticationController" do
       user = create_user
       post '/authentication/sign_in', params = { :user => { :email => user.id, :password => 'password' } }
       
+      expect(last_response).to be_redirect
+      follow_redirect!
+
       expect(last_response.body).to include user.nickname
       expect(last_response.body).to include '<button class="btn btn-large dropdown-toggle" data-toggle="dropdown" href="#">'
       expect(last_response.body).to include "<img alt=\"#{user.id}\" src=\"http://www.gravatar.com/avatar/"
