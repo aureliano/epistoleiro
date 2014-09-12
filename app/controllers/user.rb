@@ -65,6 +65,8 @@ Epistoleiro::App.controllers :user do
     end
 
     @user.delete
+    session[:msg] = I18n.translate('view.user_profile.message.user_delete_account.success').sub '%{nickname}', @user.nickname
+    session[:msg_type] = 's'
 
     redirect url :index
   end

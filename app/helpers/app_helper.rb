@@ -26,10 +26,35 @@ module Epistoleiro
       end
 
       def has_system_message?
-        return !params[:msg].nil? && !params[:msg].empty?
+        has_request_messages? || has_session_messages?
+      end
+
+      def has_request_messages?
+        !params[:msg].nil? && !params[:msg].empty?
+      end
+
+      def has_session_messages?
+        !session[:msg].nil? && !session[:msg].empty?
       end
 
       def show_messages
+        messages = ''
+        messages << show_request_messages if has_request_messages?
+        messages << show_session_messages if has_session_messages?
+        messages
+      end
+
+      def show_request_messages
+        _show_messages params[:msg], params[:msg_type]
+      end
+
+      def show_session_messages
+        messages = _show_messages session[:msg], session[:msg_type]
+        session[:msg] = session[:msg_type] = nil
+        messages
+      end
+
+      def _show_messages(message, type)
         ui = <<eos    
 <div class="#msg_type alert-dismissable">
   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -39,7 +64,7 @@ module Epistoleiro
   </div>
 </div>
 eos
-        msg_type, title = case params[:msg_type]
+        msg_type, title = case type
           when ('i' || nil || '') then ['alert alert-info', I18n.translate('view.message_type.info')]
           when 's' then ['alert alert-success', I18n.translate('view.message_type.success')]
           when 'w' then ['alert alert-warning', I18n.translate('view.message_type.warn')]
@@ -49,7 +74,7 @@ eos
 
         ui.sub! /#msg_type/, msg_type
         ui.sub! /#title/, title
-        ui.sub! /#msg/, params[:msg]
+        ui.sub! /#msg/, message
       end
 
     end

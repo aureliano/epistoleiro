@@ -55,6 +55,7 @@ en:
           delete_own_account: You cannot delete your own account.
           access_denied: You do not have permission to delete user accounts.
           delete_confirmation: Are you sure you want to delete this user account?
+          success: You have successfully deleted %{nickname}'s account.
     forgot_password:
       message:
         user_does_not_exist: No such user registered with e-mail %{email}.
