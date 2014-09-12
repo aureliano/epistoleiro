@@ -75,4 +75,11 @@ describe "Epistoleiro::App::UserHelper" do
       expect(res).to eq ['model.user.validation.home_page_length']
     end
   end
+
+  it 'shows user account status as text' do
+    expect(subject.user_account_status(User.new)).to eq I18n.translate 'model.user.account_status.inactive'
+    expect(subject.user_account_status(User.new :active => false)).to eq I18n.translate 'model.user.account_status.inactive'
+    expect(subject.user_account_status(User.new :active => true)).to eq I18n.translate 'model.user.account_status.active'
+  end
+
 end

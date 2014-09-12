@@ -10,6 +10,8 @@ en:
   edit: Edit
   save: Save
   cancel: Cancel
+  activate: Activate
+  inactivate: Inactivate
   http:
     error:
       '404':
@@ -44,6 +46,8 @@ en:
       signed_groups: Signed groups
     user_profile:
       functionalities: Functionalities permissions
+      message:
+        cannot_manage_status: You do not have permission to enable nor disable user accounts.
     forgot_password:
       message:
         user_does_not_exist: No such user registered with e-mail %{email}.
@@ -67,6 +71,7 @@ en:
         home_page: Home page
         phones: Phone number
         password: Password
+        active: Status
       validation:
         id_required: e-mail is required.
         id_length: e-mail must have at least 5 and at most 50 characters.
@@ -85,6 +90,9 @@ en:
         first_name_length: First name must have at least 3 and at most 50 characters.
         last_name_length: Last name must have at least 3 and at most 50 characters.
         home_page_length: Home page must have at least 15 and at most 100 characters.
+      account_status:
+        active: Active
+        inactive: Inactive
   features:
     watcher:
       label: Watcher

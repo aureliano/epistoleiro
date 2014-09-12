@@ -29,11 +29,39 @@
       <div class="span2"><%= I18n.translate 'model.user.fields.phones' %>:</div>
       <div class="span8"><%= ((@user.phones) ? @user.phones.first : '') %></div>
     </div>
+
+    <% if @signed_user.has_permission? Features::USER_MANAGE_STATUS %>
+    <div class="row">
+      <div class="span2"><%= I18n.translate 'model.user.fields.active' %>:</div>
+      <div id="div_user_account_status" class="span8"><%= user_account_status @user %></div>
+    </div>
+    <% end %>
   </div>
 
   <div class="span2">
     <%= gravatar_image_tag :email => @user.id, :size => 140, :linkable => true %>
   </div>
+</div>
+
+<div class="row">
+  <div class="span2"></div>
+  <% if @signed_user.has_permission? Features::USER_MANAGE_STATUS %>
+    <% if @user.active == true %>
+      <div class="span1">
+        <% form_tag url(:user, :inactivate_user_account), :method => :post, :id => 'form_user_account_actions' do %>
+          <input type="hidden" value="<%= @user.nickname %>" id="user_nickname_manage_status" name="user[nickname]"/>
+          <button type="submit" class="btn btn btn-success"><%= I18n.translate 'inactivate' %></button>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="span1">
+        <% form_tag url(:user, :activate_user_account), :method => :post, :id => 'form_user_account_actions' do %>
+          <input type="hidden" value="<%= @user.nickname %>" id="user_nickname_manage_status" name="user[nickname]"/>
+          <button type="submit" class="btn btn btn-success"><%= I18n.translate 'activate' %></button>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
 </div>
 
 <hr/>

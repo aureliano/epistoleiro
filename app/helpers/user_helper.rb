@@ -20,7 +20,7 @@ module Epistoleiro
 
       def signed_user_has_permission?(permission)
         @signed_user = User.where(:id => session[:user_id]).only(:feature_permissions).first
-        @signed_user.has_permission? Features::USER_MANAGE_PERMISSIONS
+        @signed_user.has_permission? permission
       end
 
       def gravatar_image_tag(options)
@@ -34,6 +34,28 @@ module Epistoleiro
         tag = "<a href=\"#{url.sub /&s=\d+/, '&s=500'}\">#{tag}</a>" if options[:linkable]
 
         tag.html_safe
+      end
+
+      def manage_user_account_status(nickname, active)
+        @user = User.where(:nickname => nickname).first
+        redirect url :index if @user.nil?
+
+        unless signed_user_has_permission? Features::USER_MANAGE_STATUS
+          put_message :message => 'view.user_profile.message.cannot_manage_status', :type => 'w'
+          return render 'user/profile'
+        end
+
+        @user.active = active
+        @user.save!
+
+        redirect url :user, :profile, :nickname => nickname
+      end
+
+      def user_account_status(user)
+        key = "model.user.account_status."
+        key << ((user.nil? || user.active.nil? || user.active == false) ? 'inactive' : 'active')
+
+        I18n.translate key
       end
 
       def build_user_account_creation_model(hash)

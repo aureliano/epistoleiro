@@ -3,7 +3,7 @@ Feature: Edit user permissions
   As a registered user with permission to manage permissions
   I want to edit user permissions
 
-  Scenario: User without permission try to manage user permissions
+  Scenario: User without permission tries to manage user permissions
     Given there is an active user with e-mail 'user@test.com' and password '12345'
     And there is an active user with e-mail 'another_user@test.com' and password 'ximbinha'
     

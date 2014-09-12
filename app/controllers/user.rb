@@ -42,4 +42,12 @@ Epistoleiro::App.controllers :user do
     redirect url :user, :profile, :nickname => params[:user][:nickname]
   end
 
+  post :inactivate_user_account do
+    manage_user_account_status params[:user][:nickname], false
+  end
+
+  post :activate_user_account do
+    manage_user_account_status params[:user][:nickname], true
+  end
+
 end
