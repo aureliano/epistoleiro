@@ -34,14 +34,17 @@ Epistoleiro::App.controllers :authentication do
       @messages = format_validation_messages user
 
       if @messages.empty?
-        redirect url(:index, :msg => I18n.translate('view.sign_up.message.success').sub('%{email}', user.id), :msg_type => 's')
+        raise 'Sending e-mail is not implemented yet' if RACK_ENV == 'production'
+        session[:msg] = I18n.translate('view.sign_up.message.success').sub('%{email}', user.id)
+        session[:msg_type] = 's'
+
+        redirect url :index
       else
         put_message :message => @messages.join('<br/>'), :type => 'w', :translate => false
         render :signup, :layout => 'public.html'
       end
     else
       put_message :message => @messages.join('<br/>'), :type => 'w'
-      raise 'Sending e-mail is not implemented yet' if RACK_ENV == 'production'
       render :signup, :layout => 'public.html'
     end
   end
