@@ -64,7 +64,7 @@ Epistoleiro::App.controllers :user do
       return render 'user/profile'
     end
 
-    #@user.delete
+    @user.delete
 
     redirect url :index
   end

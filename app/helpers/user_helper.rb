@@ -46,7 +46,7 @@ module Epistoleiro
         end
 
         if session[:user_id] == @user.id
-          put_message :message => 'view.user_profile.message.user_manage_status.delete_own_account', :type => 'e'
+          put_message :message => 'view.user_profile.message.user_manage_status.inactivate_own_account', :type => 'e'
           return render 'user/profile'
         end
 

@@ -50,6 +50,7 @@ en:
       message:
         user_manage_status:
           access_denied: You do not have permission to enable nor disable user accounts.
+          inactivate_own_account: You cannot inactivate your own account.
         user_delete_account:
           delete_own_account: You cannot delete your own account.
           access_denied: You do not have permission to delete user accounts.

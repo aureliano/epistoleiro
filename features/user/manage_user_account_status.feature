@@ -47,7 +47,7 @@ Feature: Manage user account status
     When I access my home page with e-mail 'user@test.com' and password '12345'
     And I go to profile page of the user 'user@test.com'
     And I click on button 'inactivate'
-    Then I have to see the error message 'view.user_profile.message.user_manage_status.delete_own_account'
+    Then I have to see the error message 'view.user_profile.message.user_manage_status.inactivate_own_account'
 
 
 

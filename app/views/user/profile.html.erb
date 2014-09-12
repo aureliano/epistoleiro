@@ -50,14 +50,14 @@
       <div class="span1">
         <% form_tag url(:user, :inactivate_user_account), :method => :post, :id => 'form_user_account_activation' do %>
           <input type="hidden" value="<%= @user.nickname %>" id="user_nickname_manage_status" name="user[nickname]"/>
-          <button type="submit" class="btn btn-warn"><%= I18n.translate 'inactivate' %></button>
+          <button type="submit" class="btn btn-warning"><%= I18n.translate 'inactivate' %></button>
         <% end %>
       </div>
     <% else %>
       <div class="span1">
         <% form_tag url(:user, :activate_user_account), :method => :post, :id => 'form_user_account_inactivation' do %>
           <input type="hidden" value="<%= @user.nickname %>" id="user_nickname_manage_status" name="user[nickname]"/>
-          <button type="submit" class="btn btn-warn"><%= I18n.translate 'activate' %></button>
+          <button type="submit" class="btn btn-success"><%= I18n.translate 'activate' %></button>
         <% end %>
       </div>
     <% end %>
