@@ -214,7 +214,7 @@ describe "AuthenticationController" do
 
       expect(last_response.body).to include user.nickname
       expect(last_response.body).to include '<button class="btn btn-large dropdown-toggle" data-toggle="dropdown" href="#">'
-      expect(last_response.body).to include "<img alt=\"#{user.id}\" src=\"http://www.gravatar.com/avatar/"
+      expect(last_response.body).to include "<img alt=\"#{user.id}\" src=\""
       expect(last_response.body).to include "<li><a id=\"sign_out\" href=\"/sign_out\"><i class=\"icon-off\"></i> #{I18n.translate 'sign_out'}</a></li>"
     end
 

@@ -24,11 +24,12 @@ module Epistoleiro
       end
 
       def gravatar_image_tag(options)
+        options[:name] ||= ((session[:user_name].nil?) ? options[:email] : session[:user_name])
+        return "<img alt=\"#{options[:name]}\" src=\"\"/>".html_safe if RACK_ENV == 'test'
+
         hash = Digest::MD5.hexdigest(options[:email])
         url = "http://www.gravatar.com/avatar/#{hash}?d=mm"
         url << "&s=#{options[:size]}" if options[:size]
-
-        options[:name] ||= ((session[:user_name].nil?) ? options[:email] : session[:user_name])
 
         tag = "<img alt=\"#{options[:name]}\" src=\"#{url}\"/>"
         tag = "<a href=\"#{url.sub /&s=\d+/, '&s=500'}\">#{tag}</a>" if options[:linkable]
