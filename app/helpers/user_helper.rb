@@ -53,6 +53,10 @@ module Epistoleiro
         @user.active = active
         @user.save!
 
+        key = 'view.user_profile.message.user_manage_status.success_' + ((active == true) ? 'activation' : 'inactivation')
+        session[:msg] = I18n.translate(key)
+        session[:msg_type] = 's'
+
         redirect url :user, :profile, :nickname => nickname
       end
 

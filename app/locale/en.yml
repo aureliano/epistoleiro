@@ -51,6 +51,8 @@ en:
         user_manage_status:
           access_denied: You do not have permission to enable nor disable user accounts.
           inactivate_own_account: You cannot inactivate your own account.
+          success_activation: User account has been successfully activated.
+          success_inactivation: User account has been successfully inactivated.
         user_delete_account:
           delete_own_account: You cannot delete your own account.
           access_denied: You do not have permission to delete user accounts.

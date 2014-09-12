@@ -59,8 +59,9 @@ Feature: Manage user account status
     And I go to profile page of the user 'another_user@test.com'
     And I click on button '<button_label>'
     Then I have to see the user account status as '<new_status>'
+    And I have to see the success message 'view.user_profile.message.user_manage_status.success_<action>'
 
     Examples:
-    |user_status|button_label|new_status|
-    |active|inactivate|inactive|
-    |inactive|activate|active|
+    |user_status|button_label|new_status|action|
+    |active|inactivate|inactive|inactivation|
+    |inactive|activate|active|activation|
