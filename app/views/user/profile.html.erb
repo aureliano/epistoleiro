@@ -46,30 +46,36 @@
 <div class="row">
   <div class="span2"></div>
   <% if @signed_user.has_permission? Features::USER_MANAGE_STATUS %>
+    <div class="span8">
+    <table>
+      <tr>
     <% if @user.active == true %>
-      <div class="span1">
+      <td>
         <% form_tag url(:user, :inactivate_user_account), :method => :post, :id => 'form_user_account_activation' do %>
           <input type="hidden" value="<%= @user.nickname %>" id="user_nickname_manage_status" name="user[nickname]"/>
           <button type="submit" class="btn btn-warning"><%= I18n.translate 'inactivate' %></button>
         <% end %>
-      </div>
+      </td>
     <% else %>
-      <div class="span1">
+      <td>
         <% form_tag url(:user, :activate_user_account), :method => :post, :id => 'form_user_account_inactivation' do %>
           <input type="hidden" value="<%= @user.nickname %>" id="user_nickname_manage_status" name="user[nickname]"/>
           <button type="submit" class="btn btn-success"><%= I18n.translate 'activate' %></button>
         <% end %>
-      </div>
+      </td>
     <% end %>
   <% end %>
   <% if @signed_user.has_permission? Features::USER_DELETE_ACCOUNT %>
-    <div class="span1">
+    <td>
       <% form_tag url(:user, :delete_user_account), :method => :delete, :id => 'form_user_account_delete' do %>
         <input type="hidden" value="<%= @user.nickname %>" id="user_nickname_manage_status" name="user[nickname]"/>
         <button type="submit" class="btn btn-danger" onclick="return confirm('<%= I18n.translate("view.user_profile.message.user_delete_account.delete_confirmation") %>');"><%= I18n.translate 'delete' %></button>
       <% end %>
-    </div>
+    </td>
   <% end %>
+  </tr>
+  </table>
+  </div>
 </div>
 
 <hr/>
