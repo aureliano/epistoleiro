@@ -74,4 +74,40 @@ Epistoleiro::App.controllers :user do
     redirect url :index
   end
 
+  get :edit_profile, :map => '/user/:nickname/profile' do
+    @user = User.where(:nickname => params[:nickname]).first
+    redirect url :index if @user.nil?
+
+    @edit_mode = true
+    render 'user/profile'
+  end
+
+  post :update_profile, :with => :id do
+    @user = User.where(:id => params[:id]).first
+
+    if @user.id != params[:user][:email]
+      if User.where(:id => params[:user][:email]).exists?
+        put_message :message => 'view.user_profile.message.update_profile.email_already_registered', :type => 'e'
+        @edit_mode = true
+        return render 'user/profile'
+      end
+    end
+
+    @user.id = params[:user][:email]
+    @user.first_name = params[:user][:first_name]
+    @user.last_name = params[:user][:last_name]
+    @user.home_page = params[:user][:home_page]
+    @user.phones = [params[:user][:phone_number]]
+    
+    unless entity_crud :entity => @user, :action => :save
+      @edit_mode = true
+      return render 'user/profile'
+    end
+
+    session[:msg] = I18n.translate('view.user_profile.message.update_profile.success')
+    session[:msg_type] = 's'
+    
+    redirect url :user, :profile, :nickname => @user.nickname
+  end
+
 end

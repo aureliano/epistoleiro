@@ -28,7 +28,7 @@ Feature: Edit user permissions
 
 
 
-  Scenario: User change user permissions of another user
+  Scenario: User changes user permissions of another user
     Given there is an active user with e-mail 'user@test.com' and password '12345' with permission to 'USER_MANAGE_PERMISSIONS'
     And there is an active user with e-mail 'another_user@test.com' and password 'ximbinha'
     
@@ -44,7 +44,7 @@ Feature: Edit user permissions
 
 
 
-  Scenario: User change its own permissions set
+  Scenario: User changes its own permissions set
     Given there is an active user with e-mail 'user@test.com' and password '12345' with permission to 'USER_MANAGE_PERMISSIONS'
     When I access my home page with e-mail 'user@test.com' and password '12345'
     And I go to profile page of the user 'user@test.com'

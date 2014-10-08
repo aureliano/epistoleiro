@@ -1,3 +1,53 @@
+<% if @edit_mode %>
+
+<div>
+  <% form_tag url(:user, :update_profile, :id => @user.id), :method => :post, :id => 'form_update_profile', :onsubmit => "return validateForm();" do %>
+    <div class="row">
+      <div class="span2"><label for="user_email"><%= I18n.translate 'model.user.fields._id' %>: *</label></div>
+      <div class="span6"><input type="email" required maxlength="100" id="user_email" name="user[email]" value="<%= @user.id %>"/></div>
+    </div>
+    <div class="row">
+      <div class="span2"><label for="user_first_name"><%= I18n.translate 'model.user.fields.first_name' %>: *</label></div>
+      <div class="span6"><input type="text" required maxlength="50" id="user_first_name" name="user[first_name]" value="<%= @user.first_name %>"/></div>
+    </div>
+    <div class="row">
+      <div class="span2"><label for="user_last_name"><%= I18n.translate 'model.user.fields.last_name' %>: *</label></div>
+      <div class="span6"><input type="text" required maxlength="50" id="user_last_name" name="user[last_name]" value="<%= @user.last_name %>"/></div>
+    </div>
+    <div class="row">
+      <div class="span2"><label for="user_home_page"><%= I18n.translate 'model.user.fields.home_page' %>:</label></div>
+      <div class="span6"><input type="url" maxlength="100" id="user_home_page" name="user[home_page]" value="<%= @user.home_page %>"/></div>
+    </div>
+    <div class="row">
+      <div class="span2"><label for="user_phone_number"><%= I18n.translate 'model.user.fields.phones' %>:</label></div>
+      <div class="span6"><input type="number" min="1" max="99999999999" id="user_phone_number" name="user[phone_number]" value="<%= (@user.phones.nil?) ? '' : @user.phones.first %>"/></div>
+    </div>
+    <div class="row">
+      <div class="span2"></div>
+      <div class="span6"><button type="submit" class="btn btn btn-success"><%= I18n.translate 'save' %></button></div>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  function validateForm() {
+    return this.validatePhoneNumber();
+  }
+
+  function validatePhoneNumber() {
+    var phone_number = document.getElementById('user_phone_number').value;
+
+    if (phone_number != null && phone_number != "" && phone_number.length < 8) {
+      alert('<%= I18n.translate 'model.user.validation.phone_number_length' %>');
+      return false;
+    }
+
+    return true;
+  }
+</script>
+
+<% else %>
+
 <div class="row">
   <div class="span10">
     <div class="row" id="div_email">
@@ -45,10 +95,17 @@
 
 <div class="row">
   <div class="span2"></div>
+  <div class="span8">
+  <table>
+  <tr>
+  <% if @signed_user.id == @user.id %>
+    <td>
+      <form>
+        <a id="edit_profile" href="<%= url :user, :edit_profile, :nickname => @user.nickname %>" class="btn btn-info"><%= I18n.translate 'edit' %></a>
+      </form>
+    </td>
+  <% end %>
   <% if @signed_user.has_permission? Features::USER_MANAGE_STATUS %>
-    <div class="span8">
-    <table>
-      <tr>
     <% if @user.active == true %>
       <td>
         <% form_tag url(:user, :inactivate_user_account), :method => :post, :id => 'form_user_account_activation' do %>
@@ -93,4 +150,6 @@
 </ul>
 <% end %>
 <a id="edit_permissions" href="<%= url :user, :edit_permissions, :nickname => @user.nickname %>" class="btn btn-info"><%= I18n.translate 'edit' %></a>
+<% end %>
+
 <% end %>

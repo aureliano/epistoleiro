@@ -20,7 +20,7 @@ Feature: Create an account
       |email         |nickname|first_name|last_name|password |confirm_passward|home_page          |phone_number|message_key|
       |test@email.com|dummy   |Monkey    |User     |Change123|Change12        |http://www.test.com|99587456    |model.user.validation.password_not_equals|
       |test@email.com|dummy   |Monkey    |User     |123      |123             |http://www.test.com|99587456    |model.user.validation.password_length|
-      |test@email.com|dummy   |Monkey    |User     |Change123|Change123       |http://www.test.com|9958745    |model.user.validation.phone_number_length|
+      |test@email.com|dummy   |Monkey    |User     |Change123|Change123       |http://www.test.com|9958745     |model.user.validation.phone_number_length|
 
   Scenario: An user that is already registered tries to create an account with same e-mail
     Given there is an active user with e-mail 'monkey_user@mail.com' and password '12345'

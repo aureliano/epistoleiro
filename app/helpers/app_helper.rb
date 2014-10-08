@@ -2,6 +2,18 @@ module Epistoleiro
   class App
     module AppHelper
 
+      def entity_crud(options)
+        entity = options[:entity]
+        _success = entity.instance_eval options[:action].to_s
+        unless _success
+          messages = []
+          entity.errors.each {|field, message| messages << message }
+          put_message :message => messages.join('<br/>'), :type => 'e', :translate => false
+        end
+
+        _success
+      end
+
       def put_message(options)
         message = ((options[:translate] == false) ? options[:message] : I18n.translate(options[:message]))
         options[:params].each {|k, v| message.sub! k, v } if options[:params]
