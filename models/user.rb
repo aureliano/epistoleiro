@@ -33,6 +33,14 @@ class User
     ((!self.feature_permissions.nil?) && (self.feature_permissions.include? permission.to_s))
   end
 
+  def has_access_to_feature?(feature)
+    feature.each do |rule|
+      return true if self.has_permission? rule
+    end
+
+    false
+  end
+
   def reset_password
     new_pass = ''
     while new_pass.size < 5 do

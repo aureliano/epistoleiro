@@ -133,6 +133,26 @@ describe User do
     expect(user.has_permission? Rules::USER_MANAGE_PERMISSIONS).to be true
   end
 
+  it 'asserts user access to feature' do
+    user = create_user
+    expect(user.has_access_to_feature? Features::USER_LIST).to be false
+
+    user.feature_permissions << Rules::USER_MANAGE_STATUS
+    expect(user.has_access_to_feature? Features::USER_LIST).to be true
+
+    user.feature_permissions.clear
+    user.feature_permissions << Rules::USER_CREATE_ACCOUNT
+    expect(user.has_access_to_feature? Features::USER_LIST).to be true
+
+    user.feature_permissions.clear
+    user.feature_permissions << Rules::USER_DELETE_ACCOUNT
+    expect(user.has_access_to_feature? Features::USER_LIST).to be true
+
+    user.feature_permissions.clear
+    user.feature_permissions << Rules::USER_MANAGE_PERMISSIONS
+    expect(user.has_access_to_feature? Features::USER_LIST).to be true
+  end
+
   it 'resets password' do
     user = create_user
     pass = user.password.dup
