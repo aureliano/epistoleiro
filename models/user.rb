@@ -47,6 +47,13 @@ class User
     new_pass
   end
 
+  def user_account_status
+    key = "model.user.account_status."
+    key << ((self.active.nil? || self.active == false) ? 'inactive' : 'active')
+
+    I18n.translate key
+  end
+
   def self.generate_password_hash(pass, salt)
     hash = ''
     for i in 1..User.password_hash_iteration_size do

@@ -149,4 +149,10 @@ describe User do
     expect(user.activation_key).not_to eq activation_key
   end
 
+  it 'shows user account status as text' do
+    expect(User.new.user_account_status).to eq I18n.translate 'model.user.account_status.inactive'
+    expect(User.new(:active => false).user_account_status).to eq I18n.translate 'model.user.account_status.inactive'
+    expect(User.new(:active => true).user_account_status).to eq I18n.translate 'model.user.account_status.active'
+  end
+
 end

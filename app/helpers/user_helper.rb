@@ -61,13 +61,6 @@ module Epistoleiro
         redirect url :user, :profile, :nickname => nickname
       end
 
-      def user_account_status(user)
-        key = "model.user.account_status."
-        key << ((user.nil? || user.active.nil? || user.active == false) ? 'inactive' : 'active')
-
-        I18n.translate key
-      end
-
       def build_user_account_creation_model(hash)
         user = User.new
 
