@@ -7,4 +7,4 @@
     DataColumn.new(:title => 'Status', :ui => { :type => :text, :value => "%{user_account_status}" }, :width => 100),
     DataColumn.new(:ui => { :type => 'link', :value => "/user/%{nickname}", :label => 'Detail', :class => 'btn btn-info btn-small' }, :width => 50)
   ]
-end.render :id => 'dt_users' %>
+end.render :id => 'dt_users', :csrf_token => csrf_token %>

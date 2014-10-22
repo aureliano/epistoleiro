@@ -54,7 +54,7 @@ class DataTable
             end
           }
         }
-        pagination_layer(doc, options[:id]) unless options[:hide_pagination] == true
+        pagination_layer(doc, options[:id], options[:csrf_token]) unless options[:hide_pagination] == true
       }
     end    
     
@@ -146,13 +146,13 @@ class DataTable
     @pages = 0
   end
 
-  def pagination_layer(doc, table_id)
+  def pagination_layer(doc, table_id, csrf_token)
     return if self.pages == 0
 
     form_id = "form_#{table_id}"
     doc.form(:method => 'post', :action => '', :id => form_id) {
       doc.input(:type => 'hidden', :value => @page_index, :id => "#{table_id}-index", :name => "#{table_id}-index")
-      doc.input(:type => 'hidden', :name => 'authenticity_token', :value => 'd92a4322cbbf20c4a1775cfe0e1c8753')
+      doc.input(:type => 'hidden', :name => 'authenticity_token', :value => csrf_token)
       doc.div(:class => 'pagination') {
         doc.ul {
           doc.li(:class => (self.has_previous_pagination_block? ? '' : 'disabled')) {
