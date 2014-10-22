@@ -1,0 +1,10 @@
+<%= DataTable.new do |t|
+  t.page_index = @current_page
+  t.total = @users.count
+  t.data = @users
+  t.columns = [
+    DataColumn.new(:title => 'Nickname', :ui => { :type => :text, :value => "%{nickname}" }, :width => 300),
+    DataColumn.new(:title => 'Status', :ui => { :type => :text, :value => "%{user_account_status}" }, :width => 100),
+    DataColumn.new(:ui => { :type => 'link', :value => "/user/%{nickname}", :label => 'Detail', :class => 'btn btn-info btn-small' }, :width => 50)
+  ]
+end.render :id => 'dt_users' %>

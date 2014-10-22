@@ -23,18 +23,28 @@ module Epistoleiro
         @signed_user.has_permission? permission
       end
 
-      def gravatar_image_tag(options)
+      def gravatar_image_node(doc, options)
         options[:name] ||= ((session[:user_name].nil?) ? options[:email] : session[:user_name])
-        return "<img alt=\"#{options[:name]}\" src=\"\"/>".html_safe if RACK_ENV == 'test'
+        if RACK_ENV == 'test'
+          doc.img(:alt => options[:name], :src => '')
+          return
+        end
 
         hash = Digest::MD5.hexdigest(options[:email])
         url = "http://www.gravatar.com/avatar/#{hash}?d=mm"
         url << "&s=#{options[:size]}" if options[:size]
 
-        tag = "<img alt=\"#{options[:name]}\" src=\"#{url}\"/>"
-        tag = "<a href=\"#{url.sub /&s=\d+/, '&s=500'}\">#{tag}</a>" if options[:linkable]
+        if options[:linkable]
+          doc.a(:href => url.sub(/&s=\d+/, '&s=500')) {
+            doc.img(:alt => options[:name], :src => url)
+          }
+        else
+          doc.img(:alt => options[:name], :src => url)
+        end
+      end
 
-        tag.html_safe
+      def gravatar_image_tag(options)
+        Nokogiri::HTML::Builder.new {|doc| gravatar_image_node(doc, options) }.to_html.html_safe
       end
 
       def manage_user_account_status(nickname, active)

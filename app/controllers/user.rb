@@ -14,7 +14,7 @@ Epistoleiro::App.controllers :user do
   
   get :edit_permissions, :map => '/user/:nickname/permissions' do
     @user = User.where(:nickname => params[:nickname]).only(:nickname, :feature_permissions).first
-    unless signed_user_has_permission? Features::USER_MANAGE_PERMISSIONS
+    unless signed_user_has_permission? Rules::USER_MANAGE_PERMISSIONS
       put_message :message => 'view.permissions.message.access_denied', :type => 'e'
       return render 'user/profile'
     end
@@ -26,7 +26,7 @@ Epistoleiro::App.controllers :user do
     @user = User.where(:nickname => params[:user][:nickname]).first
     redirect url :index if @user.nil?
 
-    unless signed_user_has_permission? Features::USER_MANAGE_PERMISSIONS
+    unless signed_user_has_permission? Rules::USER_MANAGE_PERMISSIONS
       put_message :message => 'view.permissions.message.access_denied', :type => 'e'
       return render 'user/profile'
     end
@@ -57,7 +57,7 @@ Epistoleiro::App.controllers :user do
     @user = User.where(:nickname => params[:user][:nickname]).first
     redirect url :index if @user.nil?
 
-    unless signed_user_has_permission? Features::USER_DELETE_ACCOUNT
+    unless signed_user_has_permission? Rules::USER_DELETE_ACCOUNT
       put_message :message => 'view.user_profile.message.user_delete_account.access_denied', :type => 'e'
       return render 'user/profile'
     end
@@ -108,6 +108,20 @@ Epistoleiro::App.controllers :user do
     session[:msg_type] = 's'
     
     redirect url :user, :profile, :nickname => @user.nickname
+  end
+
+  get :list_users, :map => '/users' do
+    @current_page = 1
+    @users = User.all.asc(:nickname).skip(0).limit(DataTable.default_page_size)
+    render 'user/list_users'
+  end
+
+  post :list_users, :map => '/users' do
+    @current_page = params['dt_users-index'].to_i
+    skip = (@current_page - 1) * DataTable.default_page_size
+    @users = User.all.asc(:nickname).skip(skip).limit(DataTable.default_page_size)
+
+    render 'user/list_users'
   end
 
 end

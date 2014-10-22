@@ -13,6 +13,7 @@ en:
   activate: Activate
   inactivate: Inactivate
   delete: Delete
+  manage_users: Manage users
   http:
     error:
       '404':
