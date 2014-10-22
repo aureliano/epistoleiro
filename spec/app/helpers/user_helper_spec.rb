@@ -21,7 +21,7 @@ describe "Epistoleiro::App::UserHelper" do
     expect(user.password).to_not be_nil
     expect(user.activation_key).to_not be_nil
     expect(user.active).to be false
-    expect(user.feature_permissions).to eq [Features::WATCHER]
+    expect(user.feature_permissions).to eq [Rules::WATCHER]
 
     user = subject.build_user_account_creation_model(
       :email => 'app@test.com', :first_name => 'Monkey', :last_name => 'User',

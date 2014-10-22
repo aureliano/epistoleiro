@@ -116,21 +116,21 @@ describe User do
 
   it 'checks user permissions' do
     user = create_user
-    expect(user.has_permission? Features::WATCHER).to be true
+    expect(user.has_permission? Rules::WATCHER).to be true
 
     user.feature_permissions.clear
-    expect(user.has_permission? Features::WATCHER).to be false
+    expect(user.has_permission? Rules::WATCHER).to be false
 
-    user.feature_permissions << Features::WATCHER
-    expect(user.has_permission? Features::WATCHER).to be true
+    user.feature_permissions << Rules::WATCHER
+    expect(user.has_permission? Rules::WATCHER).to be true
 
-    user.feature_permissions << Features::USER_MANAGE_STATUS
-    expect(user.has_permission? Features::WATCHER).to be true
-    expect(user.has_permission? Features::USER_MANAGE_STATUS).to be true
-    expect(user.has_permission? Features::USER_MANAGE_PERMISSIONS).to be false
+    user.feature_permissions << Rules::USER_MANAGE_STATUS
+    expect(user.has_permission? Rules::WATCHER).to be true
+    expect(user.has_permission? Rules::USER_MANAGE_STATUS).to be true
+    expect(user.has_permission? Rules::USER_MANAGE_PERMISSIONS).to be false
 
-    user.feature_permissions << Features::USER_MANAGE_PERMISSIONS
-    expect(user.has_permission? Features::USER_MANAGE_PERMISSIONS).to be true
+    user.feature_permissions << Rules::USER_MANAGE_PERMISSIONS
+    expect(user.has_permission? Rules::USER_MANAGE_PERMISSIONS).to be true
   end
 
   it 'resets password' do

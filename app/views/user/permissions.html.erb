@@ -2,7 +2,7 @@
 
 <% form_tag url(:user, :update_permissions, :nickname => @user.nickname), :method => 'post', :id => 'form_update_permissions' do %>
   <input type="hidden" value="<%= @user.nickname %>" id="user_nickname" name="user[nickname]"/>
-  <% Features.constants.each do |feature| %>
+  <% Rules.constants.each do |feature| %>
   <div class="row">
     <div class="span1">
       <input type="checkbox" value="<%= feature %>" <%= 'checked' if @user.has_permission?(feature) %> name="user[features[<%= feature %>]]" id="check_<%= feature.downcase %>"/>

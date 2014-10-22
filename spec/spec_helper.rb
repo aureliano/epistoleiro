@@ -25,7 +25,7 @@ def create_user(active=true)
   user.password = User.generate_password_hash('password', user.salt)
   user.active = active
   user.nickname = 'dummy'
-  user.feature_permissions = [Features::WATCHER]
+  user.feature_permissions = [Rules::WATCHER]
 
   user.save!
   user

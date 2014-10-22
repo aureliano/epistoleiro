@@ -41,7 +41,7 @@ module Epistoleiro
         @user = User.where(:nickname => nickname).first
         redirect url :index if @user.nil?
 
-        unless signed_user_has_permission? Features::USER_MANAGE_STATUS
+        unless signed_user_has_permission? Rules::USER_MANAGE_STATUS
           put_message :message => 'view.user_profile.message.user_manage_status.access_denied', :type => 'e'
           return render 'user/profile'
         end
@@ -78,7 +78,7 @@ module Epistoleiro
         user.password = User.generate_password_hash(hash[:password], user.salt)
         user.activation_key = User.generate_activation_key user.password, user.salt
         user.active = false
-        user.feature_permissions = [Features::WATCHER]
+        user.feature_permissions = [Rules::WATCHER]
 
         user
       end

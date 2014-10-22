@@ -30,10 +30,10 @@
       <div class="span8"><%= ((@user.phones) ? @user.phones.first : '') %></div>
     </div>
 
-    <% if @signed_user.has_permission? Features::USER_MANAGE_STATUS %>
+    <% if @signed_user.has_permission? Rules::USER_MANAGE_STATUS %>
     <div class="row">
       <div class="span2"><%= I18n.translate 'model.user.fields.active' %>:</div>
-      <div id="div_user_account_status" class="span8"><%= user_account_status @user %></div>
+      <div id="div_user_account_status" class="span8"><%= @user.user_account_status %></div>
     </div>
     <% end %>
   </div>
@@ -55,7 +55,7 @@
       </form>
     </td>
   <% end %>
-  <% if @signed_user.has_permission? Features::USER_MANAGE_STATUS %>
+  <% if @signed_user.has_permission? Rules::USER_MANAGE_STATUS %>
     <% if @user.active == true %>
       <td>
         <% form_tag url(:user, :inactivate_user_account), :method => :post, :id => 'form_user_account_activation' do %>
@@ -72,7 +72,7 @@
       </td>
     <% end %>
   <% end %>
-  <% if @signed_user.has_permission? Features::USER_DELETE_ACCOUNT %>
+  <% if @signed_user.has_permission? Rules::USER_DELETE_ACCOUNT %>
     <td>
       <% form_tag url(:user, :delete_user_account), :method => :delete, :id => 'form_user_account_delete' do %>
         <input type="hidden" value="<%= @user.nickname %>" id="user_nickname_manage_status" name="user[nickname]"/>
@@ -87,7 +87,7 @@
 
 <hr/>
 
-<% if @signed_user.has_permission? Features::USER_MANAGE_PERMISSIONS %>
+<% if @signed_user.has_permission? Rules::USER_MANAGE_PERMISSIONS %>
 <h4><%= I18n.translate 'view.user_profile.functionalities' %></h4>
 
 <% unless @user.feature_permissions.nil? %>

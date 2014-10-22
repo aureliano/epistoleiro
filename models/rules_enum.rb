@@ -1,4 +1,4 @@
-module Features
+module Rules
 
   WATCHER                 = 'WATCHER'
   USER_MANAGE_STATUS      = 'USER_MANAGE_STATUS'
