@@ -48,7 +48,7 @@
   <div class="span8">
   <table>
   <tr>
-  <% if @signed_user.id == @user.id %>
+  <% if (@signed_user.id == @user.id) || (@signed_user.has_permission? Rules::USER_CREATE_ACCOUNT) %>
     <td>
       <form>
         <a id="edit_profile" href="<%= url :user, :edit_profile, :nickname => @user.nickname %>" class="btn btn-info"><%= I18n.translate 'edit' %></a>

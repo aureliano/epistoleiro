@@ -9,7 +9,7 @@
     </div>
 
     <div class="span2">
-      <input type="submit" value="Submit" class="btn" onclick="resetPagination()"/>
+      <input type="submit" value="<%= I18n.translate 'find' %>" class="btn" onclick="resetPagination()"/>
     </div>
   </div>
 
@@ -20,7 +20,7 @@
     t.columns = [
       DataColumn.new(:title => 'Nickname', :ui => { :type => :text, :value => "%{nickname}" }, :width => 300),
       DataColumn.new(:title => 'Status', :ui => { :type => :text, :value => "%{user_account_status}" }, :width => 100),
-      DataColumn.new(:ui => { :type => 'link', :value => "/user/%{nickname}", :label => 'Detail', :class => 'btn btn-info btn-small' }, :width => 50)
+      DataColumn.new(:ui => { :type => 'link', :value => "/user/%{nickname}", :label => I18n.translate('detail'), :class => 'btn btn-info btn-small' }, :width => 50)
     ]
   end.render :id => 'dt_users', :csrf_token => csrf_token %>
 

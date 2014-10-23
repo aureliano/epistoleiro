@@ -61,25 +61,25 @@ Then /^text field '([\w\d]+)' should have value '([^']*)'$/ do |field, value|
 end
 
 Then /^I have to see the button '([^']+)'$/ do |label|
-  page.should have_button I18n.translate(label)
+  expect(page).to have_button I18n.translate(label)
 end
 
 Then /^I have not to see the button '([^']+)'$/ do |label|
-  page.should_not have_button I18n.translate(label)
+  expect(page).not_to have_button I18n.translate(label)
 end
 
 Then /^I have to see the link '([^']+)'$/ do |label|
-  page.should have_link I18n.translate(label)
+  expect(page).to have_link I18n.translate(label)
 end
 
 Then /^I have not to see the link '([^']+)'$/ do |label|
-  page.should_not have_link I18n.translate(label)
+  expect(page).not_to have_link I18n.translate(label)
 end
 
 Then /^I have to see the element '([^']+)'$/ do |element_id|
-  page.should have_selector "##{element_id}"
+  expect(page).to have_selector "##{element_id}"
 end
 
 Then /^I have not to see the element '([^']+)'$/ do |element_id|
-  page.should_not have_selector "##{element_id}"
+  expect(page).not_to have_selector "##{element_id}"
 end

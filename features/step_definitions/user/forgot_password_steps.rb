@@ -1,7 +1,7 @@
 Then /^I have to see forgot password page$/ do
-  page.should have_button I18n.translate('send')
-  page.should have_link I18n.translate('sign_in')
-  page.should have_link I18n.translate('sign_up')
+  expect(page).to have_button I18n.translate('send')
+  expect(page).to have_link I18n.translate('sign_in')
+  expect(page).to have_link I18n.translate('sign_up')
 end
 
 Then /^I have to see the recovery password error message '([^']+)' to '([^']+)'$/ do |message_key, email|

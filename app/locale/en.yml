@@ -7,12 +7,14 @@ en:
   profile: Profile
   forgot_password: Have you forgotten your password?
   send: Send
+  detail: Detail
   edit: Edit
   save: Save
   cancel: Cancel
   activate: Activate
   inactivate: Inactivate
   delete: Delete
+  find: Find
   manage_users: Manage users
   data_table_pagination: Page %{page} of %{pages} about %{total} records.
   http:

@@ -9,8 +9,10 @@ def save_user_dummy(options)
   user.salt ||= '123'
   user.activation_key ||= '000000000000000'
   user.active = true if user.active.nil?
+  user.feature_permissions ||= [Rules::WATCHER]
 
   user.password = User.generate_password_hash user.password, user.salt
+  user.update_tags
 
   user.save!
   user

@@ -3,9 +3,9 @@ When /^I go to profile page of the user '([^']+)'$/ do |email|
 end
 
 Then /^I have to see the user permissions configuration page$/ do
-  page.should have_text I18n.translate('view.permissions.permissions')
-  page.should have_button I18n.translate 'save'
-  page.should have_link I18n.translate 'cancel'
+  expect(page).to have_text I18n.translate('view.permissions.permissions')
+  expect(page).to have_button I18n.translate 'save'
+  expect(page).to have_link I18n.translate 'cancel'
 end
 
 When /^I set user permissions to '([^']+)'$/ do |permissions|

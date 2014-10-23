@@ -67,7 +67,7 @@ Feature: Edit user profile
 
 
 
-  Scenario: user edit its personal data
+  Scenario: User edits its personal data
     Given there is an active user with e-mail 'user@test.com' and password '12345'
     
     When I access my home page with e-mail 'user@test.com' and password '12345'
@@ -78,5 +78,27 @@ Feature: Edit user profile
     When I type 'change@email.com' in 'user_email'
     And I type 'Monkey' in 'user_first_name'
     And I type 'User' in 'user_last_name'
+    And I click on button 'save'
+    Then I have to see the success message 'view.user_profile.message.update_profile.success'
+
+
+
+  Scenario: User edits personal data of another user
+    Given there is an active user with e-mail 'user@test.com' and password '12345' with permission to 'USER_CREATE_ACCOUNT'
+    And there is an active user with e-mail 'another_user@test.com' and nickname 'ximbinha'
+
+    When I access my home page with e-mail 'user@test.com' and password '12345'
+    And I select menu 'manage_users'
+    Then I have to see the list of users page
+
+    When I type 'ximbinha' in 'query'
+    And I click on button 'find'
+    And I click on link 'detail'
+    Then I have to see the profile page of the user 'ximbinha'
+
+    When I click on 'edit_profile'
+    Then I have to see the user profile edition page
+
+    When I type 'Ximbinha' in 'user_first_name'
     And I click on button 'save'
     Then I have to see the success message 'view.user_profile.message.update_profile.success'
