@@ -89,6 +89,7 @@ module Epistoleiro
         user.activation_key = User.generate_activation_key user.password, user.salt
         user.active = false
         user.feature_permissions = [Rules::WATCHER]
+        user.update_tags
 
         user
       end

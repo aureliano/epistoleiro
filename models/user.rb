@@ -13,6 +13,7 @@ class User
   field :active, :type => Boolean
   field :salt, :type => String
   field :feature_permissions, :type => Array
+  field :tags, :type => Array
 
   validates_presence_of :id, :message => I18n.translate('model.user.validation.id_required')
   validates_presence_of :nickname, :message => I18n.translate('model.user.validation.nickname_required')
@@ -39,6 +40,16 @@ class User
     end
 
     false
+  end
+
+  def update_tags
+    tokens = []
+    tokens << self.id.to_s
+    tokens << self.nickname
+    tokens << self.first_name.to_s.downcase.split(/\s+/)
+    tokens << self.last_name.to_s.downcase.split(/\s+/)
+
+    self.tags = tokens.flatten.uniq
   end
 
   def reset_password

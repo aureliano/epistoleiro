@@ -1,10 +1,27 @@
-<%= DataTable.new do |t|
-  t.page_index = @current_page
-  t.total = @users.count
-  t.data = @users
-  t.columns = [
-    DataColumn.new(:title => 'Nickname', :ui => { :type => :text, :value => "%{nickname}" }, :width => 300),
-    DataColumn.new(:title => 'Status', :ui => { :type => :text, :value => "%{user_account_status}" }, :width => 100),
-    DataColumn.new(:ui => { :type => 'link', :value => "/user/%{nickname}", :label => 'Detail', :class => 'btn btn-info btn-small' }, :width => 50)
-  ]
-end.render :id => 'dt_users', :csrf_token => csrf_token %>
+<% form_tag url(:user, :list_users), :method => 'post' do %>
+  <div class="row hero-unit">
+    <div class="span">
+      <label for="query" value="query"><%= I18n.translate 'view.list_users.query' %>:</label>
+    </div>
+
+    <div class="span6">
+      <input type="text" value="<%= params[:query] %>" id="query" name="query" style="width: 450px;" maxlength="50"/>
+    </div>
+
+    <div class="span2">
+      <input type="submit" value="Submit" class="btn" onclick="resetPagination()"/>
+    </div>
+  </div>
+
+  <%= DataTable.new do |t|
+    t.page_index = @current_page
+    t.total = @users.count
+    t.data = @users
+    t.columns = [
+      DataColumn.new(:title => 'Nickname', :ui => { :type => :text, :value => "%{nickname}" }, :width => 300),
+      DataColumn.new(:title => 'Status', :ui => { :type => :text, :value => "%{user_account_status}" }, :width => 100),
+      DataColumn.new(:ui => { :type => 'link', :value => "/user/%{nickname}", :label => 'Detail', :class => 'btn btn-info btn-small' }, :width => 50)
+    ]
+  end.render :id => 'dt_users', :csrf_token => csrf_token %>
+
+<% end %>

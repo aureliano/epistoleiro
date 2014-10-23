@@ -149,49 +149,52 @@ class DataTable
   def pagination_layer(doc, table_id, csrf_token)
     return if self.pages == 0
 
-    form_id = "form_#{table_id}"
-    doc.form(:method => 'post', :action => '', :id => form_id) {
-      doc.input(:type => 'hidden', :value => @page_index, :id => "#{table_id}-index", :name => "#{table_id}-index")
-      doc.input(:type => 'hidden', :name => 'authenticity_token', :value => csrf_token)
-      doc.div(:class => 'pagination') {
-        doc.ul {
-          doc.li(:class => (self.has_previous_pagination_block? ? '' : 'disabled')) {
-            doc.a(:href => (self.has_previous_pagination_block? ? "javascript: goToPage(#{self.previous_block_page})" : 'javascript: void(0)')) {
-              doc.span '<<'
-            }
-          }
-          doc.li(:class => (self.has_previous_page? ? '' : 'disabled')) {
-            doc.a(:href => (self.has_previous_page? ? "javascript: goToPage(#{self.previous_page})" : 'javascript: void(0)')) {
-              doc.span '<'
-            }
-          }
+    doc.input(:type => 'hidden', :value => @page_index, :id => "#{table_id}-index", :name => "#{table_id}-index")
+    doc.input(:type => 'hidden', :name => 'authenticity_token', :value => csrf_token)
+    doc.span I18n.translate('data_table_pagination').sub('%{page}', self.page_index.to_s).sub('%{pages}', self.pages.to_s).sub('%{total}', self.total.to_s)
 
-          self.current_page_block.each do |page|
-            doc.li(:class => (self.page_index == page ? 'disabled' : '')) {
-              doc.a(:href => (self.page_index == page ? 'javascript: void(0)' : "javascript: goToPage(#{page})")) {
-                doc.span page
-              }
-            }
-          end
+    doc.div(:class => 'pagination') {
+      doc.ul {
+        doc.li(:class => (self.has_previous_pagination_block? ? '' : 'disabled')) {
+          doc.a(:id => "#{table_id}-block-previous", :onclick => ((self.has_previous_pagination_block?) ? "goToPage(this.id, #{self.previous_block_page})" : 'void(0)'), :href => 'javascript: void(0)') {
+            doc.span '<<'
+          }
+        }
+        doc.li(:class => (self.has_previous_page? ? '' : 'disabled')) {
+          doc.a(:id => "#{table_id}-page-previous", :onclick => ((self.has_previous_page?) ? "goToPage(this.id, #{self.previous_page})" : 'void(0)'), :href => 'javascript: void(0)') {
+            doc.span '<'
+          }
+        }
 
-          doc.li(:class => (self.has_next_page? ? '' : 'disabled')) {
-            doc.a(:href => (self.has_next_page? ? "javascript: goToPage(#{self.next_page})" : 'javascript: void(0)')) {
-              doc.span '>'
+        self.current_page_block.each do |page|
+          doc.li(:class => (self.page_index == page ? 'disabled' : '')) {
+            doc.a(:id => "dt-page-#{page}", :onclick => ((self.page_index == page) ? 'void(0)' : "goToPage(this.id, #{page})"), :href => 'javascript: void(0)') {
+              doc.span page
             }
           }
-          doc.li(:class => (self.has_next_pagination_block? ? '' : 'disabled')) {
-            doc.a(:href => (self.has_next_pagination_block? ? "javascript: goToPage(#{self.next_block_page})" : 'javascript: void(0)')) {
-              doc.span '>>'
-            }
+        end
+
+        doc.li(:class => (self.has_next_page? ? '' : 'disabled')) {
+          doc.a(:id => "#{table_id}-page-next", :onclick => ((self.has_next_page?) ? "goToPage(this.id, #{self.next_page})" : 'void(0)'), :href => 'javascript: void(0)') {
+            doc.span '>'
+          }
+        }
+        doc.li(:class => (self.has_next_pagination_block? ? '' : 'disabled')) {
+          doc.a(:id => "#{table_id}-block-next", :onclick => ((self.has_next_pagination_block?) ? "goToPage(this.id, #{self.next_block_page})" : 'void(0)'), :href => 'javascript: void(0)') {
+            doc.span '>>'
           }
         }
       }
     }
 
     doc.script <<-eos
-      function goToPage(index) {
+      function goToPage(ui, index) {
         $('##{table_id}-index').val(index);
-        $('##{form_id}').submit();
+        $('#' + ui).closest('form').submit();
+      }
+
+      function resetPagination() {
+        $('##{table_id}-index').val(null);
       }
     eos
   end

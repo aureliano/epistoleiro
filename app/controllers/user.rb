@@ -98,6 +98,7 @@ Epistoleiro::App.controllers :user do
     @user.last_name = params[:user][:last_name]
     @user.home_page = params[:user][:home_page]
     @user.phones = [params[:user][:phone_number]]
+    @user.update_tags
     
     unless entity_crud :entity => @user, :action => :save
       @edit_mode = true
@@ -112,14 +113,25 @@ Epistoleiro::App.controllers :user do
 
   get :list_users, :map => '/users' do
     @current_page = 1
-    @users = User.all.asc(:nickname).skip(0).limit(DataTable.default_page_size)
+    @users = if params[:query]
+      User.where(:tags => { '$all' => params[:query].split(/\s+/)})
+    else
+      User.all
+    end.asc(:nickname).skip(0).limit(DataTable.default_page_size)
+
     render 'user/list_users'
   end
 
   post :list_users, :map => '/users' do
     @current_page = params['dt_users-index'].to_i
+    @current_page += 1 if @current_page == 0
     skip = (@current_page - 1) * DataTable.default_page_size
-    @users = User.all.asc(:nickname).skip(skip).limit(DataTable.default_page_size)
+    
+    @users = unless params[:query].to_s.empty?
+      User.where(:tags => { '$all' => params[:query].split(/\s+/)})
+    else
+      User.all
+    end.asc(:nickname).skip(skip).limit(DataTable.default_page_size)
 
     render 'user/list_users'
   end
