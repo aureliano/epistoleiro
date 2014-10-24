@@ -19,6 +19,13 @@ Epistoleiro::App.controllers :authentication do
   end
 
   post :create_account do
+    unless RACK_ENV == 'test'
+      unless recaptcha_valid?
+        put_message :message => 'invalid_captcha', :type => 'e'
+        return render :signup, :layout => 'public.html'
+      end
+    end
+
     if User.where(:id => params[:user][:email]).exists?
       put_message :message => 'view.sign_up.message.user_already_registered', :type => 'e'
       return render :signup, :layout => 'public.html'

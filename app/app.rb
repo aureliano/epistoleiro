@@ -3,6 +3,9 @@ module Epistoleiro
     register Padrino::Mailer
     register Padrino::Helpers
 
+    use Rack::Recaptcha, :public_key => ENV['RECAPTCHA_PUBLIC_KEY'], :private_key => ENV['RECAPTCHA_PRIVATE_KEY']
+    helpers Rack::Recaptcha::Helpers
+
     enable :sessions
 
     get :index do

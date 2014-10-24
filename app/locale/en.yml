@@ -18,6 +18,7 @@ en:
   manage_users: Manage users
   create_user_account: Create user account
   data_table_pagination: Page %{page} of %{pages} about %{total} records.
+  invalid_captcha: Provided characters does not match those from image.
   http:
     error:
       '404':

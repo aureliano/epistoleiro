@@ -7,4 +7,12 @@
 
 <% form_tag url(:authentication, :create_account), :method => :post, :id => 'form_create_account', :onsubmit => "return validateForm();" do %>
   <%= partial 'create_user_account' %>
+
+  <div class="row">
+    <div class="span2">
+    </div>
+    <div class="span6">
+      <%= recaptcha_tag(:challenge).html_safe %>
+    </div>
+  </div>
 <% end %>
