@@ -6,7 +6,7 @@ module Epistoleiro
     enable :sessions
 
     get :index do
-      if user_logged_in?
+      layout = if user_logged_in?
         render 'user/dashboard'
       else
         render :index, :layout => 'public.html'

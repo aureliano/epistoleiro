@@ -16,6 +16,7 @@ en:
   delete: Delete
   find: Find
   manage_users: Manage users
+  create_user_account: Create user account
   data_table_pagination: Page %{page} of %{pages} about %{total} records.
   http:
     error:
@@ -81,6 +82,9 @@ en:
         update_success: Permissions successfully updated.
     list_users:
       query: Find user
+    create_user_account:
+      message:
+        access_denied: You do not have permission to create user accounts.
   model:
     user:
       fields:

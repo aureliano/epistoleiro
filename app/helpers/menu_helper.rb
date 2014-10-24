@@ -28,6 +28,16 @@ module Epistoleiro
                     doc.span I18n.translate 'manage_users'
                   }
                 }
+
+                if signed_user.has_permission? Rules::USER_CREATE_ACCOUNT
+                  doc.li {
+                    doc.a(:id => '', :href => url(:user, :create_account)) {
+                      doc.i(:class => 'icon-chevron-right')
+                      doc.span I18n.translate 'create_user_account'
+                    }
+                  }
+                end
+
                 doc.li :class => 'divider'
               end
 

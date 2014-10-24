@@ -136,4 +136,50 @@ Epistoleiro::App.controllers :user do
     render 'user/list_users'
   end
 
+  get :create_account, :map => '/create-user-account' do
+    unless signed_user_has_permission? Rules::USER_CREATE_ACCOUNT
+      put_message :message => 'view.create_user_account.message.access_denied', :type => 'e'
+      return render 'user/dashboard'
+    end
+
+    params['user'] = {}
+    render 'user/create_account'
+  end
+
+  post :create_new_account do
+    unless signed_user_has_permission? Rules::USER_CREATE_ACCOUNT
+      put_message :message => 'view.create_user_account.message.access_denied', :type => 'e'
+      return render 'user/dashboard'
+    end
+
+    if User.where(:id => params[:user][:email]).exists?
+      put_message :message => 'view.sign_up.message.user_already_registered', :type => 'e'
+      return render 'user/create_account'
+    elsif User.where(:nickname => params[:user][:nickname]).exists?
+      put_message :message => 'view.sign_up.message.nickname_already_in_use', :type => 'e'
+      return render 'user/create_account'
+    end      
+
+    @messages = validate_user_account_creation params[:user]
+    if @messages.empty?
+      user = build_user_account_creation_model(params[:user])
+      user.save
+      @messages = format_validation_messages user
+
+      if @messages.empty?
+        raise 'Sending e-mail is not implemented yet' if RACK_ENV == 'production'
+        session[:msg] = I18n.translate('view.sign_up.message.success').sub('%{email}', user.id)
+        session[:msg_type] = 's'
+
+        redirect url :user, :create_account
+      else
+        put_message :message => @messages.join('<br/>'), :type => 'w', :translate => false
+        render 'user/create_account'
+      end
+    else
+      put_message :message => @messages.join('<br/>'), :type => 'w'
+      render 'user/create_account'
+    end
+  end
+
 end

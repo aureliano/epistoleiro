@@ -7,3 +7,7 @@ Then /^I have to see the account creation success message '([^']+)' to '([^']+)'
   message = I18n.translate(message_key).sub '%{email}', email
   step "I have to see the success message '#{message}'"
 end
+
+Then /^I have to see the create user account page$/ do
+
+end

@@ -1,0 +1,3 @@
+<% form_tag url(:user, :create_new_account), :method => :post, :id => 'form_create_account', :onsubmit => "return validateForm();" do %>
+  <%= partial 'create_user_account' %>
+<% end %>
