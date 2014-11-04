@@ -15,6 +15,8 @@ class User
   field :feature_permissions, :type => Array
   field :tags, :type => Array
 
+  has_and_belongs_to_many :groups
+
   validates_presence_of :id, :message => I18n.translate('model.user.validation.id_required')
   validates_presence_of :nickname, :message => I18n.translate('model.user.validation.nickname_required')
   validates_presence_of :first_name, :message => I18n.translate('model.user.validation.first_name_required')
