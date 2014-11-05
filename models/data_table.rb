@@ -19,6 +19,8 @@ class DataTable
   attr_reader :pages, :current_page_block, :page_size
 
   def render(options = {})
+    return '' if @data.empty?
+    
     builder = Nokogiri::HTML::Builder.new do |doc|
       props = {}
       props[:id] = options[:id] ||= "dt_#{10.times.map { Random.rand(10) }.join}"
