@@ -17,6 +17,8 @@ en:
   find: Find
   manage_users: Manage users
   create_user_account: Create user account
+  list_groups: List groups
+  create_group: Create group
   data_table_pagination: Page %{page} of %{pages} about %{total} records.
   invalid_captcha: Provided characters does not match those from image.
   http:
@@ -86,6 +88,8 @@ en:
     create_user_account:
       message:
         access_denied: You do not have permission to create user accounts.
+    list_groups:
+      query: Find group
   model:
     user:
       fields:
@@ -118,6 +122,15 @@ en:
       account_status:
         active: Active
         inactive: Inactive
+    group:
+      fields:
+        name: Name
+        description: Description
+      validation:
+        name_required: Name is required.
+        description: Description is required.
+        name_length: Name must have at least 2 and at most 25 characters.
+        description_length: Description must have at least 5 and at most 200 characters.
   features:
     watcher:
       label: Watcher
@@ -134,6 +147,12 @@ en:
     user_manage_permissions:
       label: Manage user permissions
       description: Grant or revoke user permissions.
+    group_create_group:
+      label: Create group
+      description: Create groups where users can join and share events.
+    group_delete_group:
+      label: Delete group
+      description: Delete group.
   mongoid:
     errors:
       format: "%{attribute} %{message}"

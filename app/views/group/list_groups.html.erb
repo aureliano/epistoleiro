@@ -1,0 +1,26 @@
+<% form_tag url(:group, :list_groups), :method => 'post' do %>
+  <div class="row hero-unit">
+    <div class="span">
+      <label for="query" value="query"><%= I18n.translate 'view.list_groups.query' %>:</label>
+    </div>
+
+    <div class="span6">
+      <input type="text" value="<%= params[:query] %>" id="query" name="query" style="width: 450px;" maxlength="50"/>
+    </div>
+
+    <div class="span2">
+      <input type="submit" value="<%= I18n.translate 'find' %>" class="btn" onclick="resetPagination()"/>
+    </div>
+  </div>
+
+  <%= DataTable.new do |t|
+    t.page_index = @current_page
+    t.total = @groups.count
+    t.data = @groups
+    t.columns = [
+      DataColumn.new(:title => 'Name', :ui => { :type => :text, :value => "%{name}" }, :width => 400),
+      DataColumn.new(:ui => { :type => 'link', :value => "/group/%{id}", :label => I18n.translate('detail'), :class => 'btn btn-info btn-small' }, :width => 50)
+    ]
+  end.render :id => 'dt_groups', :csrf_token => csrf_token %>
+
+<% end %>

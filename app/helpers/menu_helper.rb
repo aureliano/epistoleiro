@@ -4,6 +4,8 @@ module Epistoleiro
 
       def build_menu
         Nokogiri::HTML::Builder.new do |doc|
+          divider_printed = false
+
           doc.div(:id => 'user_menu', :class => 'btn-group') {
             doc.button(:class => 'btn btn-large dropdown-toggle', 'data-toggle' => 'dropdown', :href => '#') {
               doc.span session[:user_nickname]
@@ -31,7 +33,7 @@ module Epistoleiro
 
                 if signed_user.has_permission? Rules::USER_CREATE_ACCOUNT
                   doc.li {
-                    doc.a(:id => '', :href => url(:user, :create_account)) {
+                    doc.a(:id => 'user_create_account', :href => url(:user, :create_account)) {
                       doc.i(:class => 'icon-chevron-right')
                       doc.span I18n.translate 'create_user_account'
                     }
@@ -39,7 +41,26 @@ module Epistoleiro
                 end
 
                 doc.li :class => 'divider'
+                divider_printed = true
               end
+
+              doc.li :class => 'divider' unless divider_printed
+              if signed_user.has_permission? Rules::GROUP_CREATE_GROUP
+                doc.li {
+                  doc.a(:id => 'group_list_groups', :href => url(:group, :list_groups)) {
+                    doc.i(:class => 'icon-chevron-right')
+                    doc.span I18n.translate 'list_groups'
+                  }
+                }
+              end
+
+              doc.li {
+                doc.a(:id => 'group_create_group', :href => '') {
+                  doc.i(:class => 'icon-chevron-right')
+                  doc.span I18n.translate 'create_group'
+                }
+              }
+              doc.li :class => 'divider'
 
               doc.li {
                 doc.a(:id => 'sign_out', :href => url(:sign_out)) {
