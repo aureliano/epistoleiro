@@ -7,7 +7,7 @@ module Epistoleiro
 
         group.name = hash[:name]
         group.description = hash[:description]
-        #group.update_tags
+        group.update_tags
 
         group
       end
