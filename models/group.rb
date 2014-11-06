@@ -22,9 +22,12 @@ class Group
 
     self.tags = tokens.flatten.uniq
     self.tags.each do |tag|
-      chars.keys.each {|char| tag.sub! char, chars[char] }
+      chars.keys.each {|char| tag.gsub! char, chars[char] }
+      tag.gsub! /[,.?!]+/, ''
       tag.downcase!
     end
+
+    self.tags.delete_if {|tag| tag.size <= 2 && tag.match(/\A[a-z]+\z/) }
   end
 
 end
