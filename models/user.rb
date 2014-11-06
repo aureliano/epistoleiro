@@ -47,13 +47,18 @@ class User
   end
 
   def update_tags
+    chars = YAML.load_file 'config/characters.yml'
     tokens = []
-    tokens << self.id.to_s
-    tokens << self.nickname
-    tokens << self.first_name.to_s.downcase.split(/\s+/)
-    tokens << self.last_name.to_s.downcase.split(/\s+/)
+    tokens << self.id.to_s.dup
+    tokens << self.nickname.to_s.dup
+    tokens << self.first_name.to_s.split(/\s+/)
+    tokens << self.last_name.to_s.split(/\s+/)
 
     self.tags = tokens.flatten.uniq
+    self.tags.each do |tag|
+      chars.keys.each {|char| tag.sub! char, chars[char] }
+      tag.downcase!
+    end
   end
 
   def reset_password
