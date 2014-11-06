@@ -55,7 +55,7 @@ module Epistoleiro
               end
 
               doc.li {
-                doc.a(:id => 'group_create_group', :href => '') {
+                doc.a(:id => 'group_create_group', :href => url(:group, :create)) {
                   doc.i(:class => 'icon-chevron-right')
                   doc.span I18n.translate 'create_group'
                 }

@@ -2,6 +2,10 @@ When /^I type '([^']*)' in '([^']+)'$/ do |text, id|
   page.find(:xpath, "//input[@id='#{id}']").set text
 end
 
+When /^I type '([^']*)' in text area '([^']+)'$/ do |text, id|
+  page.find(:xpath, "//textarea[@id='#{id}']").set text
+end
+
 When /^I click on button '([^']+)'$/ do |button|
   click_button I18n.translate(button)
 end

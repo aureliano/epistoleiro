@@ -90,6 +90,10 @@ en:
         access_denied: You do not have permission to create user accounts.
     list_groups:
       query: Find group
+    create_group:
+      message:
+        access_denied: You do not have permission to create groups.
+        success: Group created successfully.
   model:
     user:
       fields:

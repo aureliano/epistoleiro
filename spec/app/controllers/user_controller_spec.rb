@@ -3,25 +3,14 @@ require 'spec_helper'
 describe "UserController" do
   
   before :all do
-    User.delete_all
-  end
-
-  def expect_login_page(body)
-    expect(body).to include '<input type="email" required maxlength="100" id="user_email" name="user[email]" value=""/>'
-    expect(body).to include '<input type="password" required maxlength="30" id="user_password" name="user[password]" value=""/>'
-    expect(body).to include '<button type="submit" class="btn btn-info">Sign in</button>'
+    delete_all_collections
   end
 
   describe 'view user profile' do
 
     it 'validates not authenticated user access to user profile' do
       user = create_user
-      get "/user/#{user.nickname}"
-
-      expect(last_response).to be_redirect
-      follow_redirect!
-
-      expect_login_page last_response.body
+      expect_redirection_to_login_page "/user/#{user.nickname}"
     end
 
     it 'validates access to a non existing user profile' do
@@ -47,7 +36,7 @@ describe "UserController" do
       it 'validates access to user permissions feature only to those who has USER_MANAGE_PERMISSIONS permission' do
         user = create_user
         get "/user/#{user.nickname}/permissions", {}, 'rack.session' => { :user_id => user.id, :user_nickname => user.nickname }
-                
+
         expect(last_response.body).to include '<div class="alert alert-danger alert-dismissable">'
         expect(last_response.body).to include I18n.translate 'view.permissions.message.access_denied'
         expect(last_response.body).not_to include "<h4>#{I18n.translate 'view.permissions.permissions'}</h4>"
@@ -56,12 +45,7 @@ describe "UserController" do
 
       it 'validates not authenticated user access to user permissions feature' do
         user = create_user
-        get "/user/#{user.nickname}/permissions"
-
-        expect(last_response).to be_redirect
-        follow_redirect!
-
-        expect_login_page last_response.body
+        expect_redirection_to_login_page "/user/#{user.nickname}/permissions"
       end
 
     end

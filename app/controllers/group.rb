@@ -29,4 +29,36 @@ Epistoleiro::App.controllers :group do
     render 'group/list_groups'
   end
 
+  get :create do
+    unless signed_user_has_permission? Rules::GROUP_CREATE_GROUP
+      put_message :message => 'view.create_group.message.access_denied', :type => 'e'
+      return render 'user/dashboard'
+    end
+
+    params['group'] = {}
+    render 'group/create'
+  end
+
+  post :create do
+    unless signed_user_has_permission? Rules::GROUP_CREATE_GROUP
+      put_message :message => 'view.create_group.message.access_denied', :type => 'e'
+      return render 'user/dashboard'
+    end     
+
+    group = build_group_creation_model(params[:group])
+    group.save
+    @messages = format_validation_messages group
+
+    if @messages.empty?
+      raise 'Sending e-mail is not implemented yet' if RACK_ENV == 'production'
+      session[:msg] = I18n.translate('view.create_group.message.success')
+      session[:msg_type] = 's'
+
+      redirect url :group, :list_groups
+    else
+      put_message :message => @messages.join('<br/>'), :type => 'w', :translate => false
+      render 'group/create'
+    end
+  end
+
 end

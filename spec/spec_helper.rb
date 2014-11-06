@@ -15,6 +15,11 @@ def app(app = nil, &blk)
   @app ||= Padrino.application
 end
 
+def delete_all_collections
+  User.delete_all
+  Group.delete_all
+end
+
 def create_user(active=true)
   user = User.where(:id => 'test@mail.com').first
   if user.nil?
@@ -29,4 +34,27 @@ def create_user(active=true)
 
   user.save!
   user
+end
+
+def create_group
+  group = Group.where(:name => 'Group XVI').first
+  group = Group.new :name => 'Group XVI', :description => 'A group created for test purpose.' if group.nil?
+
+  group.save!
+  group
+end
+
+def expect_login_page(body)
+  expect(body).to include '<input type="email" required maxlength="100" id="user_email" name="user[email]" value=""/>'
+  expect(body).to include '<input type="password" required maxlength="30" id="user_password" name="user[password]" value=""/>'
+  expect(body).to include '<button type="submit" class="btn btn-info">Sign in</button>'
+end
+
+def expect_redirection_to_login_page(url)
+  get url
+
+  expect(last_response).to be_redirect
+  follow_redirect!
+
+  expect_login_page last_response.body
 end

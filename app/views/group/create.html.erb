@@ -1,0 +1,19 @@
+<% form_tag url(:group, :create), :method => :post, :id => 'form_create_group', :onsubmit => "return validateForm();" do %>
+  <div>
+    <div class="row">
+      <div class="span2"><label for="group_name"><%= I18n.translate 'model.group.fields.name' %>: *</label></div>
+      <div class="span6"><input type="text" required maxlength="25" id="group_name" name="group[name]" value="<%= params['group']['name'] %>"/></div>
+    </div>
+    <div class="row">
+      <div class="span2"><label for="group_description"><%= I18n.translate 'model.group.fields.description' %>: *</label></div>
+      <div class="span6"><textarea required maxlength="200" rows="5" id="group_description" name="group[description]" value="<%= params['group']['description'] %>"></textarea></div>
+    </div>
+    <div class="row">
+      <div class="span2"></div>
+      <div class="span6">
+        <button type="submit" class="btn btn-success"><%= I18n.translate 'save' %></button>
+        <a href="<%= url :group, :list_groups %>" class="btn"><%= I18n.translate 'cancel' %></a>
+      </div>
+    </div>
+  </div>
+<% end %>
