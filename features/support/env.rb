@@ -16,4 +16,5 @@ Capybara.app = Epistoleiro::App.tap { |app|  }
 
 Before do
   User.delete_all
+  Group.delete_all
 end

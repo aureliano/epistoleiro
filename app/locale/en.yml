@@ -136,6 +136,7 @@ en:
         description: Description is required.
         name_length: Name must have at least 2 and at most 25 characters.
         description_length: Description must have at least 5 and at most 200 characters.
+        name_uniqueness: There is already a group registered with this name.
   features:
     watcher:
       label: Watcher

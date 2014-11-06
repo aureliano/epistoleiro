@@ -127,8 +127,8 @@ describe "AuthenticationController" do
         }
       }
 
-      expect(last_response.body).to include '<div class="alert alert-danger alert-dismissable">'
-      expect(last_response.body).to include I18n.translate('view.sign_up.message.nickname_already_in_use')
+      expect(last_response.body).to include '<div class="alert alert-warning alert-dismissable">'
+      expect(last_response.body).to include I18n.translate('model.user.validation.nickname_uniqueness')
     end
 
     it 'creates an account' do

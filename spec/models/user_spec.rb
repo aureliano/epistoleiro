@@ -130,10 +130,10 @@ describe User do
     user.nickname = 'caça'
     expect { user.save! }.to raise_error
 
-    user.nickname = 'dummy*'
+    user.nickname = 'cross*'
     expect { user.save! }.to raise_error
 
-    user.nickname = 'dummy'
+    user.nickname = 'cross'
     expect { user.save! }.not_to raise_error
   end
 
