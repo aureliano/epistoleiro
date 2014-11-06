@@ -30,7 +30,7 @@ Feature: Create an account
 
   Scenario: User tries to create an account to a user that is already registered with same e-mail
     Given there is an active user with e-mail 'monkey_user@mail.com' and password '12345'
-    And there is an active user with e-mail 'user@test.com' and password '12345' with permission to 'USER_CREATE_ACCOUNT'
+    And there is an active user with e-mail 'user@test.com' and nickname 'test' with permission to 'USER_CREATE_ACCOUNT'
     
     When I access my home page with e-mail 'user@test.com' and password '12345'
     And I select menu 'create_user_account'
@@ -51,7 +51,7 @@ Feature: Create an account
 
   Scenario: User tries to create an account to a user that is already registered with same nickname
     Given there is an active user with e-mail 'monkey_user@mail.com' and password '12345'
-    And there is an active user with e-mail 'user@test.com' and password '12345' with permission to 'USER_CREATE_ACCOUNT'
+    And there is an active user with e-mail 'user@test.com' and nickname 'test' with permission to 'USER_CREATE_ACCOUNT'
     
     When I access my home page with e-mail 'user@test.com' and password '12345'
     And I select menu 'create_user_account'
@@ -66,13 +66,13 @@ Feature: Create an account
     And I type 'http://www.test.com' in 'user_home_page'
     And I type '99587456' in 'user_phone_number'
     And I click on button 'sign_up'
-    Then I have to see the error message 'view.sign_up.message.nickname_already_in_use'
+    Then I have to see the warning message 'model.user.validation.nickname_uniqueness'
 
 
 
   Scenario Outline: User tries to create an account providing an invalid nickname
     Given there is an active user with e-mail 'monkey_user@mail.com' and password '12345'
-    And there is an active user with e-mail 'user@test.com' and password '12345' with permission to 'USER_CREATE_ACCOUNT'
+    And there is an active user with e-mail 'user@test.com' and nickname 'test' with permission to 'USER_CREATE_ACCOUNT'
     
     When I access my home page with e-mail 'user@test.com' and password '12345'
     And I select menu 'create_user_account'

@@ -39,7 +39,6 @@ en:
       message:
         success: Your account was created successfully. An e-mail was sent to %{email}. Check your mail box and follow instructions to activate your account.
         user_already_registered: There is already a user registered with this e-mail.
-        nickname_already_in_use: There is already a user registered with this nickname.
     activation:
       message:
         success: Your account has just been activated. Log in to get access.
@@ -110,6 +109,7 @@ en:
         id_length: e-mail must have at least 5 and at most 50 characters.
         nickname_required: Nickname is required.
         nickname_length: Nickname must have at least 3 and at most 15 characters.
+        nickname_uniqueness: There is already a user registered with this nickname.
         nickname_format: Nickname must not have special characters. You can use regular characters, numbers and one of [-_.].
         password_not_equals: Provided password and password confirmation are not equal.
         password_length: Password must have at least 5 and at most 30 characters.

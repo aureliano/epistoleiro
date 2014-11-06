@@ -155,9 +155,6 @@ Epistoleiro::App.controllers :user do
     if User.where(:id => params[:user][:email]).exists?
       put_message :message => 'view.sign_up.message.user_already_registered', :type => 'e'
       return render 'user/create_account'
-    elsif User.where(:nickname => params[:user][:nickname]).exists?
-      put_message :message => 'view.sign_up.message.nickname_already_in_use', :type => 'e'
-      return render 'user/create_account'
     end      
 
     @messages = validate_user_account_creation params[:user]

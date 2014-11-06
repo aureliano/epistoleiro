@@ -3,6 +3,11 @@ def save_user_dummy(options)
   options.each {|field, value| user.send("#{field}=", value)}
 
   user.nickname ||= 'dummy'
+
+  if User.where(:nickname => user.nickname).exists?
+    user = User.where(:nickname => user.nickname).first
+  end
+
   user.first_name ||= 'Monkey'
   user.last_name ||= 'User'
   user.password ||= 'password'
