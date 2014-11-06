@@ -26,6 +26,8 @@ Feature: Create an account
       |test@email.com|dummy   |Monkey    |User     |123      |123             |http://www.test.com|99587456    |model.user.validation.password_length|
       |test@email.com|dummy   |Monkey    |User     |Change123|Change123       |http://www.test.com|9958745     |model.user.validation.phone_number_length|
 
+
+
   Scenario: User tries to create an account to a user that is already registered with same e-mail
     Given there is an active user with e-mail 'monkey_user@mail.com' and password '12345'
     And there is an active user with e-mail 'user@test.com' and password '12345' with permission to 'USER_CREATE_ACCOUNT'
@@ -45,6 +47,8 @@ Feature: Create an account
     And I click on button 'sign_up'
     Then I have to see the error message 'view.sign_up.message.user_already_registered'
 
+
+
   Scenario: User tries to create an account to a user that is already registered with same nickname
     Given there is an active user with e-mail 'monkey_user@mail.com' and password '12345'
     And there is an active user with e-mail 'user@test.com' and password '12345' with permission to 'USER_CREATE_ACCOUNT'
@@ -63,6 +67,33 @@ Feature: Create an account
     And I type '99587456' in 'user_phone_number'
     And I click on button 'sign_up'
     Then I have to see the error message 'view.sign_up.message.nickname_already_in_use'
+
+
+
+  Scenario Outline: User tries to create an account providing an invalid nickname
+    Given there is an active user with e-mail 'monkey_user@mail.com' and password '12345'
+    And there is an active user with e-mail 'user@test.com' and password '12345' with permission to 'USER_CREATE_ACCOUNT'
+    
+    When I access my home page with e-mail 'user@test.com' and password '12345'
+    And I select menu 'create_user_account'
+    Then I have to see the create user account page
+
+    When I type 'new_email@mail.com' in 'user_email'
+    And I type '<nickname>' in 'user_nickname'
+    And I type 'Monkey' in 'user_first_name'
+    And I type 'User' in 'user_last_name'
+    And I type '12345' in 'user_password'
+    And I type '12345' in 'user_confirm_password'
+    And I type 'http://www.test.com' in 'user_home_page'
+    And I type '99587456' in 'user_phone_number'
+    And I click on button 'sign_up'
+    Then I have to see the warning message 'model.user.validation.nickname_format'
+
+    Examples:
+      |nickname|
+      |caçador|
+      |coração|
+      |tripé|
 
 
 

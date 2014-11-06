@@ -33,27 +33,11 @@ When /^I decline the confirmation message '([^']+)'$/ do |message|
 end
 
 Then /^I have to see the (\w+) message "([^"]+)"$/ do |type, message|
-  message_type = case type
-    when 'success' then 'success'
-    when 'information' then 'info'
-    when 'warning' then 'warning'
-    when 'error' then 'danger'
-  end
-
-  message = I18n.translate(message) if (message.match(/[.\w]+/).to_s == message)
-  expect(page.find(:xpath, "//div[@class='alert alert-#{message_type} alert-dismissable']/div").text).to eq message
+  i_have_to_see_message type, message
 end
 
 Then /^I have to see the (\w+) message '([^']+)'$/ do |type, message|
-  message_type = case type
-    when 'success' then 'success'
-    when 'information' then 'info'
-    when 'warning' then 'warning'
-    when 'error' then 'danger'
-  end
-
-  message = I18n.translate(message) if (message.match(/[.\w]+/).to_s == message)
-  expect(page.find(:xpath, "//div[@class='alert alert-#{message_type} alert-dismissable']/div").text).to eq message
+  i_have_to_see_message type, message
 end
 
 Then /^text field '([\w\d]+)' should have value '([^']*)'$/ do |field, value|
@@ -82,4 +66,18 @@ end
 
 Then /^I have not to see the element '([^']+)'$/ do |element_id|
   expect(page).not_to have_selector "##{element_id}"
+end
+
+def i_have_to_see_message(type, message)
+  message_type = case type
+    when 'success' then 'success'
+    when 'information' then 'info'
+    when 'warning' then 'warning'
+    when 'error' then 'danger'
+  end
+
+  raise "There's not a message of type '#{type}'" if message_type.nil?
+
+  message = I18n.translate(message) if (message.match(/[.\w]+/).to_s == message)
+  expect(page.find(:xpath, "//div[@class='alert alert-#{message_type} alert-dismissable']/div").text).to eq message
 end

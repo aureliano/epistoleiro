@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'spec_helper'
 
 describe User do
@@ -115,6 +117,23 @@ describe User do
 
     user.id = 'test@mail.com'
     user.nickname = 'nickname'
+    expect { user.save! }.not_to raise_error
+  end
+
+  it "validates nickname's format" do
+    user = User.new :first_name => '*' * 50, :last_name => '*' * 50, :password => '*' * 30, :salt => '123', :activation_key => '123456', :active => false
+    user.id = 'test@test.com'
+    user.nickname = 'coração'
+
+    expect { user.save! }.to raise_error
+
+    user.nickname = 'caça'
+    expect { user.save! }.to raise_error
+
+    user.nickname = 'dummy*'
+    expect { user.save! }.to raise_error
+
+    user.nickname = 'dummy'
     expect { user.save! }.not_to raise_error
   end
 

@@ -32,6 +32,8 @@ class User
   validates_length_of :last_name, :minimum => 3, :maximum => 50, :message => I18n.translate('model.user.validation.last_name_length')
   validates_length_of :home_page, :allow_blank => true, :minimum => 15, :maximum => 100, :message => I18n.translate('model.user.validation.home_page_length')
   
+  validates_format_of :nickname, with: /\A[0-9a-zA-Z_.-]+\z/, :message => I18n.translate('model.user.validation.nickname_format')
+
   def has_permission?(permission)
     ((!self.feature_permissions.nil?) && (self.feature_permissions.include? permission.to_s))
   end
