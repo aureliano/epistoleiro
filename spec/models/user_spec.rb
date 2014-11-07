@@ -4,6 +4,10 @@ require 'spec_helper'
 
 describe User do
 
+  before :all do
+    delete_all_collections
+  end
+
   it 'validates read access for all instance variables' do
     user = User.new
     expect(user).to respond_to :_id
@@ -85,7 +89,7 @@ describe User do
     user.id = 'test@mail.com'
     expect { user.save! }.to raise_error
 
-    user.nickname = 'nickname'
+    user.nickname = 'nickname1'
     expect { user.save! }.not_to raise_error
   end
 
@@ -102,7 +106,7 @@ describe User do
     user.nickname = 'ab'
     expect { user.save! }.to raise_error
 
-    user.nickname = 'nickname'
+    user.nickname = 'nickname2'
     expect { user.save! }.not_to raise_error
   end
 
