@@ -20,6 +20,10 @@ Given /^there is an inactive user with e-mail '([^']+)' and password '([^']+)'$/
   save_user_dummy :id => email, :password => password, :active => false
 end
 
+Given /^there is a group with name '([^']+)' and description '([^']+)'$/ do |name, description|
+  save_group_dummy :name => name, :description => description
+end
+
 Given /^I am in login page$/ do
   visit url :sign_in
 end

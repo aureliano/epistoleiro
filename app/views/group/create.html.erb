@@ -6,7 +6,7 @@
     </div>
     <div class="row">
       <div class="span2"><label for="group_description"><%= I18n.translate 'model.group.fields.description' %>: *</label></div>
-      <div class="span6"><textarea required maxlength="200" rows="5" id="group_description" name="group[description]" value="<%= params['group']['description'] %>"></textarea></div>
+      <div class="span6"><textarea required maxlength="200" rows="5" id="group_description" name="group[description]"><%= params['group']['description'] %></textarea></div>
     </div>
     <div class="row">
       <div class="span2"></div>

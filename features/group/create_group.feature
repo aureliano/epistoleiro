@@ -13,3 +13,36 @@ Feature: Create a group
     When I type 'A group created for test purpose.' in text area 'group_description'
     And I click on button 'save'
     Then I have to see the success message 'view.create_group.message.success'
+
+
+
+  Scenario Outline: User tries to create a group providing wrong values
+    Given there is an active user with e-mail 'user@test.com' and password '12345' with permission to 'GROUP_CREATE_GROUP'
+    When I access my home page with e-mail 'user@test.com' and password '12345'
+    And I select menu 'create_group'
+    Then I have to see the create group page
+
+    When I type '<name>' in 'group_name'
+    When I type '<description>' in text area 'group_description'
+    And I click on button 'save'
+    Then I have to see the warning message '<message>'
+
+      Examples:
+        |name|description|message|
+        |X|A group created for test purpose.|model.group.validation.name_length|
+        |Group_XVI|test|model.group.validation.description_length|
+
+
+
+  Scenario: User tries to create a group with name that is already registered
+    Given there is an active user with e-mail 'user@test.com' and password '12345' with permission to 'GROUP_CREATE_GROUP'
+    And there is a group with name 'Group_XVI' and description 'Some description.'
+
+    When I access my home page with e-mail 'user@test.com' and password '12345'
+    And I select menu 'create_group'
+    Then I have to see the create group page
+
+    When I type 'Group_XVI' in 'group_name'
+    When I type 'Whatever' in text area 'group_description'
+    And I click on button 'save'
+    Then I have to see the warning message 'model.group.validation.name_uniqueness'
