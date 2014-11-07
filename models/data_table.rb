@@ -56,7 +56,7 @@ class DataTable
             end
           }
         }
-        pagination_layer(doc, options[:id], options[:csrf_token]) unless options[:hide_pagination] == true
+        pagination_layer(doc, options[:id], options[:csrf_token]) if options[:hide_pagination] != true
       }
     end    
     
@@ -154,6 +154,8 @@ class DataTable
     doc.input(:type => 'hidden', :value => @page_index, :id => "#{table_id}-index", :name => "#{table_id}-index")
     doc.input(:type => 'hidden', :name => 'authenticity_token', :value => csrf_token)
     doc.span I18n.translate('data_table_pagination').sub('%{page}', self.page_index.to_s).sub('%{pages}', self.pages.to_s).sub('%{total}', self.total.to_s)
+
+    return if self.pages == 1
 
     doc.div(:class => 'pagination') {
       doc.ul {
