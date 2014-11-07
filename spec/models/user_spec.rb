@@ -22,7 +22,8 @@ describe User do
     expect(user).to respond_to :salt
     expect(user).to respond_to :feature_permissions
     expect(user).to respond_to :tags
-    expect(user).to respond_to :groups
+    expect(user).to respond_to :created_groups
+    expect(user).to respond_to :subscribed_goups
     expect(user).to respond_to 'has_permission?'
   end
 
@@ -40,7 +41,8 @@ describe User do
     expect(user).to respond_to 'salt='
     expect(user).to respond_to 'feature_permissions='
     expect(user).to respond_to 'tags='
-    expect(user).to respond_to 'groups='
+    expect(user).to respond_to 'created_groups='
+    expect(user).to respond_to 'subscribed_goups='
   end
 
   it 'validates default password hash iteration size' do

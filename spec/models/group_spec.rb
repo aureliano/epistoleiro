@@ -8,7 +8,8 @@ describe Group do
     expect(group).to respond_to :name
     expect(group).to respond_to :description
     expect(group).to respond_to :tags
-    expect(group).to respond_to :users
+    expect(group).to respond_to :members
+    expect(group).to respond_to :owner
     expect(group).to respond_to :sub_groups
   end
 
@@ -18,7 +19,8 @@ describe Group do
     expect(group).to respond_to 'name='
     expect(group).to respond_to 'description='
     expect(group).to respond_to 'tags='
-    expect(group).to respond_to 'users='
+    expect(group).to respond_to 'members='
+    expect(group).to respond_to 'owner='
     expect(group).to respond_to 'sub_groups='
   end
 

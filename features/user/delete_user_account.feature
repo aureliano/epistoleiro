@@ -5,7 +5,7 @@ Feature: Delete user account
 
   Scenario Outline: User without permission tries to delete user account
     Given there is an active user with e-mail 'user@test.com' and password '12345' with permission to '<perfil>'
-    And there is an active user with e-mail 'another_user@test.com' and password 'ximbinha'
+    And there is an active user with e-mail 'another_user@test.com' and nickname 'big_brother'
     
     When I access my home page with e-mail 'user@test.com' and password '12345'
     And I go to profile page of the user 'another_user@test.com'

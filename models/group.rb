@@ -5,7 +5,8 @@ class Group
   field :description, :type => String
   field :tags, :type => Array
 
-  has_and_belongs_to_many :users
+  has_and_belongs_to_many :members, :class_name => 'User', :inverse_of => :subscribed_goups
+  belongs_to :owner, :class_name => 'User', :inverse_of => :created_groups
   embeds_many :sub_groups, :class_name => 'Group'
 
   validates_presence_of :name, :message => I18n.translate('model.group.validation.name_required')

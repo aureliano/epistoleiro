@@ -7,6 +7,7 @@ module Epistoleiro
 
         group.name = hash[:name]
         group.description = hash[:description]
+        group.owner = User.where(:id => session[:user_id]).first
         group.update_tags
 
         group

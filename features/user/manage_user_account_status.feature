@@ -5,7 +5,7 @@ Feature: Manage user account status
 
   Scenario Outline: User without permission tries to manage user account status
     Given there is an active user with e-mail 'user@test.com' and password '12345' with permission to '<perfil>'
-    And there is an inactive user with e-mail 'another_user@test.com' and password 'ximbinha'
+    And there is an inactive user with e-mail 'another_user@test.com' and nickname 'big_brother'
     
     When I access my home page with e-mail 'user@test.com' and password '12345'
     And I go to profile page of the user 'another_user@test.com'
@@ -22,7 +22,7 @@ Feature: Manage user account status
 
   Scenario: User tries to activate a user account that is already active
     Given there is an active user with e-mail 'user@test.com' and password '12345' with permission to 'USER_MANAGE_STATUS'
-    And there is an active user with e-mail 'another_user@test.com' and password 'ximbinha'
+    And there is an active user with e-mail 'another_user@test.com' and nickname 'big_brother'
     
     When I access my home page with e-mail 'user@test.com' and password '12345'
     And I go to profile page of the user 'another_user@test.com'
@@ -33,7 +33,7 @@ Feature: Manage user account status
 
   Scenario: User tries to inactivate a user account that is already inactive
     Given there is an active user with e-mail 'user@test.com' and password '12345' with permission to 'USER_MANAGE_STATUS'
-    And there is an inactive user with e-mail 'another_user@test.com' and password 'ximbinha'
+    And there is an inactive user with e-mail 'another_user@test.com' and nickname 'big_brother'
     
     When I access my home page with e-mail 'user@test.com' and password '12345'
     And I go to profile page of the user 'another_user@test.com'
@@ -53,7 +53,7 @@ Feature: Manage user account status
 
   Scenario Outline: User manage a user account status
     Given there is an active user with e-mail 'user@test.com' and password '12345' with permission to 'USER_MANAGE_STATUS'
-    And there is an <user_status> user with e-mail 'another_user@test.com' and password 'ximbinha'
+    And there is an <user_status> user with e-mail 'another_user@test.com' and nickname 'big_brother'
 
     When I access my home page with e-mail 'user@test.com' and password '12345'
     And I go to profile page of the user 'another_user@test.com'

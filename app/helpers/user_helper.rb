@@ -3,10 +3,14 @@ module Epistoleiro
     module UserHelper
 
       def user_authenticated?(email, password)
+        puts email
+        puts password
         user = User.where(:id => email).first
+        puts user.nil?
         return false if user.nil?
 
         password_hash = User.generate_password_hash password, user.salt
+        puts user.password == password_hash
         return user.password == password_hash
       end
 
