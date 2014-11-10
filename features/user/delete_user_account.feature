@@ -17,6 +17,8 @@ Feature: Delete user account
     |USER_MANAGE_STATUS|
     |USER_CREATE_ACCOUNT|
     |USER_MANAGE_PERMISSIONS|
+    |GROUP_CREATE_GROUP|
+    |GROUP_DELETE_GROUP|
 
 
 

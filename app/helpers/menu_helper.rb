@@ -47,19 +47,20 @@ module Epistoleiro
               doc.li :class => 'divider' unless divider_printed
               if signed_user.has_permission? Rules::GROUP_CREATE_GROUP
                 doc.li {
-                  doc.a(:id => 'group_list_groups', :href => url(:group, :list_groups)) {
+                  doc.a(:id => 'group_create_group', :href => url(:group, :create)) {
                     doc.i(:class => 'icon-chevron-right')
-                    doc.span I18n.translate 'list_groups'
+                    doc.span I18n.translate 'create_group'
                   }
                 }
               end
 
               doc.li {
-                doc.a(:id => 'group_create_group', :href => url(:group, :create)) {
+                doc.a(:id => 'group_list_groups', :href => url(:group, :list_groups)) {
                   doc.i(:class => 'icon-chevron-right')
-                  doc.span I18n.translate 'create_group'
+                  doc.span I18n.translate 'list_groups'
                 }
               }
+                
               doc.li :class => 'divider'
 
               doc.li {

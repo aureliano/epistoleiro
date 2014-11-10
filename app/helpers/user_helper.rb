@@ -23,6 +23,10 @@ module Epistoleiro
         @signed_user.has_permission? permission
       end
 
+      def signed_user
+        @signed_user = User.where(:id => session[:user_id]).first
+      end
+
       def gravatar_image_node(doc, options)
         options[:name] ||= ((session[:user_name].nil?) ? options[:email] : session[:user_name])
         if RACK_ENV == 'test'

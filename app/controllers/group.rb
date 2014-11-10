@@ -6,11 +6,7 @@ Epistoleiro::App.controllers :group do
 
   get :list_groups, :map => '/groups' do
     @current_page = 1
-    @groups = if params[:query]
-      Group.where(:tags => { '$all' => params[:query].split(/\s+/)})
-    else
-      Group.all
-    end.asc(:name).skip(0).limit(DataTable.default_page_size)
+    @groups = Group.all.asc(:name).skip(0).limit(DataTable.default_page_size)
 
     render 'group/list_groups'
   end
@@ -21,7 +17,7 @@ Epistoleiro::App.controllers :group do
     skip = (@current_page - 1) * DataTable.default_page_size
     
     @groups = unless params[:query].to_s.empty?
-      Group.where(:tags => { '$all' => params[:query].split(/\s+/)})
+      Group.where(:tags => { '$all' => query_to_tags(params[:query]) })
     else
       Group.all
     end.asc(:name).skip(skip).limit(DataTable.default_page_size)
@@ -78,6 +74,23 @@ Epistoleiro::App.controllers :group do
     @sub_groups = @group.sub_groups.asc(:name).skip(skip).limit(DataTable.default_page_size)
 
     render 'group/dashboard'
+  end
+
+  delete :delete, :with => :id do
+    puts "GROUP - DELETE: #{params[:id]}"
+    @group = Group.where(:id => params[:id]).first
+    return render('errors/404', :layout => false) if @group.nil?
+
+    unless signed_user_can_delete_group? @group
+      put_message :message => 'view.group_dashboard.message.delete_group.access_denied', :type => 'e'
+      return render 'user/dashboard'
+    end
+
+    @group.delete
+    session[:msg] = I18n.translate('view.group_dashboard.message.delete_group.success')
+    session[:msg_type] = 's'
+
+    redirect url :group, :list_groups
   end
 
 end

@@ -15,6 +15,27 @@
   </div>
 </div>
 
+<br/>
+
+<div class="row">
+  <div class="span1"></div>
+  <div class="span8">
+  <table>
+    <tbody>
+      <tr>
+        <% if signed_user_can_delete_group? @group %>
+        <td>
+          <% form_tag url(:group, :delete, :id => @group.id), :method => :delete, :id => 'form_group_delete' do %>
+            <button type="submit" class="btn btn-danger" onclick="return confirm('<%= I18n.translate("view.group_dashboard.message.delete_confirmation") %>')"><%= I18n.translate 'delete' %></button>
+          <% end %>
+        </td>
+        <% end %>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
 <hr/>
 
 <h4><%= I18n.translate 'view.group_dashboard.members' %></h4>

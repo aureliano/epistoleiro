@@ -66,6 +66,19 @@ module Epistoleiro
         messages
       end
 
+      def query_to_tags(query)
+        chars = YAML.load_file 'config/characters.yml'
+        tags = query.split(/\s+/)
+
+        tags.each do |tag|
+          chars.keys.each {|char| tag.gsub! char, chars[char] }
+          tag.gsub! /[,.?!]+/, ''
+          tag.downcase!
+        end
+
+        tags.delete_if {|tag| tag.size <= 2 && tag.match(/\A[a-z]+\z/) }
+      end
+
       def _show_messages(message, type)
         ui = <<eos    
 <div class="#msg_type alert-dismissable">

@@ -20,8 +20,8 @@ class Group
   def update_tags
     chars = YAML.load_file 'config/characters.yml'
     tokens = []
-    tokens << self.name.to_s.downcase.split(/\s+/)
-    tokens << self.description.to_s.downcase.split(/\s+/)
+    tokens << self.name.to_s.split(/\s+/)
+    tokens << self.description.to_s.split(/\s+/)
 
     self.tags = tokens.flatten.uniq
     self.tags.each do |tag|

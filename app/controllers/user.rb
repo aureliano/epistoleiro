@@ -113,11 +113,7 @@ Epistoleiro::App.controllers :user do
 
   get :list_users, :map => '/users' do
     @current_page = 1
-    @users = if params[:query]
-      User.where(:tags => { '$all' => params[:query].split(/\s+/)})
-    else
-      User.all
-    end.asc(:nickname).skip(0).limit(DataTable.default_page_size)
+    @users = User.all.asc(:nickname).skip(0).limit(DataTable.default_page_size)
 
     render 'user/list_users'
   end
@@ -128,7 +124,7 @@ Epistoleiro::App.controllers :user do
     skip = (@current_page - 1) * DataTable.default_page_size
     
     @users = unless params[:query].to_s.empty?
-      User.where(:tags => { '$all' => params[:query].split(/\s+/)})
+      User.where(:tags => { '$all' => query_to_tags(params[:query]) })
     else
       User.all
     end.asc(:nickname).skip(skip).limit(DataTable.default_page_size)

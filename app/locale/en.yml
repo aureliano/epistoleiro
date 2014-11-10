@@ -97,6 +97,11 @@ en:
       members: Members
       sub_groups: Subgroups
       current_events: Current events
+      message:
+        delete_confirmation: Are you sure you want to delete this group?
+        delete_group:
+          access_denied: You do not have permission to delete groups.
+          success: Group deleted successfully.
   model:
     user:
       fields:
