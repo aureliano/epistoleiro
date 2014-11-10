@@ -43,12 +43,17 @@ class DataTable
                 @columns.each do |column|
                   props[:width] = column.width if column.width > 0
                   ui = column.ui
-                  binding = /%{[\d\w]+}/.match(ui[:value])
-                  value = (binding) ? ui[:value].to_s.sub(/%{[\d\w]+}/, row.instance_eval(binding.to_s.sub('%{', '').sub('}', '')).to_s) : ui[:value]
+                  
                   doc.td(props) {
+                    binding = /%{.+}/.match(ui[:value])
+                    value = (binding) ? ui[:value].to_s.sub(/%{.+}/, row.instance_eval(binding.to_s.sub('%{', '').sub('}', '')).to_s) : ui[:value]
+                    
+                    binding = /%{.+}/.match(ui[:label])
+                    label = (binding) ? ui[:label].to_s.sub(/%{.+}/, row.instance_eval(binding.to_s.sub('%{', '').sub('}', '')).to_s) : ui[:label]
+                    
                     case ui[:type].to_s
                       when 'text' then doc.span value
-                      when 'link' then doc.a(:href => value.html_safe, :class => ui[:class]) { doc.span ui[:label] }
+                      when 'link' then doc.a(:href => value.html_safe, :class => ui[:class]) { doc.span label }
                     end
                   }
                 end
