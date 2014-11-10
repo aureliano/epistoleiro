@@ -22,7 +22,10 @@
     </div>
     <div class="row">
       <div class="span2"></div>
-      <div class="span6"><button type="submit" class="btn btn btn-success"><%= I18n.translate 'save' %></button></div>
+      <div class="span6">
+        <button type="submit" class="btn btn-success"><%= I18n.translate 'save' %></button>
+        <a href="<%= url :user, :profile, :nickname => @user.nickname %>" class="btn"><%= I18n.translate 'cancel' %></a>
+      </div>
     </div>
   <% end %>
 </div>
