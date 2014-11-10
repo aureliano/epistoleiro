@@ -8,7 +8,7 @@ Epistoleiro::App.controllers :user do
     @signed_user = User.where(:id => session[:user_id]).only(:feature_permissions).first
     @user = User.where(:nickname => params[:nickname]).first
     
-    return render('errors/404', :layout => false) if @user.nil?    
+    return render('errors/404', :layout => false) if @user.nil?
     render 'user/profile'
   end
   

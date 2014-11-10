@@ -28,7 +28,6 @@ module Epistoleiro
       end
 
       def gravatar_image_node(doc, options)
-        options[:name] ||= ((session[:user_name].nil?) ? options[:email] : session[:user_name])
         if RACK_ENV == 'test'
           doc.img(:alt => options[:name], :src => '')
           return

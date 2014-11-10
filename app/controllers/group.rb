@@ -61,4 +61,23 @@ Epistoleiro::App.controllers :group do
     end
   end
 
+  get :detail, :map => '/group/:id' do
+    @group = Group.where(:id => params[:id]).first
+    return render('errors/404', :layout => false) if @group.nil?
+
+    @members_current_page = params['dt_members-index'].to_i
+    @members_current_page += 1 if @members_current_page == 0
+    skip = (@members_current_page - 1) * DataTable.default_page_size
+
+    @members = @group.members.asc(:nickname).skip(skip).limit(DataTable.default_page_size)
+
+    @sub_groups_current_page = params['dt_sub_groups-index'].to_i
+    @sub_groups_current_page += 1 if @sub_groups_current_page == 0
+    skip = (@sub_groups_current_page - 1) * DataTable.default_page_size
+
+    @sub_groups = @group.sub_groups.asc(:name).skip(skip).limit(DataTable.default_page_size)
+
+    render 'group/dashboard'
+  end
+
 end

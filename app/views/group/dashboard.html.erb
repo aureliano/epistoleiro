@@ -1,0 +1,47 @@
+<h4><%= @group.name %></h4>
+
+<div class="row" id="group_description">
+  <div class="span10">
+    <p class="lead">
+      <%= @group.description %>
+    </p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span1"><%= I18n.translate 'model.group.fields.owner' %>:</div>
+  <div class="span8">
+    <a href="<%= url :user, :profile, :nickname => @group.owner.nickname %>"/><%= @group.owner.nickname %></a>
+  </div>
+</div>
+
+<hr/>
+
+<h4><%= I18n.translate 'view.group_dashboard.members' %></h4>
+
+<%= DataTable.new do |t|
+    t.page_index = @members_current_page
+    t.total = @members.count
+    t.data = @members
+    t.columns = [
+      DataColumn.new(:title => 'Name', :ui => { :type => :link, :value => "/user/%{nickname}", :label => "%{nickname}" }, :width => 400),
+      DataColumn.new(:ui => { :type => nil, :value => "%{gravatar_image_node(doc, :size => 40, :linkable => false)}" }, :width => 20)
+    ]
+  end.render :id => 'dt_members', :csrf_token => csrf_token %>
+
+<hr/>
+
+<h4><%= I18n.translate 'view.group_dashboard.sub_groups' %></h4>
+
+<%= DataTable.new do |t|
+    t.page_index = @sub_groups_current_page
+    t.total = @sub_groups.count
+    t.data = @sub_groups
+    t.columns = [
+      DataColumn.new(:title => 'Name', :ui => { :type => :link, :value => "/group/%{name}", :label => "%{name}" }, :width => 400)
+    ]
+  end.render :id => 'dt_sub_groups', :csrf_token => csrf_token %>
+
+<hr/>
+
+<h4><%= I18n.translate 'view.group_dashboard.current_events' %></h4>

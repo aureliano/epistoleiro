@@ -87,6 +87,25 @@ class User
     I18n.translate key
   end
 
+  def gravatar_image_node(doc, options)
+    if RACK_ENV == 'test'
+      doc.img(:alt => self.nickname, :src => '')
+      return
+    end
+
+    hash = Digest::MD5.hexdigest(self.id)
+    url = "http://www.gravatar.com/avatar/#{hash}?d=mm"
+    url << "&s=#{options[:size]}" if options[:size]
+
+    if options[:linkable]
+      doc.a(:href => url.sub(/&s=\d+/, '&s=500')) {
+        doc.img(:alt => self.nickname, :src => url)
+      }
+    else
+      doc.img(:alt => self.nickname, :src => url)
+    end
+  end
+
   def self.generate_password_hash(pass, salt)
     hash = ''
     for i in 1..User.password_hash_iteration_size do

@@ -93,6 +93,10 @@ en:
       message:
         access_denied: You do not have permission to create groups.
         success: Group created successfully.
+    group_dashboard:
+      members: Members
+      sub_groups: Subgroups
+      current_events: Current events
   model:
     user:
       fields:
@@ -131,6 +135,7 @@ en:
       fields:
         name: Name
         description: Description
+        owner: Owner
       validation:
         name_required: Name is required.
         description: Description is required.
