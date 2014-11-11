@@ -21,6 +21,7 @@ en:
   create_group: Create group
   data_table_pagination: Page %{page} of %{pages} about %{total} records.
   invalid_captcha: Provided characters does not match those from image.
+  select_one: Select one...
   http:
     error:
       '404':
@@ -97,8 +98,9 @@ en:
       members: Members
       sub_groups: Subgroups
       current_events: Current events
+      create_sub_group: Create a subgroup
       message:
-        delete_confirmation: Are you sure you want to delete this group?
+        delete_confirmation: Are you sure you want to delete this group? All subgroups will be deleted too!
         delete_group:
           access_denied: You do not have permission to delete groups.
           success: Group deleted successfully.
@@ -141,6 +143,7 @@ en:
         name: Name
         description: Description
         owner: Owner
+        base_group: Base group
       validation:
         name_required: Name is required.
         description: Description is required.

@@ -9,16 +9,25 @@
 </div>
 
 <div class="row">
-  <div class="span1"><%= I18n.translate 'model.group.fields.owner' %>:</div>
+  <div class="span2"><%= I18n.translate 'model.group.fields.owner' %>:</div>
   <div class="span8">
     <a href="<%= url :user, :profile, :nickname => @group.owner.nickname %>"/><%= @group.owner.nickname %></a>
   </div>
 </div>
 
+<% if @group.base_group %>
+<div class="row">
+  <div class="span2"><%= I18n.translate 'model.group.fields.base_group' %>:</div>
+  <div class="span8">
+    <a href="<%= url :group, :dashboard, :id => @group.base_group.id %>"/><%= @group.base_group.name %></a>
+  </div>
+</div>
+<% end %>
+
 <br/>
 
 <div class="row">
-  <div class="span1"></div>
+  <div class="span2"></div>
   <div class="span8">
   <table>
     <tbody>
@@ -59,9 +68,14 @@
     t.total = @sub_groups.count
     t.data = @sub_groups
     t.columns = [
-      DataColumn.new(:title => 'Name', :ui => { :type => :link, :value => "/group/%{name}", :label => "%{name}" }, :width => 400)
+      DataColumn.new(:title => 'Name', :ui => { :type => :link, :value => "/group/%{id}", :label => "%{name}" }, :width => 400)
     ]
   end.render :id => 'dt_sub_groups', :csrf_token => csrf_token %>
+
+<% if signed_user_has_permission? Rules::GROUP_CREATE_GROUP %>
+  <br/>
+  <a id="create_sub_group" href="<%= url :group, :create, :id => @group.id %>" class="btn btn-info"><%= I18n.translate 'view.group_dashboard.create_sub_group' %></a>
+<% end %>
 
 <hr/>
 

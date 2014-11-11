@@ -1,6 +1,12 @@
 <% form_tag url(:group, :create), :method => :post, :id => 'form_create_group', :onsubmit => "return validateForm();" do %>
   <div>
     <div class="row">
+      <div class="span2"><label for="base_group"><%= I18n.translate 'model.group.fields.base_group' %>:</label></div>
+      <div class="span8">
+        <%= select_tag 'group[base_group]', :options => [[I18n.translate('select_one'), '']].concat(combo_created_groups_by_signed_user), :selected => params['group']['base_group'], :id => 'base_group' %>
+      </div>
+    </div>
+    <div class="row">
       <div class="span2"><label for="group_name"><%= I18n.translate 'model.group.fields.name' %>: *</label></div>
       <div class="span6"><input type="text" required maxlength="25" id="group_name" name="group[name]" value="<%= params['group']['name'] %>"/></div>
     </div>

@@ -63,3 +63,22 @@ Feature: Delete group
     When I click on button 'delete'
     And I accept the confirmation message 'view.group_dashboard.message.delete_confirmation'
     Then I have to see the success message 'view.group_dashboard.message.delete_group.success'
+
+
+
+  Scenario: User deletes a group that has a subgroup and both got deleted
+    Given there is an active user with e-mail 'user@test.com' and password '12345' with permission to 'GROUP_DELETE_GROUP'
+    And there is an active user with e-mail 'ximbinha@test.com' and nickname 'ximbinha' with permission to 'GROUP_CREATE_GROUP'
+    And there is a group with name 'GRP_XV' and description 'A test group.' created by 'ximbinha@test.com'
+    And there is a group with name 'GRP_XVI' and description 'A test group.' created by 'ximbinha@test.com'
+    And the group 'GRP_XV' is subgroup of 'GRP_XVI'
+
+    When I access my home page with e-mail 'user@test.com' and password '12345'
+    And I go to dashboard of the group 'GRP_XV'
+    Then I have to see the dashboard page of the group 'GRP_XVI'
+
+    When I click on button 'delete'
+    And I accept the confirmation message 'view.group_dashboard.message.delete_confirmation'
+    Then I have to see the success message 'view.group_dashboard.message.delete_group.success'
+    And I have not to see the text 'GRP_XV'
+    And I have not to see the text 'GRP_XVI'

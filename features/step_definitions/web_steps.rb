@@ -18,6 +18,10 @@ When /^I click on '([^']+)'$/ do |element_id|
   click_on element_id
 end
 
+When /^I select '([^']+)' in '([^']+)'$/ do |label, id|
+  select label, :from => id
+end
+
 Then /^I have to see an alert with '([^']*)'$/ do |message|
   alert = page.driver.browser.switch_to.alert
   expect(alert.text).to eq I18n.translate(message)
@@ -66,6 +70,14 @@ end
 
 Then /^I have to see the element '([^']+)'$/ do |element_id|
   expect(page).to have_selector "##{element_id}"
+end
+
+Then /^I have to see the text '([^']+)'$/ do |text|
+  expect(page).to have_text text
+end
+
+Then /^I have not to see the text '([^']+)'$/ do |text|
+  expect(page).not_to have_text text
 end
 
 Then /^I have not to see the element '([^']+)'$/ do |element_id|

@@ -7,6 +7,10 @@ module Epistoleiro
         return (group.owner.id == user.id) || (user.has_permission? Rules::GROUP_DELETE_GROUP)
       end
 
+      def combo_created_groups_by_signed_user(current_group = nil)
+        signed_user.created_groups.delete_if {|group| group == current_group }.collect {|group| [group.name, group.id] }
+      end
+
       def build_group_creation_model(hash)
         group = Group.new
 
@@ -16,7 +20,9 @@ module Epistoleiro
         owner = User.where(:id => session[:user_id]).first
         group.owner = owner
         group.members = [owner]
-
+        
+        group.base_group = Group.find(hash[:base_group]) unless hash[:base_group].to_s.empty?
+        
         group.update_tags
 
         group

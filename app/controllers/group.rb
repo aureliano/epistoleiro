@@ -35,6 +35,19 @@ Epistoleiro::App.controllers :group do
     render 'group/create'
   end
 
+  get :create, :with => :id do
+    @base_group = Group.where(:id => params[:id]).first
+    return render('errors/404', :layout => false) if @base_group.nil?
+
+    unless signed_user_has_permission? Rules::GROUP_CREATE_GROUP
+      put_message :message => 'view.create_group.message.access_denied', :type => 'e'
+      return render 'user/dashboard'
+    end
+
+    params['group'] = { 'base_group' => @base_group.name }
+    render 'group/create'
+  end
+
   post :create do
     unless signed_user_has_permission? Rules::GROUP_CREATE_GROUP
       put_message :message => 'view.create_group.message.access_denied', :type => 'e'
@@ -50,14 +63,14 @@ Epistoleiro::App.controllers :group do
       session[:msg] = I18n.translate('view.create_group.message.success')
       session[:msg_type] = 's'
 
-      redirect url :group, :list_groups
+      redirect url :group, :dashboard, :id => group.id
     else
       put_message :message => @messages.join('<br/>'), :type => 'w', :translate => false
       render 'group/create'
     end
   end
 
-  get :detail, :map => '/group/:id' do
+  get :dashboard, :map => '/group/:id' do
     @group = Group.where(:id => params[:id]).first
     return render('errors/404', :layout => false) if @group.nil?
 
@@ -71,13 +84,12 @@ Epistoleiro::App.controllers :group do
     @sub_groups_current_page += 1 if @sub_groups_current_page == 0
     skip = (@sub_groups_current_page - 1) * DataTable.default_page_size
 
-    @sub_groups = @group.sub_groups.asc(:name).skip(skip).limit(DataTable.default_page_size)
+    @sub_groups = Group.where(:base_group => @group).asc(:name).skip(skip).limit(DataTable.default_page_size)
 
     render 'group/dashboard'
   end
 
   delete :delete, :with => :id do
-    puts "GROUP - DELETE: #{params[:id]}"
     @group = Group.where(:id => params[:id]).first
     return render('errors/404', :layout => false) if @group.nil?
 
@@ -86,7 +98,10 @@ Epistoleiro::App.controllers :group do
       return render 'user/dashboard'
     end
 
+    @sub_groups = Group.where(:base_group => @group)
     @group.delete
+    @sub_groups.each {|sub_group| sub_group.delete }
+
     session[:msg] = I18n.translate('view.group_dashboard.message.delete_group.success')
     session[:msg_type] = 's'
 

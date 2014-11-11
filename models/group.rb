@@ -7,7 +7,7 @@ class Group
 
   has_and_belongs_to_many :members, :class_name => 'User', :inverse_of => :subscribed_goups
   belongs_to :owner, :class_name => 'User', :inverse_of => :created_groups
-  embeds_many :sub_groups, :class_name => 'Group'
+  belongs_to :base_group, :class_name => 'Group'
 
   validates_presence_of :name, :message => I18n.translate('model.group.validation.name_required')
   validates_presence_of :description, :message => I18n.translate('model.group.validation.description_required')
@@ -31,6 +31,13 @@ class Group
     end
 
     self.tags.delete_if {|tag| tag.size <= 2 && tag.match(/\A[a-z]+\z/) }
+  end
+
+  def ==(group)
+    return false if self.class != group.class
+    return true if (group.id == self.id) && (group.name == self.name)
+
+    return false
   end
 
 end
