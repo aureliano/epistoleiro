@@ -84,6 +84,11 @@ Then /^I have not to see the element '([^']+)'$/ do |element_id|
   expect(page).not_to have_selector "##{element_id}"
 end
 
+Then /^the select box '([^']+)' (must|must not) have those options '([^']+)'$/ do |select_box, qualifier, options|
+  qualifier = (qualifier == 'must') ? true : false
+  expect(page.has_select?(select_box, :options => options.split(/,\s?/))).to be qualifier
+end
+
 def i_have_to_see_message(type, message)
   message_type = case type
     when 'success' then 'success'

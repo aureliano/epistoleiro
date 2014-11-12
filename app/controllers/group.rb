@@ -55,11 +55,15 @@ Epistoleiro::App.controllers :group do
     end     
 
     group = build_group_creation_model(params[:group])
+    if group.base_group && group.owner != group.base_group.owner
+      put_message :message => I18n.translate('model.group.validation.group_and_subgroup_with_different_owners'), :type => 'w'
+      return render 'group/create'
+    end
+
     group.save
     @messages = format_validation_messages group
 
     if @messages.empty?
-      raise 'Sending e-mail is not implemented yet' if RACK_ENV == 'production'
       session[:msg] = I18n.translate('view.create_group.message.success')
       session[:msg_type] = 's'
 

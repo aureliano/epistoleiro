@@ -150,6 +150,7 @@ en:
         name_length: Name must have at least 2 and at most 25 characters.
         description_length: Description must have at least 5 and at most 200 characters.
         name_uniqueness: There is already a group registered with this name.
+        group_and_subgroup_with_different_owners: You cannot create a subgroup for a group which you are not the owner.
   features:
     watcher:
       label: Watcher
