@@ -75,6 +75,11 @@ Epistoleiro::App.controllers :user do
   end
 
   get :edit_profile, :map => '/user/:nickname/profile' do
+    if (signed_user.nickname != params[:nickname]) && (!signed_user_has_permission? Rules::USER_CREATE_ACCOUNT)
+      put_message :message => 'view.user_profile.message.update_profile.access_denied', :type => 'e'
+      return render 'user/dashboard'
+    end
+
     @user = User.where(:nickname => params[:nickname]).first
     redirect url :index if @user.nil?
 
@@ -83,6 +88,11 @@ Epistoleiro::App.controllers :user do
   end
 
   post :update_profile, :with => :id do
+    if (signed_user.id != params[:id]) && (!signed_user_has_permission? Rules::USER_CREATE_ACCOUNT)
+      put_message :message => 'view.user_profile.message.update_profile.access_denied', :type => 'e'
+      return render 'user/dashboard'
+    end
+
     @user = User.where(:id => params[:id]).first
 
     if @user.id != params[:user][:email]

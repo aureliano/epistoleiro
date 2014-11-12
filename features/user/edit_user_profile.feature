@@ -14,7 +14,7 @@ Feature: Edit user profile
 
 
   Scenario: User tries to change its e-mail to an already registered e-mail
-    Given there is an active user with e-mail 'user@test.com' and password '12345'
+    Given there is an active user with e-mail 'user@test.com' and password '12345' with permission to 'USER_CREATE_ACCOUNT'
     And there is an active user with e-mail 'another_user@test.com' and nickname 'ximbinha'
     
     When I access my home page with e-mail 'user@test.com' and password '12345'
