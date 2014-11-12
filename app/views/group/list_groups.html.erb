@@ -24,3 +24,8 @@
   end.render :id => 'dt_groups', :csrf_token => csrf_token %>
 
 <% end %>
+
+<% if signed_user_has_permission? Rules::GROUP_CREATE_GROUP %>
+  <br/>
+  <a href="<%= url :group, :create %>" class="btn btn-info"><%= I18n.translate 'create_group' %></a>
+<% end %>
