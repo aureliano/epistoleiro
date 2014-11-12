@@ -25,3 +25,8 @@
   end.render :id => 'dt_users', :csrf_token => csrf_token %>
 
 <% end %>
+
+<% if @signed_user.has_access_to_feature? Features::USER_LIST %>
+  <br/>
+  <a href="<%= url :user, :create_account %>" class="btn btn-info"><%= I18n.translate 'create_user_account' %></a>
+<% end %>

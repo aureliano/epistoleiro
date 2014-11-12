@@ -85,6 +85,8 @@ en:
         update_success: Permissions successfully updated.
     list_users:
       query: Find user
+      message:
+        access_denied: You do not have permission to list users.
     create_user_account:
       message:
         access_denied: You do not have permission to create user accounts.

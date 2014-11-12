@@ -112,6 +112,11 @@ Epistoleiro::App.controllers :user do
   end
 
   get :list_users, :map => '/users' do
+    unless signed_user.has_access_to_feature? Features::USER_LIST
+      put_message :message => 'view.list_users.message.access_denied', :type => 'e'
+      return render 'user/dashboard'
+    end
+
     @current_page = 1
     @users = User.all.asc(:nickname).skip(0).limit(DataTable.default_page_size)
 
@@ -119,6 +124,11 @@ Epistoleiro::App.controllers :user do
   end
 
   post :list_users, :map => '/users' do
+    unless signed_user.has_access_to_feature? Features::USER_LIST
+      put_message :message => 'view.list_users.message.access_denied', :type => 'e'
+      return render 'user/dashboard'
+    end
+
     @current_page = params['dt_users-index'].to_i
     @current_page += 1 if @current_page == 0
     skip = (@current_page - 1) * DataTable.default_page_size
