@@ -1,0 +1,24 @@
+<div>
+  <input type="hidden" name="group[id]" id="group_id" value="<%= params['group']['id'] %>" />
+  <div class="row">
+    <div class="span2"><label for="base_group"><%= I18n.translate 'model.group.fields.base_group' %>:</label></div>
+    <div class="span8">
+      <%= select_tag 'group[base_group]', :options => [[I18n.translate('select_one'), '']].concat(combo_created_groups_by_signed_user @group), :selected => params['group']['base_group'], :id => 'base_group' %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span2"><label for="group_name"><%= I18n.translate 'model.group.fields.name' %>: *</label></div>
+    <div class="span6"><input type="text" required maxlength="25" id="group_name" name="group[name]" value="<%= params['group']['name'] %>"/></div>
+  </div>
+  <div class="row">
+    <div class="span2"><label for="group_description"><%= I18n.translate 'model.group.fields.description' %>: *</label></div>
+    <div class="span6"><textarea required maxlength="200" rows="5" id="group_description" name="group[description]"><%= params['group']['description'] %></textarea></div>
+  </div>
+  <div class="row">
+    <div class="span2"></div>
+    <div class="span6">
+      <button type="submit" class="btn btn-success"><%= I18n.translate 'save' %></button>
+      <a href="<%= ((@edit_mode == true) ? url(:group, :dashboard, :id => @group.id) : url(:group, :list_groups)) %>" class="btn"><%= I18n.translate 'cancel' %></a>
+    </div>
+  </div>
+</div>

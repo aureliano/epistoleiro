@@ -107,6 +107,10 @@ en:
         delete_group:
           access_denied: You do not have permission to delete groups.
           success: Group deleted successfully.
+    edit_group:
+      message:
+        access_denied: You do not have permission to change group information.
+        success: Group saved successfully.
   model:
     user:
       fields:

@@ -32,6 +32,14 @@
   <table>
     <tbody>
       <tr>
+        <% if signed_user_has_permission? Rules::GROUP_CREATE_GROUP %>
+        <td>
+          <form>
+            <a id="edit_group" href="<%= url :group, :edit, :id => @group.id %>" class="btn btn-info"><%= I18n.translate 'edit' %></a>
+          </form>
+        </td>
+        <% end %>
+
         <% if signed_user_can_delete_group? @group %>
         <td>
           <% form_tag url(:group, :delete, :id => @group.id), :method => :delete, :id => 'form_group_delete' do %>

@@ -18,8 +18,12 @@ When /^I click on '([^']+)'$/ do |element_id|
   click_on element_id
 end
 
-When /^I select '([^']+)' in '([^']+)'$/ do |label, id|
+When /^I select '([^']*)' in '([^']+)'$/ do |label, id|
   select label, :from => id
+end
+
+When /^I select with key '([^']*)' in '([^']+)'$/ do |label, id|
+  select I18n.translate(label), :from => id
 end
 
 Then /^I have to see an alert with '([^']*)'$/ do |message|
@@ -84,7 +88,7 @@ Then /^I have not to see the element '([^']+)'$/ do |element_id|
   expect(page).not_to have_selector "##{element_id}"
 end
 
-Then /^the select box '([^']+)' (must|must not) have those options '([^']+)'$/ do |select_box, qualifier, options|
+Then /^the select box '([^']+)' (must|must not) have the options '([^']+)'$/ do |select_box, qualifier, options|
   qualifier = (qualifier == 'must') ? true : false
   expect(page.has_select?(select_box, :options => options.split(/,\s?/))).to be qualifier
 end

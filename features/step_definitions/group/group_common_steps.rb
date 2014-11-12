@@ -6,6 +6,10 @@ Given /^there is a group with name '([^']+)' and description '([^']+)' created b
   save_group_dummy :name => name, :description => description, :owner => User.where(:id => owner).first
 end
 
+Given /^there is a group with name '([^']+)' and description '([^']+)' created by '([^']*)' with base group '([^']*)'$/ do |name, description, owner, base_group|
+  save_group_dummy :name => name, :description => description, :owner => User.where(:id => owner).first, :base_group => Group.where(:name => base_group).first
+end
+
 Given /^the group '([^']+)' is subgroup of '([^']+)'$/ do |base, sub|
   base_group = Group.where(:name => base).first
   sub_group = Group.where(:name => sub).first
@@ -16,6 +20,10 @@ end
 
 Then /^I have to see the create group page$/ do
   expect(page).to have_xpath "//form[@id='form_create_group']"
+end
+
+Then /^I have to see the edit group page$/ do
+  expect(page).to have_xpath "//form[@id='form_edit_group']"
 end
 
 When /^I go to dashboard of the group '([^']+)'$/ do |name|

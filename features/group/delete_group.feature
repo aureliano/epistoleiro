@@ -14,12 +14,12 @@ Feature: Delete group
     And I have not to see the button 'delete'
 
     Examples:
-    |perfil|
-    |USER_MANAGE_STATUS|
-    |USER_CREATE_ACCOUNT|
-    |USER_DELETE_ACCOUNT|
-    |USER_MANAGE_PERMISSIONS|
-    |GROUP_CREATE_GROUP|
+      |perfil|
+      |USER_MANAGE_STATUS|
+      |USER_CREATE_ACCOUNT|
+      |USER_DELETE_ACCOUNT|
+      |USER_MANAGE_PERMISSIONS|
+      |GROUP_CREATE_GROUP|
 
 
 

@@ -52,7 +52,7 @@ Epistoleiro::App.controllers :group do
     unless signed_user_has_permission? Rules::GROUP_CREATE_GROUP
       put_message :message => 'view.create_group.message.access_denied', :type => 'e'
       return render 'user/dashboard'
-    end     
+    end
 
     group = build_group_creation_model(params[:group])
     if group.base_group && group.owner != group.base_group.owner
@@ -110,6 +110,62 @@ Epistoleiro::App.controllers :group do
     session[:msg_type] = 's'
 
     redirect url :group, :list_groups
+  end
+
+  get :edit, :with => :id do
+    @group = Group.where(:id => params[:id]).first
+    return render('errors/404', :layout => false) if @group.nil?
+    user = signed_user
+
+    if (@group.owner != user) && (user.has_permission? Rules::GROUP_CREATE_GROUP)
+      put_message :message => 'view.edit_group.message.access_denied', :type => 'e'
+      return render 'user/dashboard'
+    end
+
+    @edit_mode = true
+    @base_group = @group.base_group
+    @base_group ||= Group.new
+    params['group'] = { 'base_group' => @base_group.name, 'id' => @group.id, 'name' => @group.name, 'description' => @group.description }
+
+    render 'group/edit'
+  end
+
+  post :edit, :with => :id do
+    @group = Group.where(:id => params[:id]).first
+    return render('errors/404', :layout => false) if @group.nil?
+    user = signed_user
+
+    if (@group.owner != user) && (user.has_permission? Rules::GROUP_CREATE_GROUP)
+      put_message :message => 'view.edit_group.message.access_denied', :type => 'e'
+      return render 'user/dashboard'
+    end
+
+    @group.name = params[:group][:name]
+    @group.description = params[:group][:description]
+
+    @base_group = Group.where(:id => params[:group][:base_group]).first
+    @group.base_group = @base_group
+
+    if @group.base_group && @group.owner != @group.base_group.owner
+      put_message :message => I18n.translate('model.group.validation.group_and_subgroup_with_different_owners'), :type => 'w'
+      @edit_mode = true
+      params['group'] = { 'base_group' => @base_group.name, 'id' => @group.id, 'name' => @group.name, 'description' => @group.description }
+
+      return render 'group/edit'
+    end
+
+    @group.save
+    @messages = format_validation_messages @group
+
+    if @messages.empty?
+      session[:msg] = I18n.translate('view.edit_group.message.success')
+      session[:msg_type] = 's'
+
+      redirect url :group, :dashboard, :id => @group.id
+    else
+      put_message :message => @messages.join('<br/>'), :type => 'w', :translate => false
+      render 'group/create'
+    end
   end
 
 end

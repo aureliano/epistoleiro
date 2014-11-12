@@ -75,4 +75,4 @@ Feature: Create a group
     When I access my home page with e-mail 'user@test.com' and password '12345'
     And I select menu 'create_group'
     Then I have to see the create group page
-    And the select box 'base_group' must not have those options 'Grupo_I'
+    And the select box 'base_group' must not have the options 'Grupo_I'
