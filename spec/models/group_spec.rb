@@ -63,4 +63,24 @@ describe Group do
     expect(g1).to eq g2
   end
 
+  it 'validates inequality' do
+    g1 = Group.new :name => 'g1'
+    g2 = ''
+
+    expect(g1 != g2).to be true
+
+    g2 = Group.new :name => 'g2'
+    expect(g1 != g2).to be true
+
+    g2.id = g1.id
+    expect(g1 != g2).to be true
+
+    g2.id = 123
+    g2.name = g1.name
+    expect(g1 != g2).to be true
+
+    g2.id = g1.id
+    expect(g1 != g2).to be false
+  end
+
 end

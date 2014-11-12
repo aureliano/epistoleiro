@@ -40,4 +40,8 @@ class Group
     return false
   end
 
+  def !=(group)
+    !self.== group
+  end
+
 end

@@ -204,4 +204,44 @@ describe User do
     expect(User.new(:active => true).user_account_status).to eq I18n.translate 'model.user.account_status.active'
   end
 
+  it 'validates equality' do
+    u1 = User.new :nickname => 'u1'
+    u2 = ''
+
+    expect(u1).not_to eq u2
+
+    u2 = User.new :nickname => 'u2'
+    expect(u1).not_to eq u2
+
+    u2.id = u1.id
+    expect(u1).not_to eq u2
+
+    u2.id = 123
+    u2.nickname = u1.nickname
+    expect(u1).not_to eq u2
+
+    u2.id = u1.id
+    expect(u1).to eq u2
+  end
+
+  it 'validates inequality' do
+    u1 = User.new :nickname => 'u1'
+    u2 = ''
+
+    expect(u1 != u2).to be true
+
+    u2 = User.new :nickname => 'u2'
+    expect(u1 != u2).to be true
+
+    u2.id = u1.id
+    expect(u1 != u2).to be true
+
+    u2.id = 123
+    u2.nickname = u1.nickname
+    expect(u1 != u2).to be true
+
+    u2.id = u1.id
+    expect(u1 != u2).to be false
+  end
+
 end

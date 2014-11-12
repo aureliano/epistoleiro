@@ -106,6 +106,17 @@ class User
     end
   end
 
+  def ==(user)
+    return false if self.class != user.class
+    return true if (user.id == self.id) && (user.nickname == self.nickname)
+
+    return false
+  end
+
+  def !=(user)
+    !self.== user
+  end
+
   def self.generate_password_hash(pass, salt)
     hash = ''
     for i in 1..User.password_hash_iteration_size do
