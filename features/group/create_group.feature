@@ -36,7 +36,7 @@ Feature: Create a group
 
   Scenario: User tries to create a group with name that is already registered
     Given there is an active user with e-mail 'user@test.com' and password '12345' with permission to 'GROUP_CREATE_GROUP'
-    And there is a group with name 'Group_XVI' and description 'Some description.'
+    And there is a group with name 'Group_XVI' and description 'Some description.' created by 'user@test.com'
 
     When I access my home page with e-mail 'user@test.com' and password '12345'
     And I select menu 'create_group'

@@ -20,6 +20,7 @@ Feature: Edit group information
       |USER_DELETE_ACCOUNT|
       |USER_MANAGE_PERMISSIONS|
       |GROUP_DELETE_GROUP|
+      |GROUP_MANAGE_GROUPS|
 
 
 

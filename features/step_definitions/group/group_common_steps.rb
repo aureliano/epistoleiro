@@ -1,7 +1,3 @@
-Given /^there is a group with name '([^']+)' and description '([^']+)'$/ do |name, description|
-  step "there is a group with name '#{name}' and description '#{description}' created by ''"
-end
-
 Given /^there is a group with name '([^']+)' and description '([^']+)' created by '([^']*)'$/ do |name, description, owner|
   save_group_dummy :name => name, :description => description, :owner => User.where(:id => owner).first
 end
@@ -24,6 +20,10 @@ end
 
 Then /^I have to see the edit group page$/ do
   expect(page).to have_xpath "//form[@id='form_edit_group']"
+end
+
+Then /^I have to see the change group owner page$/ do
+  expect(page).to have_xpath "//form[@id='form_change_group_owner']"
 end
 
 When /^I go to dashboard of the group '([^']+)'$/ do |name|

@@ -168,4 +168,52 @@ Epistoleiro::App.controllers :group do
     end
   end
 
+  get :change_group_owner, :map => '/group/change-owner/:id' do
+    @group = Group.where(:id => params[:id]).first
+    return render('errors/404', :layout => false) if @group.nil?
+    @signed_user = signed_user
+
+    if (@signed_user != @group.owner) && !(@signed_user.has_permission? Rules::GROUP_MANAGE_GROUPS)
+      put_message :message => 'view.change_group_owner.message.access_denied', :type => 'e'
+      return render 'user/dashboard'
+    end
+
+    render 'group/change_owner'
+  end
+
+  post :change_group_owner, :map => '/group/change-owner/:id' do
+    @group = Group.where(:id => params[:id]).first
+    return render('errors/404', :layout => false) if @group.nil?
+    @signed_user = signed_user
+
+    if (@signed_user != @group.owner) && !(@signed_user.has_permission? Rules::GROUP_MANAGE_GROUPS)
+      put_message :message => 'view.change_group_owner.message.access_denied', :type => 'e'
+      return render 'user/dashboard'
+    end
+
+    
+    @sub_groups = Group.where(:base_group => @group)
+    
+    new_owner = User.where(:nickname => params[:group_owner]).first
+    @group.owner = new_owner
+    @group.save
+
+    @messages = format_validation_messages @group
+
+    if @messages.empty?
+      session[:msg] = I18n.translate('view.change_group_owner.message.success')
+      session[:msg_type] = 's'
+
+      @sub_groups.each do |sub_group|
+        sub_group.owner = new_owner
+        sub_group.save
+      end
+
+      redirect url :group, :dashboard, :id => @group.id
+    else
+      put_message :message => @messages.join('<br/>'), :type => 'w', :translate => false
+      render 'group/change_owner'
+    end
+  end
+
 end

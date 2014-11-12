@@ -20,6 +20,7 @@ Feature: Delete group
       |USER_DELETE_ACCOUNT|
       |USER_MANAGE_PERMISSIONS|
       |GROUP_CREATE_GROUP|
+      |GROUP_MANAGE_GROUPS|
 
 
 

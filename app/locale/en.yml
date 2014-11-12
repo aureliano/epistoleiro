@@ -98,6 +98,7 @@ en:
         access_denied: You do not have permission to create groups.
         success: Group created successfully.
     group_dashboard:
+      change_owner: Changer owner
       members: Members
       sub_groups: Subgroups
       current_events: Current events
@@ -111,6 +112,11 @@ en:
       message:
         access_denied: You do not have permission to change group information.
         success: Group saved successfully.
+    change_group_owner:
+      warning: Once you change the group owner you won't have any privileges on it. Although you will still be a member.
+      message:
+        confirmation: Are you sure you want to change the owner of this group? All subgroups will be afected too!
+        success: The group's owner was changed successfully.
   model:
     user:
       fields:
@@ -157,6 +163,7 @@ en:
         name_length: Name must have at least 2 and at most 25 characters.
         description_length: Description must have at least 5 and at most 200 characters.
         name_uniqueness: There is already a group registered with this name.
+        owner_required: Owner is required.
         group_and_subgroup_with_different_owners: You cannot create a subgroup for a group which you are not the owner.
   features:
     watcher:
@@ -180,6 +187,9 @@ en:
     group_delete_group:
       label: Delete group
       description: Delete group.
+    group_manage_groups:
+      label: Manage groups
+      description: Change the owner of a group.
   mongoid:
     mongoid:
     errors:

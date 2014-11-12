@@ -47,6 +47,14 @@
           <% end %>
         </td>
         <% end %>
+
+        <% if (@signed_user == @group.owner) || (@signed_user.has_permission? Rules::GROUP_MANAGE_GROUPS) %>
+          <td>
+            <form>
+              <a id="change_group_owner" href="<%= url :group, :change_group_owner, :id => @group.id %>" class="btn btn-warning"><%= I18n.translate 'view.group_dashboard.change_owner' %></a>
+            </form>
+          </td>
+        <% end %>
       </tr>
     </tbody>
   </table>

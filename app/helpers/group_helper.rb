@@ -11,6 +11,12 @@ module Epistoleiro
         signed_user.created_groups.delete_if {|group| group == current_group }.collect {|group| [group.name, group.id] }
       end
 
+      def combo_group_owner_candidates(group)
+        User.where(:feature_permissions => {'$in' => [Rules::GROUP_CREATE_GROUP]})
+          .delete_if {|_user| _user == group.owner }
+          .collect {|_user| [_user.nickname, _user.nickname] }
+      end
+
       def build_group_creation_model(hash)
         group = Group.new
 

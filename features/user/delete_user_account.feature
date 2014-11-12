@@ -13,12 +13,13 @@ Feature: Delete user account
 
     Examples:
     |perfil|
-    |WATCHER|
-    |USER_MANAGE_STATUS|
-    |USER_CREATE_ACCOUNT|
-    |USER_MANAGE_PERMISSIONS|
-    |GROUP_CREATE_GROUP|
-    |GROUP_DELETE_GROUP|
+      |WATCHER|
+      |USER_MANAGE_STATUS|
+      |USER_CREATE_ACCOUNT|
+      |USER_MANAGE_PERMISSIONS|
+      |GROUP_CREATE_GROUP|
+      |GROUP_DELETE_GROUP|
+      |GROUP_MANAGE_GROUPS|
 
 
 

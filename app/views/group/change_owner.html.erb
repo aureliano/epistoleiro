@@ -1,0 +1,35 @@
+<h5>
+  <p class="text-warning">
+    <%= I18n.translate 'view.change_group_owner.warning' %>
+  </p>
+</h5>
+
+<% form_tag url(:group, :change_group_owner, :id => @group.id), :method => :post, :id => 'form_change_group_owner' do %>
+  <div class="row">
+    <div class="span2">
+      <%= I18n.translate 'model.group.fields.name' %>:
+    </div>
+
+    <div class="span8">
+      <%= @group.name %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span2">
+      <label for="group_owner"><%= I18n.translate 'model.group.fields.owner' %>: *</label>
+    </div>
+
+    <div class="span8">
+      <%= select_tag 'group_owner', :options => [[I18n.translate('select_one'), '']].concat(combo_group_owner_candidates @group), :id => 'group_owner' %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span2"></div>
+    <div class="span6">
+      <button type="submit" class="btn btn-success" onclick="return confirm('<%= I18n.translate("view.change_group_owner.message.confirmation") %>')"><%= I18n.translate 'save' %></button>
+      <a href="<%= url :group, :dashboard, :id => @group.id %>" class="btn"><%= I18n.translate 'cancel' %></a>
+    </div>
+  </div>
+<% end %>
