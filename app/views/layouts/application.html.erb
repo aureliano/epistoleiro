@@ -12,7 +12,7 @@
 <body>
   <div name="body-container" class="container">
     <div class="row">
-      <div class="span10"><h2><%= ENV['APP_NAME'] %></h2></div>
+      <div class="span10"><h2><a href="<%= url :index %>"><%= ENV['APP_NAME'] %></a></h2></div>
       <div class="span2">
         <br/>
         <%= build_menu %>
