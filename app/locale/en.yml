@@ -22,6 +22,8 @@ en:
   data_table_pagination: Page %{page} of %{pages} about %{total} records.
   invalid_captcha: Provided characters does not match those from image.
   select_one: Select one...
+  subscribe: Subscribe
+  unsubscribe: Unsubscribe
   http:
     error:
       '404':
@@ -108,6 +110,12 @@ en:
         delete_group:
           access_denied: You do not have permission to delete groups.
           success: Group deleted successfully.
+        subscribe:
+          access_denied: You do not have permission to subscribe to this group.
+          success: You have just subscribe to this group successfully.
+        unsubscribe:
+          access_denied: You do not have permission to unsubscribe from this group.
+          success: You have just unsubscribed from this group successfully.
     edit_group:
       message:
         access_denied: You do not have permission to change group information.

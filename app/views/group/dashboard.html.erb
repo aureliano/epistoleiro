@@ -32,7 +32,7 @@
   <table>
     <tbody>
       <tr>
-        <% if signed_user_has_permission? Rules::GROUP_CREATE_GROUP %>
+        <% if can_edit_group? @group, @signed_user %>
         <td>
           <form>
             <a id="edit_group" href="<%= url :group, :edit, :id => @group.id %>" class="btn btn-info"><%= I18n.translate 'edit' %></a>
@@ -40,7 +40,7 @@
         </td>
         <% end %>
 
-        <% if signed_user_can_delete_group? @group %>
+        <% if can_delete_group? @group, @signed_user %>
         <td>
           <% form_tag url(:group, :delete, :id => @group.id), :method => :delete, :id => 'form_group_delete' do %>
             <button type="submit" class="btn btn-danger" onclick="return confirm('<%= I18n.translate("view.group_dashboard.message.delete_confirmation") %>')"><%= I18n.translate 'delete' %></button>
@@ -48,11 +48,27 @@
         </td>
         <% end %>
 
-        <% if (@signed_user == @group.owner) || (@signed_user.has_permission? Rules::GROUP_MANAGE_GROUPS) %>
+        <% if can_change_group_owner? @group, @signed_user %>
           <td>
             <form>
               <a id="change_group_owner" href="<%= url :group, :change_group_owner, :id => @group.id %>" class="btn btn-warning"><%= I18n.translate 'view.group_dashboard.change_owner' %></a>
             </form>
+          </td>
+        <% end %>
+
+        <% if can_subscribe_to_group? @group, @signed_user %>
+          <td>
+            <% form_tag url(:group, :subscribe, :group_id => @group.id, :user_id => @signed_user.id), :method => :post, :id => 'form_group_subscribe' do %>
+              <button type="submit" class="btn btn-info"><%= I18n.translate 'subscribe' %></button>
+            <% end %>
+          </td>
+        <% end %>
+
+        <% if can_unsubscribe_from_group? @group, @signed_user %>
+          <td>
+            <% form_tag url(:group, :unsubscribe, :group_id => @group.id, :user_id => @signed_user.id), :method => :post, :id => 'form_group_unsubscribe' do %>
+              <button type="submit" class="btn btn-info"><%= I18n.translate 'unsubscribe' %></button>
+            <% end %>
           </td>
         <% end %>
       </tr>
@@ -88,7 +104,7 @@
     ]
   end.render :id => 'dt_sub_groups', :csrf_token => csrf_token %>
 
-<% if signed_user_has_permission? Rules::GROUP_CREATE_GROUP %>
+<% if can_edit_group?(@group, @signed_user) && (@signed_user == @group.owner) %>
   <br/>
   <a id="create_sub_group" href="<%= url :group, :create, :id => @group.id %>" class="btn btn-info"><%= I18n.translate 'view.group_dashboard.create_sub_group' %></a>
 <% end %>

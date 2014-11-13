@@ -14,6 +14,17 @@ Given /^the group '([^']+)' is subgroup of '([^']+)'$/ do |base, sub|
   sub_group.save!
 end
 
+Given /^the user '([^']+)' is member of the group '([^']+)'$/ do |user_id, group_name|
+  user = User.find user_id
+  group = Group.where(:name => group_name).first
+
+  user.subscribed_goups = [group]
+  group.members = [user]
+
+  user.save
+  group.save
+end
+
 Then /^I have to see the create group page$/ do
   expect(page).to have_xpath "//form[@id='form_create_group']"
 end
@@ -40,4 +51,12 @@ Then /^I have to see the dashboard page of the group '([^']+)'$/ do |group|
   expect(page).to have_text I18n.translate 'view.group_dashboard.members'
   expect(page).to have_text I18n.translate 'view.group_dashboard.sub_groups'
   expect(page).to have_text I18n.translate 'view.group_dashboard.current_events'
+end
+
+Then /^I have to see the nickname '([^']+)' in the group member list$/ do |nickname|
+  expect(page).to have_xpath "//table[@id='dt_members']//td/a/span[text()='#{nickname}']"
+end
+
+Then /^I have not to see the nickname '([^']+)' in the group member list$/ do |nickname|
+  expect(page).not_to have_xpath "//table[@id='dt_members']//td/a/span[text()='#{nickname}']"
 end

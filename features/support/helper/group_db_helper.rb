@@ -8,6 +8,11 @@ def save_group_dummy(options)
     group = Group.where(:name => group.name).first
   end
 
+  if group.owner
+    group.members ||= []
+    group.members << group.owner
+  end
+
   group.description ||= 'A group created for test purpose.'
   group.update_tags
 

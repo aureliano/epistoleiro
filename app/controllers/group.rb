@@ -97,7 +97,7 @@ Epistoleiro::App.controllers :group do
     @group = Group.where(:id => params[:id]).first
     return render('errors/404', :layout => false) if @group.nil?
 
-    unless signed_user_can_delete_group? @group
+    unless can_delete_group? @group, nil
       put_message :message => 'view.group_dashboard.message.delete_group.access_denied', :type => 'e'
       return render 'user/dashboard'
     end
@@ -117,7 +117,7 @@ Epistoleiro::App.controllers :group do
     return render('errors/404', :layout => false) if @group.nil?
     user = signed_user
 
-    if (@group.owner != user) && (user.has_permission? Rules::GROUP_CREATE_GROUP)
+    unless can_edit_group? @group, user
       put_message :message => 'view.edit_group.message.access_denied', :type => 'e'
       return render 'user/dashboard'
     end
@@ -135,7 +135,7 @@ Epistoleiro::App.controllers :group do
     return render('errors/404', :layout => false) if @group.nil?
     user = signed_user
 
-    if (@group.owner != user) && (user.has_permission? Rules::GROUP_CREATE_GROUP)
+    unless can_edit_group? @group, user
       put_message :message => 'view.edit_group.message.access_denied', :type => 'e'
       return render 'user/dashboard'
     end
@@ -173,7 +173,7 @@ Epistoleiro::App.controllers :group do
     return render('errors/404', :layout => false) if @group.nil?
     @signed_user = signed_user
 
-    if (@signed_user != @group.owner) && !(@signed_user.has_permission? Rules::GROUP_MANAGE_GROUPS)
+    unless can_change_group_owner? @group, @signed_user
       put_message :message => 'view.change_group_owner.message.access_denied', :type => 'e'
       return render 'user/dashboard'
     end
@@ -186,16 +186,17 @@ Epistoleiro::App.controllers :group do
     return render('errors/404', :layout => false) if @group.nil?
     @signed_user = signed_user
 
-    if (@signed_user != @group.owner) && !(@signed_user.has_permission? Rules::GROUP_MANAGE_GROUPS)
+    unless can_change_group_owner? @group, @signed_user
       put_message :message => 'view.change_group_owner.message.access_denied', :type => 'e'
       return render 'user/dashboard'
     end
 
     
     @sub_groups = Group.where(:base_group => @group)
-    
+
     new_owner = User.where(:nickname => params[:group_owner]).first
     @group.owner = new_owner
+    @group.members << new_owner if (!new_owner.nil?) && !@group.members.include?(new_owner)
     @group.save
 
     @messages = format_validation_messages @group
@@ -206,6 +207,7 @@ Epistoleiro::App.controllers :group do
 
       @sub_groups.each do |sub_group|
         sub_group.owner = new_owner
+        sub_group.members << new_owner if (!new_owner.nil?) && !sub_group.members.include?(new_owner)
         sub_group.save
       end
 
@@ -216,4 +218,49 @@ Epistoleiro::App.controllers :group do
     end
   end
 
+  post :subscribe, :with => [:group_id, :user_id] do
+    @group = Group.where(:id => params[:group_id]).first
+    @user = User.where(:id => params[:user_id]).first
+    return render('errors/404', :layout => false) if @group.nil? || @user.nil?
+
+    unless can_subscribe_to_group? @group, @user
+      put_message :message => 'view.group_dashboard.message.subscribe.access_denied', :type => 'e'
+      return render 'user/dashboard'
+    end
+
+    @group.members ||= []
+    @group.members << @user
+
+    @user.subscribed_goups ||= []
+    @user.subscribed_goups << @group
+
+    @group.save
+    @user.save
+
+    session[:msg] = I18n.translate('view.group_dashboard.message.subscribe.success')
+    session[:msg_type] = 's'
+    redirect url :group, :dashboard, :id => @group.id
+  end
+
+
+  post :unsubscribe, :with => [:group_id, :user_id] do
+    @group = Group.where(:id => params[:group_id]).first
+    @user = User.where(:id => params[:user_id]).first
+    return render('errors/404', :layout => false) if @group.nil? || @user.nil?
+
+    unless can_unsubscribe_from_group? @group, @user
+      put_message :message => 'view.group_dashboard.message.unsubscribe.access_denied', :type => 'e'
+      return render 'user/dashboard'
+    end
+
+    @group.members.delete @user
+    @group.save
+
+    @user.subscribed_goups.delete @group    
+    @user.save
+
+    session[:msg] = I18n.translate('view.group_dashboard.message.unsubscribe.success')
+    session[:msg_type] = 's'
+    redirect url :group, :dashboard, :id => @group.id
+  end
 end
