@@ -15,7 +15,7 @@ class User
   field :feature_permissions, :type => Array
   field :tags, :type => Array
 
-  has_and_belongs_to_many :subscribed_goups, :class_name => 'Group', :inverse_of => :members
+  has_and_belongs_to_many :subscribed_groups, :class_name => 'Group', :inverse_of => :members
   has_many :created_groups, :class_name => 'Group', :inverse_of => :owner
 
   validates_presence_of :id, :message => I18n.translate('model.user.validation.id_required')

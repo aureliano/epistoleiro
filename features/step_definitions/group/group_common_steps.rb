@@ -18,7 +18,7 @@ Given /^the user '([^']+)' is member of the group '([^']+)'$/ do |user_id, group
   user = User.find user_id
   group = Group.where(:name => group_name).first
 
-  user.subscribed_goups = [group]
+  user.subscribed_groups = [group]
   group.members = [user]
 
   user.save

@@ -231,8 +231,8 @@ Epistoleiro::App.controllers :group do
     @group.members ||= []
     @group.members << @user
 
-    @user.subscribed_goups ||= []
-    @user.subscribed_goups << @group
+    @user.subscribed_groups ||= []
+    @user.subscribed_groups << @group
 
     @group.save
     @user.save
@@ -256,7 +256,7 @@ Epistoleiro::App.controllers :group do
     @group.members.delete @user
     @group.save
 
-    @user.subscribed_goups.delete @group    
+    @user.subscribed_groups.delete @group    
     @user.save
 
     session[:msg] = I18n.translate('view.group_dashboard.message.unsubscribe.success')

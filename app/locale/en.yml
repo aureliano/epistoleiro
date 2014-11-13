@@ -54,7 +54,7 @@ en:
         inactive_user: You have not activated your account yet. It is necessary to active your account before you sign in.
     user_dashboard:
       created_groups: Created groups
-      signed_groups: Signed groups
+      subscribed_groups: Subscribed groups
     user_profile:
       functionalities: Functionalities permissions
       message:

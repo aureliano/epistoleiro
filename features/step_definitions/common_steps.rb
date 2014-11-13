@@ -59,8 +59,7 @@ end
 
 Then /^I have to see the dashboard page of the user '([^']+)'$/ do |nickname|
   expect(page).to have_text nickname
-  expect(page).to have_text I18n.translate 'view.user_dashboard.created_groups'
-  expect(page).to have_text I18n.translate 'view.user_dashboard.signed_groups'
+  expect(page).to have_text I18n.translate 'view.user_dashboard.subscribed_groups'
 end
 
 Then /^I have to see the profile page of the user '([^']+)'$/ do |nickname|
