@@ -45,15 +45,13 @@ class DataTable
                   ui = column.ui
                   
                   doc.td(props) {
-                    binding = /%{.+}/.match(ui[:value])
-                    value = (binding) ? ui[:value].to_s.sub(/%{.+}/, row.instance_eval(binding.to_s.sub('%{', '').sub('}', '')).to_s) : ui[:value]
-                    
-                    binding = /%{.+}/.match(ui[:label])
-                    label = (binding) ? ui[:label].to_s.sub(/%{.+}/, row.instance_eval(binding.to_s.sub('%{', '').sub('}', '')).to_s) : ui[:label]
-                    
+                    binding = /%{.+}/.match(ui[:onclick])
+                    onclick = (binding) ? ui[:onclick].to_s.sub(/%{.+}/, row.instance_eval(binding.to_s.sub('%{', '').sub('}', '')).to_s) : ui[:onclick]
+
                     case ui[:type].to_s
-                      when 'text' then doc.span value
-                      when 'link' then doc.a(:href => value.html_safe, :class => ui[:class]) { doc.span label }
+                      when 'text' then doc.span _bind(row, ui[:value])
+                      when 'link' then doc.a(:href => _bind(row, ui[:value]).html_safe, :class => ui[:class]) { doc.span _bind(row, ui[:label]) }
+                      when 'input' then doc.input(:type => ui[:input_type], :value => _bind(row, ui[:value]), :class => ui[:class], :onclick => _bind(row, ui[:onclick]))
                     end
                   }
                 end
@@ -206,6 +204,11 @@ class DataTable
         $('##{table_id}-index').val(null);
       }
     eos
+  end
+
+  def _bind(obj, value)
+    binding = /%{.+}/.match(value)
+    (binding) ? value.to_s.sub(/%{.+}/, obj.instance_eval(binding.to_s.sub('%{', '').sub('}', '')).to_s) :value
   end
   
 end
