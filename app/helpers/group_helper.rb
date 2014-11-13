@@ -37,6 +37,23 @@ module Epistoleiro
         ((@signed_user == user) || (user == group.owner)) && (group.members.include? user)
       end
 
+      def _unsubscribe
+        @group = Group.where(:id => params[:group_id]).first
+        @user = User.where(:id => params[:user_id]).first
+        return render('errors/404', :layout => false) if @group.nil? || @user.nil?
+
+        unless can_unsubscribe_from_group? @group, @user
+          put_message :message => 'view.group_dashboard.message.unsubscribe.access_denied', :type => 'e'
+          return render 'user/dashboard'
+        end
+
+        @group.members.delete @user
+        @group.save
+
+        @user.subscribed_groups.delete @group    
+        @user.save
+      end
+
       def build_group_creation_model(hash)
         group = Group.new
 

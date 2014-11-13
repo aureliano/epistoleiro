@@ -242,25 +242,17 @@ Epistoleiro::App.controllers :group do
     redirect url :group, :dashboard, :id => @group.id
   end
 
-
   post :unsubscribe, :with => [:group_id, :user_id] do
-    @group = Group.where(:id => params[:group_id]).first
-    @user = User.where(:id => params[:user_id]).first
-    return render('errors/404', :layout => false) if @group.nil? || @user.nil?
-
-    unless can_unsubscribe_from_group? @group, @user
-      put_message :message => 'view.group_dashboard.message.unsubscribe.access_denied', :type => 'e'
-      return render 'user/dashboard'
-    end
-
-    @group.members.delete @user
-    @group.save
-
-    @user.subscribed_groups.delete @group    
-    @user.save
+    _unsubscribe
 
     session[:msg] = I18n.translate('view.group_dashboard.message.unsubscribe.success')
     session[:msg_type] = 's'
+
     redirect url :group, :dashboard, :id => @group.id
+  end
+
+  post :unsubscribe do
+    _unsubscribe
+    redirect url :index
   end
 end
