@@ -210,6 +210,9 @@ describe User do
 
     expect(u1).not_to eq u2
 
+    u2 = nil
+    expect(u1).not_to eq u2
+
     u2 = User.new :nickname => 'u2'
     expect(u1).not_to eq u2
 
@@ -228,6 +231,9 @@ describe User do
     u1 = User.new :nickname => 'u1'
     u2 = ''
 
+    expect(u1 != u2).to be true
+
+    u2 = nil
     expect(u1 != u2).to be true
 
     u2 = User.new :nickname => 'u2'

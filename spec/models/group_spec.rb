@@ -50,6 +50,9 @@ describe Group do
 
     expect(g1).not_to eq g2
 
+    g2 = nil
+    expect(g1).not_to eq g2
+
     g2 = Group.new :name => 'g2'
     expect(g1).not_to eq g2
 
@@ -70,6 +73,9 @@ describe Group do
 
     expect(g1 != g2).to be true
 
+    g2 = nil
+    expect(g1 != g2).to be true
+    
     g2 = Group.new :name => 'g2'
     expect(g1 != g2).to be true
 
