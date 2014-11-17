@@ -105,6 +105,7 @@ en:
       sub_groups: Subgroups
       current_events: Current events
       create_sub_group: Create a subgroup
+      subscribe_user: Subscribe a user
       message:
         delete_confirmation: Are you sure you want to delete this group? All subgroups will be deleted too!
         delete_group:
@@ -116,6 +117,7 @@ en:
         unsubscribe:
           access_denied: You do not have permission to unsubscribe from this group.
           success: You have just unsubscribed from this group successfully.
+        unsubscribe_user_success: User %{nickname} was unsubscribed successfully from this group.
     edit_group:
       message:
         access_denied: You do not have permission to change group information.
@@ -125,6 +127,13 @@ en:
       message:
         confirmation: Are you sure you want to change the owner of this group? All subgroups will be afected too!
         success: The group's owner was changed successfully.
+    subscribe:
+      warning: Only active users can be subscribed to a group.
+      group: Group
+      message:
+        invalid_nickname: There is no such active user with nickname '%{nickname}'.
+        user_already_subscribed: User %{nickname} is already subscribed to this group.
+        success: User %{nickname} was subscribed successfully to this group.
   model:
     user:
       fields:

@@ -27,14 +27,43 @@ module Epistoleiro
         (user == group.owner) || (@signed_user.has_permission? Rules::GROUP_MANAGE_GROUPS)
       end
 
-      def can_subscribe_to_group?(group, user)
+      def can_subscribe_to_group?(group, user, validate_uniqueness = true)
         @signed_user ||= signed_user
-        ((@signed_user == user) || (user == group.owner)) && !(group.members.include? user)
+        if validate_uniqueness == true
+          ((@signed_user == user) || (user == group.owner)) && !(group.members.include? user)
+        else
+          ((@signed_user == user) || (user == group.owner))
+        end
       end
 
       def can_unsubscribe_from_group?(group, user)
         @signed_user ||= signed_user
-        ((@signed_user == user) || (user == group.owner)) && (group.members.include? user)
+        ((@signed_user == user) || (@signed_user == group.owner)) && (group.members.include? user)
+      end
+
+      def subscribe(outcoming_render, user = nil)
+        @group = Group.where(:id => params[:group_id]).first
+        user ||= User.where(:id => params[:user_id]).first
+        return render('errors/404', :layout => false) if @group.nil? || user.nil?
+
+        if !(signed_user_has_permission? Rules::WATCHER) && (@group.owner != signed_user)
+          put_message :message => 'view.group_dashboard.message.subscribe.access_denied', :type => 'e'
+          return render 'user/dashboard'
+        end
+
+        if @group.members.include? user
+          put_message :message => I18n.translate('view.subscribe.message.user_already_subscribed').sub('%{nickname}', user.nickname), :type => 'w', :translate => false
+          return render outcoming_render
+        end
+
+        @group.members ||= []
+        @group.members << user
+
+        user.subscribed_groups ||= []
+        user.subscribed_groups << @group
+
+        @group.save
+        user.save
       end
 
       def _unsubscribe

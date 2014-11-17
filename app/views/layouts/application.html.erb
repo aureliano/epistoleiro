@@ -25,9 +25,10 @@
       <%= show_messages.html_safe %>
     <% end %>
 
+    <%= javascript_include_tag 'jquery.min' %>
+    <%= javascript_include_tag 'bootstrap.min' %>
+
     <%= yield %>
   </div>
-  <%= javascript_include_tag 'jquery.min' %>
-  <%= javascript_include_tag 'bootstrap.min' %>
 </body>
 </html>

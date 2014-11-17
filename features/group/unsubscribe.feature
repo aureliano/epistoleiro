@@ -50,3 +50,19 @@ Feature: Group subscription
     When I access my home page with e-mail 'user@test.com' and password '12345'
     And I click on button 'unsubscribe'
     Then I have not to see the text 'GRP_XVI'
+
+
+
+  Scenario: Group owner unsubscribes a user from his group
+    Given there is an active user with e-mail 'user@test.com' and nickname 'brother' with permission to 'GROUP_CREATE_GROUP'
+    And there is an active user with e-mail 'ximbinha@test.com' and nickname 'ximbinha' with permission to 'GROUP_CREATE_GROUP'
+    And there is a group with name 'GRP_XVI' and description 'A test group.' created by 'user@test.com'
+    And the user 'ximbinha@test.com' is member of the group 'GRP_XVI'
+    
+    When I access my home page with e-mail 'user@test.com' and password '12345'
+    And I go to dashboard of the group 'GRP_XVI'
+    Then I have to see the dashboard page of the group 'GRP_XVI'
+
+    When I unsubscribe the user 'ximbinha'
+    Then I have to see the unsubscription success message to the user 'ximbinha'
+    And I have not to see the nickname 'ximbinha' in the group member list

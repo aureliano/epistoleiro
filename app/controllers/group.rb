@@ -219,40 +219,75 @@ Epistoleiro::App.controllers :group do
   end
 
   post :subscribe, :with => [:group_id, :user_id] do
-    @group = Group.where(:id => params[:group_id]).first
-    @user = User.where(:id => params[:user_id]).first
-    return render('errors/404', :layout => false) if @group.nil? || @user.nil?
+    res = subscribe 'group/dashboard'
 
-    unless can_subscribe_to_group? @group, @user
+    if res == true
+      session[:msg] = I18n.translate('view.group_dashboard.message.subscribe.success')
+      session[:msg_type] = 's'
+
+      redirect url :group, :dashboard, :id => @group.id
+    else
+      res
+    end
+  end
+
+  post :subscribe_user, :with => :group_id do
+    @user = User.where(:nickname => params[:nickname]).first
+    if @user.nil?
+      put_message :message => I18n.translate('view.subscribe.message.invalid_nickname').sub('%{nickname}', params[:nickname]), :type => 'w', :translate => false
+      @group = Group.find(params[:group_id])
+      return render 'group/subscribe'
+    end
+
+    res = subscribe 'group/subscribe', @user
+
+    if res == true
+      session[:msg] = I18n.translate('view.subscribe.message.success').sub '%{nickname}', @user.nickname
+      session[:msg_type] = 's'
+
+      redirect url :group, :dashboard, :id => @group.id
+    else
+      res
+    end
+  end
+
+  post :unsubscribe, :with => [:group_id, :user_id] do
+    res = _unsubscribe
+
+    if res == true
+      session[:msg] = I18n.translate('view.group_dashboard.message.unsubscribe.success')
+      session[:msg_type] = 's'
+
+      redirect url :group, :dashboard, :id => @group.id
+    else
+      res
+    end
+  end
+
+  post :unsubscribe do
+    res = _unsubscribe
+
+    if res == true && params[:from_group].to_s == 'true'
+      session[:msg] = I18n.translate('view.group_dashboard.message.unsubscribe_user_success').sub '%{nickname}', @user.nickname
+      session[:msg_type] = 's'
+
+      redirect url :group, :dashboard, :id => @group.id
+    elsif res == true && params[:from_group].to_s != 'true'
+      redirect url :index
+    else
+      res
+    end
+  end
+
+  get :subscribe, :with => :id do
+    @group = Group.where(:id => params[:id]).first
+    return render('errors/404', :layout => false) if @group.nil?
+
+    unless signed_user == @group.owner
       put_message :message => 'view.group_dashboard.message.subscribe.access_denied', :type => 'e'
       return render 'user/dashboard'
     end
 
-    @group.members ||= []
-    @group.members << @user
-
-    @user.subscribed_groups ||= []
-    @user.subscribed_groups << @group
-
-    @group.save
-    @user.save
-
-    session[:msg] = I18n.translate('view.group_dashboard.message.subscribe.success')
-    session[:msg_type] = 's'
-    redirect url :group, :dashboard, :id => @group.id
-  end
-
-  post :unsubscribe, :with => [:group_id, :user_id] do
-    _unsubscribe
-
-    session[:msg] = I18n.translate('view.group_dashboard.message.unsubscribe.success')
-    session[:msg_type] = 's'
-
-    redirect url :group, :dashboard, :id => @group.id
-  end
-
-  post :unsubscribe do
-    _unsubscribe
-    redirect url :index
+    render 'group/subscribe'
   end
 end

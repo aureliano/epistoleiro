@@ -37,12 +37,30 @@ Then /^I have to see the change group owner page$/ do
   expect(page).to have_xpath "//form[@id='form_change_group_owner']"
 end
 
+Then /^I have to see the subscribe user page$/ do
+  expect(page).to have_text I18n.translate 'view.subscribe.warning'
+end
+
+Then /^I have to see the subscription success message to the user '([^']+)'$/ do |nickname|
+  message = I18n.translate('view.subscribe.message.success').sub '%{nickname}', nickname
+  step "I have to see the success message \"#{message}\""
+end
+
+Then /^I have to see the unsubscription success message to the user '([^']+)'$/ do |nickname|
+  message = I18n.translate('view.group_dashboard.message.unsubscribe_user_success').sub '%{nickname}', nickname
+  step "I have to see the success message \"#{message}\""
+end
+
 When /^I go to dashboard of the group '([^']+)'$/ do |name|
   step "I select menu 'list_groups'"
   step "I type '#{name}' in 'query'"
   step "I click on button 'find'"
 
   page.find(:xpath, "//a/span[text()='Detail']/..").click
+end
+
+When /^I unsubscribe the user '([^']+)'$/ do |nickname|
+  page.find(:xpath, "//table[@id='dt_members']//td/a/span[text()='#{nickname}']/ancestor::tr//input").click
 end
 
 Then /^I have to see the dashboard page of the group '([^']+)'$/ do |group|
@@ -59,4 +77,9 @@ end
 
 Then /^I have not to see the nickname '([^']+)' in the group member list$/ do |nickname|
   expect(page).not_to have_xpath "//table[@id='dt_members']//td/a/span[text()='#{nickname}']"
+end
+
+Then /^I have to see the warning message user already subscribed to '([^']+)'$/ do |nickname|
+  message = I18n.translate('view.subscribe.message.user_already_subscribed').sub '%{nickname}', nickname
+  step "I have to see the warning message \"#{message}\""
 end

@@ -81,15 +81,30 @@
 
 <h4><%= I18n.translate 'view.group_dashboard.members' %></h4>
 
-<%= DataTable.new do |t|
-    t.page_index = @members_current_page
-    t.total = @members.count
-    t.data = @members
-    t.columns = [
-      DataColumn.new(:title => 'Name', :ui => { :type => :link, :value => "/user/%{nickname}", :label => "%{nickname}" }, :width => 400),
-      DataColumn.new(:ui => { :type => nil, :value => "%{gravatar_image_node(doc, :size => 40, :linkable => false)}" }, :width => 20)
-    ]
+<% form_tag url(:group, :unsubscribe), :method => :post, :id => 'form_unsubscribe' do %>
+  <input type="hidden" name="group_id" id="group_id" value=""/>
+  <input type="hidden" name="user_id" id="user_id" value=""/>
+  <input type="hidden" name="from_group" id="from_group" value="true"/>
+
+  <%= DataTable.new do |t|
+      t.page_index = @members_current_page
+      t.total = @members.count
+      t.data = @members
+      t.columns = []
+      t.columns << DataColumn.new(:title => 'Name', :ui => { :type => :link, :value => "/user/%{nickname}", :label => "%{nickname}" }, :width => 400)
+
+      if @signed_user == @group.owner
+        t.columns << DataColumn.new(:ui => { :type => :input, :input_type => 'submit', :value => I18n.translate('unsubscribe'), :class => 'btn btn-warning', :onclick => "setUnsubscribeParams('#{@group.id}', '%{id}');" }, :width => 20)
+      end
+
+      t.columns << DataColumn.new(:ui => { :type => nil, :value => "%{gravatar_image_node(doc, :size => 40, :linkable => false)}" }, :width => 20)
   end.render :id => 'dt_members', :csrf_token => csrf_token %>
+<% end %>
+
+<% if @signed_user == @group.owner %>
+  <br/>
+  <a id="subscribe_user" href="<%= url :group, :subscribe, :id => @group.id %>" class="btn btn-info"><%= I18n.translate 'view.group_dashboard.subscribe_user' %></a>
+<% end %>
 
 <hr/>
 
@@ -112,3 +127,10 @@
 <hr/>
 
 <h4><%= I18n.translate 'view.group_dashboard.current_events' %></h4>
+
+<script>
+  function setUnsubscribeParams(gid, uid) {
+    $('#group_id').val(gid);
+    $('#user_id').val(uid);
+  }
+</script>

@@ -1,0 +1,52 @@
+<%= stylesheet_link_tag 'jquery-ui.min' %>
+<%= javascript_include_tag 'jquery-ui.min' %>
+
+<script>
+$(document).ready(function() {
+  var url = '<%= url(:user, :active_users) %>';
+  
+  $.getJSON(url, function(data) {
+    var active_users = data['users'];
+    $("#nickname").autocomplete({
+      source: active_users
+    });
+  });
+});
+</script>
+
+<h5>
+  <p class="text-warning">
+    <%= I18n.translate 'view.subscribe.warning' %>
+  </p>
+</h5>
+
+<% form_tag url(:group, :subscribe_user, :group_id => @group.id), :method => :post, :id => 'form_subscribe' do %>
+  <div class="row">
+    <div class="span2">
+      <%= I18n.translate 'view.subscribe.group' %>:
+    </div>
+
+    <div class="span8">
+      <%= @group.name %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span2">
+      <label for="nickname"><%= I18n.translate 'model.user.fields.nickname' %>: *</label>
+    </div>
+
+    <div class="span8">
+      <input type="text" id="nickname" name="nickname" maxlength="30" value="<%= params[:nickname] %>"/>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span2"></div>
+
+    <div class="span8">
+      <button type="submit" class="btn btn-info"><%= I18n.translate 'save' %></button>
+      <a href="<%= url :group, :dashboard, :id => @group.id %>" class="btn"><%= I18n.translate 'cancel' %></a>
+    </div>
+  </div>
+<% end %>

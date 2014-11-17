@@ -4,6 +4,13 @@ Epistoleiro::App.controllers :user do
     validate_user_access
   end
 
+  get :active_users, :map => '/user/active-users' do
+    users = User.where(:active => true, :nickname => { '$regex' => /.*#{params[:query]}.*/, '$options' => 'i' })
+      .only(:nickname)
+      .collect {|user| user.nickname }
+    { :users => users }.to_json
+  end
+
   get :profile, :map => '/user/:nickname' do
     @signed_user = User.where(:id => session[:user_id]).only(:feature_permissions).first
     @user = User.where(:nickname => params[:nickname]).first
@@ -94,6 +101,9 @@ Epistoleiro::App.controllers :user do
     end
 
     @user = User.where(:id => params[:id]).first
+    puts @user.id
+    puts params[:user][:email]
+    puts @user.nickname
 
     if @user.id != params[:user][:email]
       if User.where(:id => params[:user][:email]).exists?

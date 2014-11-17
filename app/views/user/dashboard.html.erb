@@ -26,13 +26,13 @@ end.render :id => 'dt_created_groups', :csrf_token => csrf_token %>
     t.data = @signed_user.subscribed_groups
     t.columns = [
       DataColumn.new(:title => 'Name', :ui => { :type => :link, :value => "/group/%{id}", :label => "%{name}" }, :width => 400),
-      DataColumn.new(:ui => { :type => :input, :input_type => 'submit', :value => I18n.translate('unsubscribe'), :class => 'btn btn-info', :onclick => "setSubscribeParams('%{id}', '#{@signed_user.id}');" }, :width => 20)
+      DataColumn.new(:ui => { :type => :input, :input_type => 'submit', :value => I18n.translate('unsubscribe'), :class => 'btn btn-info', :onclick => "setUnsubscribeParams('%{id}', '#{@signed_user.id}');" }, :width => 20)
     ]
   end.render :id => 'dt_subscribed_groups', :csrf_token => csrf_token %>
 <% end %>
 
 <script>
-  function setSubscribeParams(gid, uid) {
+  function setUnsubscribeParams(gid, uid) {
     $('#group_id').val(gid);
     $('#user_id').val(uid);
   }
