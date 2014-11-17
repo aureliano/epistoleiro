@@ -242,6 +242,7 @@ Epistoleiro::App.controllers :group do
     res = subscribe 'group/subscribe', @user
 
     if res == true
+      raise 'Sending e-mail is not implemented yet' if RACK_ENV == 'production'
       session[:msg] = I18n.translate('view.subscribe.message.success').sub '%{nickname}', @user.nickname
       session[:msg_type] = 's'
 
