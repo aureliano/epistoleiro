@@ -101,9 +101,6 @@ Epistoleiro::App.controllers :user do
     end
 
     @user = User.where(:id => params[:id]).first
-    puts @user.id
-    puts params[:user][:email]
-    puts @user.nickname
 
     if @user.id != params[:user][:email]
       if User.where(:id => params[:user][:email]).exists?
